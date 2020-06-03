@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">secret-palpatine</string>
+    <string name="app_name">Secret Palpatine</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_email">Email</string>
@@ -16,7 +16,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+<string name="signed_out">Sign out</string>
     <string name="mainmenu_toolbar_title">Start</string>
     <string name="mainmenu_header">Secret Palpatine</string>
     <string name="mainmenu_subheader">Stop the Secret Palpatine</string>

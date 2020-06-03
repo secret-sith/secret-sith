@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.secret.palpatine.ui.mainmenu.MainMenuFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.MainMenuFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_mainmenu">
 
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.secret.palpatine.ui.mainmenu.InviteMenuFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.InviteMenuFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_invitemenu">
 
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/friendsMenuFragment"
-        android:name="com.example.secret.palpatine.ui.mainmenu.FriendsMenuFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.FriendsMenuFragment"
         android:label="fragment_friendsmenu"
         tools:layout="@layout/fragment_friendsmenu" />
     <fragment
