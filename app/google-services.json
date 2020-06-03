@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "683126079880",
+    "firebase_url": "https://secretpalpatine.firebaseio.com",
+    "project_id": "secretpalpatine",
+    "storage_bucket": "secretpalpatine.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683126079880:android:8622a7e9d4e204beeb7a3d",
+        "android_client_info": {
+          "package_name": "com.secret.palpatine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683126079880-j6mukfe0sor0hm5adffsfbpf99nck654.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTIB-L44LPDbpBCh7qDzHJIB3ETHps7CM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683126079880-j6mukfe0sor0hm5adffsfbpf99nck654.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
