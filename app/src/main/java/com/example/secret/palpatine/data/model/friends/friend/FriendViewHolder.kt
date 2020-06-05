@@ -1,12 +1,15 @@
 package com.example.secret.palpatine.data.model.friends.friend
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secret.palpatine.R
+import com.example.secret.palpatine.data.model.User
 import com.example.secret.palpatine.data.model.friends.friend.Friend
+import com.example.secret.palpatine.ui.mainmenu.MainMenuActivity
 
 class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friend,parent,false)) {
@@ -20,17 +23,20 @@ class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
 
     }
 
-    fun bind(friend: Friend) {
-        nameTextView?.text = friend.name
-        manageSelection(friend)
+    fun bind(user: User) {
+        nameTextView?.text = user.userName
+        manageSelection(user)
+
+        selectedButton?.visibility = if(MainMenuActivity.isInSelectionMode) View.VISIBLE else View.INVISIBLE
+
         selectedButton?.setOnClickListener {
-            friend.isSelected = !friend.isSelected
-            manageSelection(friend)
+            user.isSelected = !user.isSelected
+            manageSelection(user)
         }
     }
 
-    fun manageSelection(friend: Friend){
-        if(friend.isSelected){  selectedButton?.setImageResource(R.drawable.ic_check_box_black_24dp) }
+    private fun manageSelection(user: User){
+        if(user.isSelected){  selectedButton?.setImageResource(R.drawable.ic_check_box_black_24dp) }
         else { selectedButton?.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp) }
     }
 }

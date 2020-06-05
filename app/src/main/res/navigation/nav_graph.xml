@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_friendsMenuFragment"
             app:destination="@id/friendsMenuFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_startGameMenuFragment"
+            app:destination="@id/startGameMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -33,4 +36,9 @@
         android:name="com.example.secret.palpatine.ui.mainmenu.FriendsMenuFragment"
         android:label="fragment_friendsmenu"
         tools:layout="@layout/fragment_friendsmenu" />
+    <fragment
+        android:id="@+id/startGameMenuFragment"
+        android:name="com.example.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
+        android:label="fragment_start_game_menu"
+        tools:layout="@layout/fragment_start_game_menu" />
 </navigation>

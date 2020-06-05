@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.activity_main_menu.*
  */
 class MainMenuFragment : Fragment() {
 
+    var isInSelectionMode: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +37,25 @@ class MainMenuFragment : Fragment() {
         view.findViewById<Button>(R.id.mainmenu_friendsbutton).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_friendsMenuFragment)
         }
+
+        view.findViewById<Button>(R.id.mainmenu_startbutton).setOnClickListener {
+            MainMenuActivity.isInSelectionMode = true
+            findNavController().navigate(R.id.action_FirstFragment_to_startGameMenuFragment)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(R.string.mainmenu_toolbar_title)
+        reset()
     }
 
     override fun onResume() {
         super.onResume()
+        reset()
+    }
+
+    private fun reset(){
+        MainMenuActivity.isInSelectionMode = false
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(R.string.mainmenu_toolbar_title)
     }
 }

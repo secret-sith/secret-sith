@@ -11,7 +11,6 @@ import com.example.secret.palpatine.data.model.friends.friend.Friend
 class FriendGroupAdapter(private val list: List<FriendGroup>, private val context: Context): RecyclerView.Adapter<FriendGroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendGroupViewHolder {
-
         val inflater = LayoutInflater.from(parent.context)
         return FriendGroupViewHolder(inflater,parent)
     }

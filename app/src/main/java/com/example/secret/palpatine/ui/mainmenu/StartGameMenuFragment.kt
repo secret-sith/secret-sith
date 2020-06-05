@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,7 @@ import com.example.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.example.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
+import kotlinx.android.synthetic.main.fragment_start_game_menu.*
 
 
 /**
@@ -24,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_friendsmenu.*
  * Use the [FriendsMenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendsMenuFragment : Fragment() {
+class StartGameMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,7 @@ class FriendsMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friendsmenu, container, false)
+        return inflater.inflate(R.layout.fragment_start_game_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,9 +64,13 @@ class FriendsMenuFragment : Fragment() {
             friendGroupList.add(friendGroup)
         }
         val context = (activity as AppCompatActivity).applicationContext
-        friends_recyclerview.apply {
+        start_game_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = FriendGroupAdapter(friendGroupList,context)
+        }
+
+        view.findViewById<Button>(R.id.start_game_button).setOnClickListener {
+            MainMenuActivity.startGame = true
         }
     }
 
@@ -82,6 +89,6 @@ class FriendsMenuFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(): FriendsMenuFragment = FriendsMenuFragment()
+        fun newInstance(): StartGameMenuFragment = StartGameMenuFragment()
     }
 }
