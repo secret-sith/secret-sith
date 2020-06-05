@@ -1,13 +1,14 @@
-package com.secret.palpatine
-
+package com.secret.palpatine.ui
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+
 /**
- * Created by Florain Fuchs on 03.06.2020.
+ * Created by Florain Fuchs on 05.06.2020.
  */
+
 open class BaseActivity : AppCompatActivity() {
 
     private var progressBar: ProgressBar? = null
