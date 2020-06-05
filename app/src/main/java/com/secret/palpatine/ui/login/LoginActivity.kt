@@ -16,25 +16,29 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 
 import com.secret.palpatine.R
+import com.secret.palpatine.databinding.ActivityLoginBinding
+import com.secret.palpatine.ui.BaseActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        auth = Firebase.auth
+        Log.w("com.secret.palpatine", "ADASFDASF")
 
-        Log.w("com.secret.palpatine","ADASFDASF")
 
-        setContentView(R.layout.activity_login)
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -43,20 +47,20 @@ class LoginActivity : AppCompatActivity() {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            binding.login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+                binding.email.error = getString(loginState.usernameError)
             }
             if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
+                binding.password.error = getString(loginState.passwordError)
             }
         })
 
         loginViewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
-            loading.visibility = View.GONE
+            hideProgressBar()
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
             }
@@ -69,18 +73,18 @@ class LoginActivity : AppCompatActivity() {
             finish()
         })
 
-        username.afterTextChanged {
+        binding.email.afterTextChanged {
             loginViewModel.loginDataChanged(
-                username.text.toString(),
-                password.text.toString()
+                binding.email.text.toString(),
+                binding.password.text.toString()
             )
         }
 
-        password.apply {
+        binding.password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
+                    binding.email.text.toString(),
+                    binding.password.text.toString()
                 )
             }
 
@@ -88,30 +92,24 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
+                            binding.email.text.toString(),
+                            binding.password.text.toString()
                         )
                 }
                 false
             }
-
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
-            }
         }
 
     }
 
-    override fun onStart() {
+    public override fun onStart() {
         super.onStart()
-        val testbutton = findViewById<Button>(R.id.footer_button)
-        testbutton.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
-        }
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        updateUiWithUser(currentUser!!)
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun updateUiWithUser(model: FirebaseUser) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
@@ -120,12 +118,28 @@ class LoginActivity : AppCompatActivity() {
             "$welcome $displayName",
             Toast.LENGTH_LONG
         ).show()
+
+        val intent = Intent(this, MainMenuActivity::class.java).apply {
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.login -> {
+                showProgressBar()
+                loginViewModel.login(
+                    binding.email.text.toString(),
+                    binding.password.text.toString()
+                )
+            }
+        }
+    }
 }
 
 /**

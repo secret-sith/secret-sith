@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import com.google.firebase.auth.FirebaseAuth
 import com.secret.palpatine.data.login.LoginRepository
 import com.secret.palpatine.data.login.Result
 
 import com.secret.palpatine.R
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val auth:FirebaseAuth) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -19,14 +20,15 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+        auth.signInWithEmailAndPassword(username, password)
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    _loginResult.value =
+                        LoginResult(success = auth.currentUser)
+                } else {
+                    _loginResult.value = LoginResult(error = R.string.login_failed)
+                }
+            }
     }
 
     fun loginDataChanged(username: String, password: String) {
