@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mainmenu.StartGameMenuFragment">
+    tools:context="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

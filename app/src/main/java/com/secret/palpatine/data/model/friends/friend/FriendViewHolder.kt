@@ -1,4 +1,4 @@
-package com.example.secret.palpatine.data.model.friends.friend
+package com.secret.palpatine.data.model.friends.friend
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secret.palpatine.R
-import com.example.secret.palpatine.data.model.User
-import com.example.secret.palpatine.data.model.friends.friend.Friend
-import com.example.secret.palpatine.ui.mainmenu.MainMenuActivity
+import com.secret.palpatine.R
+import com.secret.palpatine.data.model.User
+import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 
 class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friend,parent,false)) {

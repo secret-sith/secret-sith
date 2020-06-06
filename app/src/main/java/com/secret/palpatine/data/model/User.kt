@@ -1,5 +1,6 @@
-package com.example.secret.palpatine.data.model
+package com.secret.palpatine.data.model
 
+import com.secret.palpatine.data.model.Game
 import java.util.*
 
 data class User(

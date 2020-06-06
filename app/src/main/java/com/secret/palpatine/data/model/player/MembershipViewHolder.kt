@@ -1,13 +1,13 @@
-package com.example.secret.palpatine.data.model.player
+package com.secret.palpatine.data.model.player
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secret.palpatine.R
-import com.example.secret.palpatine.data.model.Player
-import com.example.secret.palpatine.data.model.PlayerRole
+import com.secret.palpatine.R
+import com.secret.palpatine.data.model.Player
+import com.secret.palpatine.data.model.PlayerRole
 
 class MembershipViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_membership,parent,false)) {

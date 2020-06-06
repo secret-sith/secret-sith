@@ -1,4 +1,4 @@
-package com.example.secret.palpatine.data.model
+package com.secret.palpatine.data.model
 
 enum class PlayerRole(val string: String) {
     LOYALIST("Loyalist"),

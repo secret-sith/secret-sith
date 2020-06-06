@@ -1,4 +1,4 @@
-package com.example.secret.palpatine.ui.mainmenu
+package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 
-import com.example.secret.palpatine.R
-import com.example.secret.palpatine.data.model.User
-import com.example.secret.palpatine.data.model.dummy_users
-import com.example.secret.palpatine.data.model.friends.friend.Friend
-import com.example.secret.palpatine.data.model.friends.friendgroup.FriendGroup
-import com.example.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
+import com.secret.palpatine.R
+import com.secret.palpatine.data.model.User
+import com.secret.palpatine.data.model.dummy_users
+import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
+import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
@@ -52,7 +51,11 @@ class FriendsMenuFragment : Fragment() {
         val letterSet: Set<Char> = letterList.toSortedSet()
         val friendGroupList: MutableList<FriendGroup> = ArrayList()
         for (letter in letterSet){
-            val friendGroup: FriendGroup = FriendGroup(letter, ArrayList())
+            val friendGroup: FriendGroup =
+                FriendGroup(
+                    letter,
+                    ArrayList()
+                )
             for (user in userList){
                 if (user.userName.first() == letter){
                     friendGroup.friendList.add(user)

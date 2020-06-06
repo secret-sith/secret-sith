@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.secret.palpatine">
+    package="com.secret.palpatine">
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".ui.game.GameActivity"
+            android:name="com.secret.palpatine.ui.game.GameActivity"
             android:label="@string/title_activity_game"
             android:theme="@style/NoActionBar"></activity>
         <activity

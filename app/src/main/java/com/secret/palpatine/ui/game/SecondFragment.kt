@@ -1,4 +1,4 @@
-package com.example.secret.palpatine.ui.game
+package com.secret.palpatine.ui.game
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
-import com.example.secret.palpatine.R
+import com.secret.palpatine.R
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

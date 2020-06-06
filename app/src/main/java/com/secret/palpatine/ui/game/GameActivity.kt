@@ -1,9 +1,8 @@
-package com.example.secret.palpatine.ui.game
+package com.secret.palpatine.ui.game
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.secret.palpatine.R
+import com.secret.palpatine.R
 
 import kotlinx.android.synthetic.main.activity_game.*
 

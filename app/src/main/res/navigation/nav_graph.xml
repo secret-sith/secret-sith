@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_friendsmenu" />
     <fragment
         android:id="@+id/startGameMenuFragment"
-        android:name="com.example.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
         android:label="fragment_start_game_menu"
         tools:layout="@layout/fragment_start_game_menu" />
 </navigation>

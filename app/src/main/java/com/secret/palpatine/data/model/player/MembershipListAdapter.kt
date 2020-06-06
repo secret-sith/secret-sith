@@ -1,9 +1,9 @@
-package com.example.secret.palpatine.data.model.player
+package com.secret.palpatine.data.model.player
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secret.palpatine.data.model.Player
+import com.secret.palpatine.data.model.Player
 
 class MembershipListAdapter(private val list: List<Player>): RecyclerView.Adapter<MembershipViewHolder>() {
 

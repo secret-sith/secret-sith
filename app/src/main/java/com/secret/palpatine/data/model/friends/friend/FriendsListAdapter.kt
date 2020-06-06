@@ -3,7 +3,8 @@ package com.secret.palpatine.data.model.friends.friend
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secret.palpatine.data.model.User
+import com.secret.palpatine.data.model.friends.friend.FriendViewHolder
+import com.secret.palpatine.data.model.User
 
 class FriendsListAdapter(private val list: List<User>): RecyclerView.Adapter<FriendViewHolder>() {
 

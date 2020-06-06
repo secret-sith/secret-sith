@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.game.FirstFragment">
+    tools:context="com.secret.palpatine.ui.game.FirstFragment">
 
     <TextView
         android:id="@+id/game_membership_textview"
