@@ -25,6 +25,8 @@
     <string name="mainmenu_startgame_button">Start a Game</string>
     <string name="mainmenu_invites_button">Invites</string>
     <string name="mainmenu_friends_button">Friends</string>
+    <string name="logout">Logout</string>
+    <string name="toSignUp">Need an Account?</string>
 
     <string name="submenu_invites_toolbar_title">Invites</string>
     <string name="submenu_friends_toolbar_title">Friends</string>

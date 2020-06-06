@@ -25,19 +25,25 @@ import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 import com.secret.palpatine.R
 import com.secret.palpatine.databinding.ActivityLoginBinding
 import com.secret.palpatine.ui.BaseActivity
+import com.secret.palpatine.ui.signup.SignupActivity
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setProgressBar(binding.loading)
+
         auth = Firebase.auth
         Log.w("com.secret.palpatine", "ADASFDASF")
 
+        binding.login.setOnClickListener(this)
+        binding.toSignUp.setOnClickListener(this)
 
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
@@ -69,8 +75,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
             setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         binding.email.afterTextChanged {
@@ -106,28 +110,33 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
-        updateUiWithUser(currentUser!!)
+        updateUiWithUser(currentUser)
     }
 
-    private fun updateUiWithUser(model: FirebaseUser) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+    private fun updateUiWithUser(model: FirebaseUser?) {
 
-        val intent = Intent(this, MainMenuActivity::class.java).apply {
+        if (model != null) {
+            val welcome = getString(R.string.welcome)
+            val displayName = model!!.displayName
+            // TODO : initiate successful logged in experience
+            Toast.makeText(
+                applicationContext,
+                "$welcome $displayName",
+                Toast.LENGTH_LONG
+            ).show()
+
+            val intent = Intent(this, MainMenuActivity::class.java).apply {
+            }
+            startActivity(intent)
+            finish()
         }
-        startActivity(intent)
-        finish()
+
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
+
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -137,6 +146,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     binding.email.text.toString(),
                     binding.password.text.toString()
                 )
+
+            }
+            R.id.toSignUp -> {
+
+                val intent = Intent(this, SignupActivity::class.java).apply {
+                }
+                startActivity(intent)
+                finish()
             }
         }
     }
