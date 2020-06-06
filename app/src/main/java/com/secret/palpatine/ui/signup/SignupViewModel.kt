@@ -1,16 +1,12 @@
 package com.secret.palpatine.ui.signup
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.secret.palpatine.data.login.LoginRepository
-import com.secret.palpatine.data.login.Result
+
 
 import com.secret.palpatine.R
 
