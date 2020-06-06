@@ -32,9 +32,18 @@ class SignupViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = firebaseAuth.currentUser
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = name
+                    }
+                    user!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                _signupResult.value =
+                                    SignupResult(success = user)
+                            }
+                        }
 
-                    _signupResult.value =
-                        SignupResult(success = user)
+
                 } else {
                     _signupResult.value = SignupResult(error = R.string.signup_failed)
                 }

@@ -20,6 +20,7 @@ class LoginViewModel(private val auth:FirebaseAuth) : ViewModel() {
 
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
+
         auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {

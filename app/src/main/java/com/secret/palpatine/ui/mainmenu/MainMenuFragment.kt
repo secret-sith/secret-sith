@@ -1,5 +1,6 @@
 package com.secret.palpatine.ui.mainmenu
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
+import com.secret.palpatine.databinding.FragmentMainmenuBinding
+import com.secret.palpatine.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 /**
@@ -19,12 +25,16 @@ class MainMenuFragment : Fragment() {
 
     var isInSelectionMode: Boolean = false
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        auth = Firebase.auth
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mainmenu, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +51,13 @@ class MainMenuFragment : Fragment() {
         view.findViewById<Button>(R.id.mainmenu_startbutton).setOnClickListener {
             MainMenuActivity.isInSelectionMode = true
             findNavController().navigate(R.id.action_FirstFragment_to_startGameMenuFragment)
+        }
+
+        view.findViewById<Button>(R.id.logout).setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this.context, LoginActivity::class.java).apply {
+            }
+            startActivity(intent)
         }
     }
 

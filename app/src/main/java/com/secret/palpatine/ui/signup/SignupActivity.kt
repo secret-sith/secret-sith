@@ -79,7 +79,6 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
             setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
-            finish()
         })
 
         binding.username.afterTextChanged {
@@ -141,7 +140,6 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
                 val intent = Intent(this, LoginActivity::class.java).apply {
                 }
                 startActivity(intent)
-                finish()
             }
         }
 
@@ -164,6 +162,7 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
                 val intent = Intent(this, LoginActivity::class.java).apply {
                 }
                 startActivity(intent)
+                finish()
             }
         }
     }
