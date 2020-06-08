@@ -12,7 +12,6 @@ import com.secret.palpatine.R
 
 class SignupViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
 
-
     private val user = firebaseAuth.currentUser
 
     private val _loginForm = MutableLiveData<SignupFormState>()

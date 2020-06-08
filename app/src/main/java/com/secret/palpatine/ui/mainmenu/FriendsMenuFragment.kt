@@ -1,12 +1,12 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.secret.palpatine.R
@@ -16,6 +16,7 @@ import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
+import java.security.KeyStore
 
 
 /**
@@ -27,6 +28,7 @@ class FriendsMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         retainInstance = true
     }
 
@@ -70,6 +72,18 @@ class FriendsMenuFragment : Fragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_mainmenu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add){
+            findNavController().navigate(R.id.action_friendsMenuFragment_to_fragment_add_friends)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onStart() {
         super.onStart()

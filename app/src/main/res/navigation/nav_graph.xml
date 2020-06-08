@@ -35,10 +35,20 @@
         android:id="@+id/friendsMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsMenuFragment"
         android:label="fragment_friendsmenu"
-        tools:layout="@layout/fragment_friendsmenu" />
+        tools:layout="@layout/fragment_friendsmenu" >
+        <action
+            android:id="@+id/action_friendsMenuFragment_to_fragment_add_friends"
+            app:destination="@id/fragment_add_friends" />
+    </fragment>
     <fragment
         android:id="@+id/startGameMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
         android:label="fragment_start_game_menu"
         tools:layout="@layout/fragment_start_game_menu" />
+
+    <fragment
+        android:id="@+id/fragment_add_friends"
+        android:name="com.secret.palpatine.ui.mainmenu.FriendsAddFragment"
+        android:label="fragment_add_friends"
+        tools:layout="@layout/fragment_add_friends" />
 </navigation>
