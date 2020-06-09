@@ -47,24 +47,12 @@ class StartGameMenuFragment : Fragment() {
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
         for (user in dummy_users){
-            letterList.add(user.userName.first())
+            letterList.add(user.username.first())
             userList.add(user)
         }
         val letterSet: Set<Char> = letterList.toSortedSet()
         val friendGroupList: MutableList<FriendGroup> = ArrayList()
-        for (letter in letterSet){
-            val friendGroup: FriendGroup =
-                FriendGroup(
-                    letter,
-                    ArrayList()
-                )
-            for (user in userList){
-                if (user.userName.first() == letter){
-                    friendGroup.friendList.add(user)
-                }
-            }
-            friendGroupList.add(friendGroup)
-        }
+
         val context = (activity as AppCompatActivity).applicationContext
         start_game_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)

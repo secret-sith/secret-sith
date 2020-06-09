@@ -1,34 +1,30 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.User
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
+import com.secret.palpatine.data.model.friends.friend.request.FriendRequestsListAdapter
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
-import com.secret.palpatine.databinding.FragmentFriendsmenuBinding
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
-
 /**
- * A simple [Fragment] subclass.
- * Use the [FriendsMenuFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Created by Florain Fuchs on 09.06.2020.
  */
-class FriendsMenuFragment : Fragment() {
+class FriendRequestsFragment : Fragment() {
 
     private lateinit var viewModel: MainMenuViewModel
 
@@ -48,7 +44,7 @@ class FriendsMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friendsmenu, container, false)
+        return inflater.inflate(R.layout.fragment_friendsrequestmenu, container, false)
 
     }
 
@@ -57,59 +53,31 @@ class FriendsMenuFragment : Fragment() {
 
         loading.visibility = View.VISIBLE
 
-        viewModel.friendListResult.observe(viewLifecycleOwner, Observer {
+        viewModel.friendsRequestResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             if (loginResult.error != null) {
                 loading.visibility = View.GONE
-                showErrorLoading(loginResult.error)
             }
             if (loginResult.success != null) {
+                populateList(loginResult.success)
                 loading.visibility = View.GONE
-                generateLetteredList(loginResult.success)
             }
         })
 
-        viewModel.getUserFriends()
-
+        viewModel.getUserFriendRequests()
     }
 
-    private fun showErrorLoading(error: Int) {
 
-        errorText.text = "Error while loading your friends..."
-
-        errorText.visibility = View.VISIBLE
-        friends_recyclerview.visibility = View.GONE
-    }
-
-    private fun generateLetteredList(friendList: List<User>) {
-        val letterList: MutableList<Char> = ArrayList()
-        val userList: MutableList<User> = ArrayList()
-        for (user in friendList) {
-            letterList.add(user.username.first())
-            userList.add(user)
-        }
-        val letterSet: Set<Char> = letterList.toSortedSet()
-        val friendGroupList: MutableList<FriendGroup> = ArrayList()
-        for (letter in letterSet) {
-            val friendGroup: FriendGroup =
-                FriendGroup(
-                    letter,
-                    ArrayList()
-                )
-            for (user in userList) {
-                if (user.username.first() == letter) {
-                    friendGroup.friendList.add(user)
-                }
-            }
-            friendGroupList.add(friendGroup)
-        }
+    private fun populateList(users: List<User>) {
         val context = (activity as AppCompatActivity).applicationContext
+
         friends_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = FriendGroupAdapter(friendGroupList, context)
+            adapter = FriendRequestsListAdapter(users, context)
         }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -127,6 +95,6 @@ class FriendsMenuFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(): FriendsMenuFragment = FriendsMenuFragment()
+        fun newInstance(): FriendRequestsFragment = FriendRequestsFragment()
     }
 }

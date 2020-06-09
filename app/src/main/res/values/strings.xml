@@ -18,7 +18,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-<string name="signed_out">Sign out</string>
+    <string name="signed_out">Sign out</string>
     <string name="mainmenu_toolbar_title">Start</string>
     <string name="mainmenu_header">Secret Palpatine</string>
     <string name="mainmenu_subheader">Stop the Secret Palpatine</string>
@@ -30,12 +30,13 @@
 
     <string name="submenu_invites_toolbar_title">Invites</string>
     <string name="submenu_friends_toolbar_title">Friends</string>
-    
+
     <string name="membership_message">You are a %1$s</string>
     <string name="team_message">Your Team is</string>
-    
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="accept">Accept</string>
+    <string name="friendRequest">%1$s wants to be your friend!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_game">GameActivity</string>
