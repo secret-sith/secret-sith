@@ -124,21 +124,7 @@ class FriendsMenuFragment : Fragment() {
 
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onStart() {
-        super.onStart()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
-            .setText(R.string.submenu_friends_toolbar_title)
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
-            .setText(R.string.submenu_friends_toolbar_title)
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
+    
 
     companion object {
         fun newInstance(): FriendsMenuFragment = FriendsMenuFragment()

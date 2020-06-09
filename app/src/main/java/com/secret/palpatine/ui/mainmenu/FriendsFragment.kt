@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
+import kotlinx.android.synthetic.main.activity_main_menu.*
 
 
 /**
@@ -64,5 +67,20 @@ class FriendsFragment : Fragment() {
 
         viewModel.getUserFriendRequestCount()
     }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
+            .setText(R.string.submenu_friends_toolbar_title)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
+            .setText(R.string.submenu_friends_toolbar_title)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
 }
 
