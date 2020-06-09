@@ -23,7 +23,7 @@ class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     }
 
     fun bind(user: User) {
-        nameTextView?.text = user.userName
+        nameTextView?.text = user.username
         manageSelection(user)
 
         selectedButton?.visibility = if(MainMenuActivity.isInSelectionMode) View.VISIBLE else View.INVISIBLE

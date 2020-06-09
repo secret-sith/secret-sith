@@ -33,13 +33,9 @@
     </fragment>
     <fragment
         android:id="@+id/friendsMenuFragment"
-        android:name="com.secret.palpatine.ui.mainmenu.FriendsMenuFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.FriendsFragment"
         android:label="fragment_friendsmenu"
-        tools:layout="@layout/fragment_friendsmenu" >
-        <action
-            android:id="@+id/action_friendsMenuFragment_to_fragment_add_friends"
-            app:destination="@id/fragment_add_friends" />
-    </fragment>
+        tools:layout="@layout/fragment_friendtabs" />
     <fragment
         android:id="@+id/startGameMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
