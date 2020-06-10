@@ -1,10 +1,13 @@
 package com.secret.palpatine.ui.mainmenu
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.secret.palpatine.R
 import com.secret.palpatine.ui.BaseActivity
+import com.secret.palpatine.ui.game.GameActivity
+import com.secret.palpatine.ui.login.LoginActivity
 
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlin.properties.Delegates.observable
@@ -34,7 +37,8 @@ class MainMenuActivity : BaseActivity() {
 
     private fun startGame(){
         Log.v("v","game would start now")
-
+        startActivity(Intent(this, GameActivity::class.java))
+        finish()
     }
 
     override fun onSupportNavigateUp(): Boolean {
