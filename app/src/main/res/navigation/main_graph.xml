@@ -35,8 +35,8 @@
         android:label="fragment_friendsmenu"
         tools:layout="@layout/fragment_friendsmenu" >
         <action
-            android:id="@+id/action_friendsMenuFragment_to_AddFriendsFragment"
-            app:destination="@id/fragment_add_friends" />
+            android:id="@+id/action_friendsMenuFragment_to_AddFriendsFragment2"
+            app:destination="@id/AddFriendsFragment" />
     </fragment>
 
     <fragment
