@@ -41,16 +41,16 @@ class MainMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.mainmenu_invitesbutton).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_mainMenuFragment_to_inviteMenuFragment)
         }
 
         view.findViewById<Button>(R.id.mainmenu_friendsbutton).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_friendsMenuFragment)
+            findNavController().navigate(R.id.action_mainMenuFragment_to_friendsMenuFragment)
         }
 
         view.findViewById<Button>(R.id.mainmenu_startbutton).setOnClickListener {
             MainMenuActivity.isInSelectionMode = true
-            findNavController().navigate(R.id.action_FirstFragment_to_startGameMenuFragment)
+            findNavController().navigate(R.id.action_mainMenuFragment_to_startGameMenuFragment)
         }
 
         view.findViewById<Button>(R.id.logout).setOnClickListener {
