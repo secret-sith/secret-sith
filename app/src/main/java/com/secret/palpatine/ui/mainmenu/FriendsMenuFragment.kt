@@ -118,7 +118,7 @@ class FriendsMenuFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add){
-            findNavController().navigate(R.id.action_friendsMenuFragment_to_AddFriendsFragment)
+            findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
             return true
         }
 

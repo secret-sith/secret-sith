@@ -31,7 +31,7 @@ class FriendsPageAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
                 "All"
             }
             1 -> {
-                "Reqeusts"
+                "Requests"
             }
             else -> ""
         }

@@ -32,23 +32,23 @@
     <fragment
         android:id="@+id/friendsMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsFragment"
-        android:label="fragment_friendsmenu"
+        android:label="@string/friends_menu_fragment_label"
         tools:layout="@layout/fragment_friendtabs" >
         <action
-            android:id="@+id/action_friendsMenuFragment_to_AddFriendsFragment2"
-            app:destination="@id/AddFriendsFragment" />
+            android:id="@+id/action_friendsMenuFragment_to_addFriendsFragment"
+            app:destination="@id/addFriendsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/startGameMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
-        android:label="fragment_start_game_menu"
+        android:label="@string/start_game_menu_fragment_label"
         tools:layout="@layout/fragment_start_game_menu" />
 
     <fragment
-        android:id="@+id/AddFriendsFragment"
+        android:id="@+id/addFriendsFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsAddFragment"
-        android:label="fragment_add_friends"
+        android:label="@string/add_friends_fragment_label"
         tools:layout="@layout/fragment_add_friends" />
 
 </navigation>
