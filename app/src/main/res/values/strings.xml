@@ -28,11 +28,13 @@
 
     <string name="submenu_invites_toolbar_title">Invites</string>
     <string name="submenu_friends_toolbar_title">Friends</string>
-    
+
     <string name="membership_message">You are a %1$s</string>
     <string name="team_message">Your Team is</string>
-    
+
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="accept">Accept</string>
+    <string name="friendRequest">%1$s wants to be your friend!</string>
 
     <string name="menu_add">Add</string>
 

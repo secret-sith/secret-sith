@@ -3,6 +3,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 open class BaseActivity : AppCompatActivity() {
 
     private var progressBar: ProgressBar? = null
+    private var errorText: TextView ? = null
 
     fun setProgressBar(bar: ProgressBar) {
         progressBar = bar

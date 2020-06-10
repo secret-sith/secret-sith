@@ -8,12 +8,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.User
-import com.secret.palpatine.data.model.dummy_users
+import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
+import com.secret.palpatine.databinding.FragmentFriendsmenuBinding
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 import java.security.KeyStore
@@ -26,8 +31,16 @@ import java.security.KeyStore
  */
 class FriendsMenuFragment : Fragment() {
 
+    private lateinit var viewModel: MainMenuViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(
+            this,
+            MainMenuViewModelFactory(auth = Firebase.auth, friendRepository = FriendRepository())
+        )
+            .get(MainMenuViewModel::class.java)
         setHasOptionsMenu(true)
         retainInstance = true
     }
@@ -43,23 +56,50 @@ class FriendsMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loading.visibility = View.VISIBLE
 
+        viewModel.friendListResult.observe(viewLifecycleOwner, Observer {
+            val loginResult = it ?: return@Observer
+
+            if (loginResult.error != null) {
+                loading.visibility = View.GONE
+                showErrorLoading(loginResult.error)
+            }
+            if (loginResult.success != null) {
+                loading.visibility = View.GONE
+                generateLetteredList(loginResult.success)
+            }
+        })
+
+        viewModel.getUserFriends()
+
+    }
+
+    private fun showErrorLoading(error: Int) {
+
+        errorText.text = "Error while loading your friends..."
+
+        errorText.visibility = View.VISIBLE
+        friends_recyclerview.visibility = View.GONE
+    }
+
+    private fun generateLetteredList(friendList: List<User>) {
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
-        for (user in dummy_users){
-            letterList.add(user.userName.first())
+        for (user in friendList) {
+            letterList.add(user.username.first())
             userList.add(user)
         }
         val letterSet: Set<Char> = letterList.toSortedSet()
         val friendGroupList: MutableList<FriendGroup> = ArrayList()
-        for (letter in letterSet){
+        for (letter in letterSet) {
             val friendGroup: FriendGroup =
                 FriendGroup(
                     letter,
                     ArrayList()
                 )
-            for (user in userList){
-                if (user.userName.first() == letter){
+            for (user in userList) {
+                if (user.username.first() == letter) {
                     friendGroup.friendList.add(user)
                 }
             }
@@ -68,7 +108,7 @@ class FriendsMenuFragment : Fragment() {
         val context = (activity as AppCompatActivity).applicationContext
         friends_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = FriendGroupAdapter(friendGroupList,context)
+            adapter = FriendGroupAdapter(friendGroupList, context)
         }
     }
 
@@ -84,19 +124,7 @@ class FriendsMenuFragment : Fragment() {
 
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onStart() {
-        super.onStart()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(R.string.submenu_friends_toolbar_title)
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(R.string.submenu_friends_toolbar_title)
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
+    
 
     companion object {
         fun newInstance(): FriendsMenuFragment = FriendsMenuFragment()
