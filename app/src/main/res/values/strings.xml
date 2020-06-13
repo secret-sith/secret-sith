@@ -63,5 +63,9 @@
     <string name="law_desc">Law to be discarded</string>
     <string name="team_secret_role_header">You  are a Loyalist!</string>
     <string name="team_desc">Your team:</string>
+    <string name="select_chancellor_header">You are the president!</string>
+    <string name="select_chancellor_desc">Select a chancellor</string>
+    <string name="select_president_header">Presidential Power</string>
+    <string name="select_president_desc">Special Election - Select a new president</string>
 
 </resources>
