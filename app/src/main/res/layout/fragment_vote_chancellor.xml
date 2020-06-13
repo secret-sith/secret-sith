@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.game.VoteChancellorFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/chancellor_election_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/chancellor_election_header" />
+
+    <TextView
+        android:id="@+id/chancellor_election_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/chancellor_election_desc" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_vote_chancellor_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/yes"
+            android:contentDescription="@string/yes_option_for_chancellor_vote" />
+
+        <ImageButton
+            android:id="@+id/button_vote_chancellor_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/no"
+            android:contentDescription="@string/no_option_for_chancellor_vote" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -54,5 +54,9 @@
     <string name="presidential_power_desc">Select a player to kill!</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="chancellor_election_header">Elect the chancellor!</string>
+    <string name="chancellor_election_desc">Do you want this Player to be your chancellor?</string>
+    <string name="yes_option_for_chancellor_vote">Yes option for chancellor vote</string>
+    <string name="no_option_for_chancellor_vote">No option for chancellor vote</string>
 
 </resources>
