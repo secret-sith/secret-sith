@@ -7,14 +7,14 @@
     android:orientation="vertical">
 
     <TextView
-            android:id="@+id/presidiential_power"
+            android:id="@+id/presidential_power"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/presidential_power" />
 
         <TextView
-            android:id="@+id/presidiential_power_desc"
+            android:id="@+id/presidential_power_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

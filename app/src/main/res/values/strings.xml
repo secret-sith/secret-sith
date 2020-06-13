@@ -61,5 +61,7 @@
     <string name="discard_laws_header">Enact Laws!</string>
     <string name="discard_laws_desc">Discard one politic</string>
     <string name="law_desc">Law to be discarded</string>
+    <string name="team_secret_role_header">You  are a Loyalist!</string>
+    <string name="team_desc">Your team:</string>
 
 </resources>
