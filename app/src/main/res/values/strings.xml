@@ -50,4 +50,9 @@
     <string name="friends_menu_fragment_label">friends_menu_fragment</string>
     <string name="start_game_menu_fragment_label">Start Game Menu</string>
     <string name="add_friends_fragment_label">Add Friends</string>
+    <string name="presidential_power">Presidential Power</string>
+    <string name="presidential_power_desc">Select a player to kill!</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
