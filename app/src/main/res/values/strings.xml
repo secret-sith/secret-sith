@@ -58,5 +58,8 @@
     <string name="chancellor_election_desc">Do you want this Player to be your chancellor?</string>
     <string name="yes_option_for_chancellor_vote">Yes option for chancellor vote</string>
     <string name="no_option_for_chancellor_vote">No option for chancellor vote</string>
+    <string name="discard_laws_header">Enact Laws!</string>
+    <string name="discard_laws_desc">Discard one politic</string>
+    <string name="law_desc">Law to be discarded</string>
 
 </resources>
