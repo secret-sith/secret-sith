@@ -9,8 +9,12 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 
 
 import com.secret.palpatine.R
+import com.secret.palpatine.data.model.user.UserRepository
 
-class SignupViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
+class SignupViewModel(
+    private val firebaseAuth: FirebaseAuth,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val user = firebaseAuth.currentUser
 
@@ -32,10 +36,13 @@ class SignupViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
                     }
                     user!!.updateProfile(profileUpdates)
                         .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                _signupResult.value =
-                                    SignupResult(success = user)
-                            }
+                            userRepository.updateUserAfterSignup(user.uid, name)
+                                .addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        _signupResult.value =
+                                            SignupResult(success = user)
+                                    }
+                                }
                         }
 
 

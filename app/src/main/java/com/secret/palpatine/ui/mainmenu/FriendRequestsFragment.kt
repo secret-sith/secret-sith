@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,27 +14,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.User
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
+import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestsListAdapter
-import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
-import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
+import com.secret.palpatine.databinding.FragmentFriendsmenuBinding
+import com.secret.palpatine.databinding.FragmentFriendsrequestmenuBinding
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
 /**
- * Created by Florain Fuchs on 09.06.2020.
+ * Created by Florian Fuchs on 09.06.2020.
  */
-class FriendRequestsFragment : Fragment() {
+class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendRequestAcceptListener {
 
     private lateinit var viewModel: MainMenuViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            MainMenuViewModelFactory(auth = Firebase.auth, friendRepository = FriendRepository())
+            MainMenuViewModelFactory()
         )
             .get(MainMenuViewModel::class.java)
         retainInstance = true
@@ -48,33 +48,49 @@ class FriendRequestsFragment : Fragment() {
 
     }
 
+    override fun onAccept(data: FriendRequest) {
+        viewModel.acceptFriendRequest(data.id)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         loading.visibility = View.VISIBLE
 
         viewModel.friendsRequestResult.observe(viewLifecycleOwner, Observer {
+            val friendListResult = it ?: return@Observer
+            loading.visibility = View.GONE
+
+            if (friendListResult.error != null) {
+            }
+            if (friendListResult.success != null) {
+                populateList(friendListResult.success)
+            }
+        })
+
+        viewModel.acceptFriendRequestResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             if (loginResult.error != null) {
-                loading.visibility = View.GONE
+                Toast.makeText(context, R.string.error_accept_friend, Toast.LENGTH_SHORT)
             }
-            if (loginResult.success != null) {
-                populateList(loginResult.success)
-                loading.visibility = View.GONE
+            if (loginResult.success) {
+                Toast.makeText(context, R.string.success_accept_friend, Toast.LENGTH_SHORT)
+                viewModel.getUserFriendRequests()
             }
         })
+
 
         viewModel.getUserFriendRequests()
     }
 
 
-    private fun populateList(users: List<User>) {
+    private fun populateList(requests: List<FriendRequest>) {
         val context = (activity as AppCompatActivity).applicationContext
 
         friends_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = FriendRequestsListAdapter(users, context)
+            adapter = FriendRequestsListAdapter(requests, context,this@FriendRequestsFragment)
         }
     }
 

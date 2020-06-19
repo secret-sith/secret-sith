@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 
-class FriendGroupViewHolder(inflater: LayoutInflater, parent: ViewGroup):
+class FriendGroupViewHolder(inflater: LayoutInflater, parent: ViewGroup, private val listener: FriendsListAdapter.FriendListAdapterListener):
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friendgroup,parent,false)) {
 
     private var letterTextView: TextView? = null
@@ -24,7 +24,7 @@ class FriendGroupViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         letterTextView?.text = friendGroup.letter.toString()
         recyclerView?.apply {
             layoutManager = gridLayoutManager
-            adapter = FriendsListAdapter(friendGroup.friendList)
+            adapter = FriendsListAdapter(friendGroup.friendList, listener)
         }
     }
 }

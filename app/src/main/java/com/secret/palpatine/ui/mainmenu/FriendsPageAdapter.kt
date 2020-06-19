@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
- * Created by Florain Fuchs on 09.06.2020.
+ * Created by Florian Fuchs on 09.06.2020.
  */
 class FriendsPageAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 

@@ -2,26 +2,19 @@ package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
 import android.view.*
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.User
-import com.secret.palpatine.data.model.friends.friend.FriendRepository
+import com.secret.palpatine.data.model.user.User
+import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
-import com.secret.palpatine.databinding.FragmentFriendsmenuBinding
-import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
-import java.security.KeyStore
 
 
 /**
@@ -29,7 +22,7 @@ import java.security.KeyStore
  * Use the [FriendsMenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendsMenuFragment : Fragment() {
+class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener{
 
     private lateinit var viewModel: MainMenuViewModel
 
@@ -38,7 +31,7 @@ class FriendsMenuFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            MainMenuViewModelFactory(auth = Firebase.auth, friendRepository = FriendRepository())
+            MainMenuViewModelFactory()
         )
             .get(MainMenuViewModel::class.java)
         setHasOptionsMenu(true)
@@ -71,7 +64,15 @@ class FriendsMenuFragment : Fragment() {
             }
         })
 
-        viewModel.getUserFriends()
+        viewModel.acceptFriendRequestResult.observe(viewLifecycleOwner, Observer {
+            val loginResult = it ?: return@Observer
+
+            if (loginResult.success) {
+                viewModel.refreshUserFriends()
+            }
+        })
+
+        viewModel.refreshUserFriends()
 
     }
 
@@ -108,7 +109,7 @@ class FriendsMenuFragment : Fragment() {
         val context = (activity as AppCompatActivity).applicationContext
         friends_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = FriendGroupAdapter(friendGroupList, context)
+            adapter = FriendGroupAdapter(friendGroupList, context, this@FriendsMenuFragment)
         }
     }
 
@@ -117,16 +118,31 @@ class FriendsMenuFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add){
+        if (item.itemId == R.id.add) {
             findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
             return true
         }
 
         return super.onOptionsItemSelected(item)
     }
-    
+
+    override fun onStart() {
+        super.onStart()
+
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSelect(data: User) {
+    }
 
     companion object {
         fun newInstance(): FriendsMenuFragment = FriendsMenuFragment()
     }
+
+
 }

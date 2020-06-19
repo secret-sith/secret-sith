@@ -8,23 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.User
-import com.secret.palpatine.data.model.dummy_Friends
+import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.dummy_users
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
-import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
-import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
-class FriendsAddFragment: Fragment(), SearchView.OnQueryTextListener {
+class FriendsAddFragment: Fragment(),FriendsListAdapter.FriendListAdapterListener, SearchView.OnQueryTextListener {
 
     private lateinit var adapter: FriendsListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        adapter = FriendsListAdapter(dummy_users)
+        adapter = FriendsListAdapter(dummy_users, this)
     }
 
     override fun onCreateView(
@@ -69,5 +66,9 @@ class FriendsAddFragment: Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         return false
+    }
+
+    override fun onSelect(data: User) {
+        TODO("Not yet implemented")
     }
 }

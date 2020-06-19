@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 
-class FriendGroupAdapter(private val list: List<FriendGroup>, private val context: Context): RecyclerView.Adapter<FriendGroupViewHolder>() {
+class FriendGroupAdapter(private val list: List<FriendGroup>, private val context: Context, private val listener: FriendsListAdapter.FriendListAdapterListener): RecyclerView.Adapter<FriendGroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendGroupViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return FriendGroupViewHolder(inflater,parent)
+        return FriendGroupViewHolder(inflater,parent, listener)
     }
 
     override fun onBindViewHolder(holder: FriendGroupViewHolder, position: Int) {

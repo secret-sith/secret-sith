@@ -7,11 +7,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.User
+import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 
-class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friend,parent,false)) {
+class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup, var listner: FriendsListAdapter.FriendListAdapterListener):
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friend,parent,false))  {
 
     private var nameTextView: TextView? = null
     private var selectedButton: ImageButton? = null
@@ -37,5 +37,6 @@ class FriendViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     private fun manageSelection(user: User){
         if(user.isSelected){  selectedButton?.setImageResource(R.drawable.ic_check_box_black_24dp) }
         else { selectedButton?.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp) }
+        listner.onSelect(user)
     }
 }

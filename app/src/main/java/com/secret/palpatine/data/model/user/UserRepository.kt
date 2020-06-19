@@ -1,0 +1,34 @@
+package com.secret.palpatine.data.model.user
+
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
+/**
+ * Created by Florian Fuchs on 19.06.2020.
+ */
+class UserRepository {
+
+    val db = Firebase.firestore
+
+
+    fun updateUserAfterSignup(userId: String, userName: String): Task<Void> {
+
+        val userMap = hashMapOf(
+            "name" to userName,
+            "userName" to userName
+        )
+
+        return db.collection("users").document(userId).set(userMap, SetOptions.merge())
+
+    }
+
+    fun getUserByReference(userId: String): Task<DocumentSnapshot> {
+
+        return db.collection("users").document(userId).get();
+
+    }
+}

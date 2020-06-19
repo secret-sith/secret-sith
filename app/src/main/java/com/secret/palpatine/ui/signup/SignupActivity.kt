@@ -2,6 +2,7 @@ package com.secret.palpatine.ui.signup
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -14,15 +15,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
+import com.secret.palpatine.data.model.user.UserRepository
 import com.secret.palpatine.databinding.ActivitySignupBinding
 import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.ui.login.LoginActivity
 import com.secret.palpatine.ui.login.afterTextChanged
 
 /**
- * Created by Florain Fuchs on 05.06.2020.
+ * Created by Florian Fuchs on 05.06.2020.
  */
 class SignupActivity : BaseActivity(), View.OnClickListener {
     // [START declare_auth]
@@ -33,11 +36,28 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivitySignupBinding
 
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setProgressBar(binding.loading)
+
+
+        //deep links
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData ->
+                // Get deep link from result (may be null if no link is found)
+                var deepLink: Uri? = null
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.link
+                }
+                Log.d("Deep Link", deepLink.toString())
+
+                // ...
+            }
+            .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
 
         // Buttons
         binding.signup.setOnClickListener(this)
@@ -47,7 +67,7 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
-        viewModel = SignupViewModel(auth)
+        viewModel = SignupViewModel(auth, UserRepository())
 
         viewModel.signupFormState.observe(this@SignupActivity, Observer {
             val loginState = it ?: return@Observer
@@ -133,7 +153,7 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
             Toast.makeText(
                 applicationContext,
                 "$welcome $displayName",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
 
             if (user != null) {

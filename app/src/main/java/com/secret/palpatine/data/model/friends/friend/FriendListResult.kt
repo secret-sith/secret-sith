@@ -1,6 +1,7 @@
 package com.secret.palpatine.data.model.friends.friend
 
-import com.secret.palpatine.data.model.User
+import com.secret.palpatine.data.model.user.User
+
 
 /**
  * A generic class that holds a value with its loading status.

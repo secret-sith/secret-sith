@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 /**
- * Created by Florain Fuchs on 05.06.2020.
+ * Created by Florian Fuchs on 05.06.2020.
  */
 
 open class BaseActivity : AppCompatActivity() {

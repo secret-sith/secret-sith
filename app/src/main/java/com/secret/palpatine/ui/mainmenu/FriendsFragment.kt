@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main_menu.*
 
 
 /**
- * Created by Florain Fuchs on 09.06.2020.
+ * Created by Florian Fuchs on 09.06.2020.
  */
 class FriendsFragment : Fragment() {
     // When requested, this adapter returns a DemoObjectFragment,
@@ -33,7 +33,7 @@ class FriendsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            MainMenuViewModelFactory(auth = Firebase.auth, friendRepository = FriendRepository())
+            MainMenuViewModelFactory()
         )
             .get(MainMenuViewModel::class.java)
     }
@@ -59,12 +59,18 @@ class FriendsFragment : Fragment() {
             if (result.success != null) {
 
                 val badge: BadgeDrawable = tabLayout.getTabAt(1)!!.orCreateBadge
-                badge.isVisible = true
+                badge.isVisible = result.success > 0
                 badge.number = result.success
             }
 
         })
+        viewModel.acceptFriendRequestResult.observe(viewLifecycleOwner, Observer {
+            val loginResult = it ?: return@Observer
 
+            if (loginResult.success) {
+                viewModel.getUserFriendRequestCount()
+            }
+        })
         viewModel.getUserFriendRequestCount()
     }
 

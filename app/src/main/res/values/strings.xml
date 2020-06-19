@@ -37,6 +37,9 @@
     <string name="friendRequest">%1$s wants to be your friend!</string>
 
     <string name="menu_add">Add</string>
+    <string name="error_accept_friend">Error while accepting the friend request</string>
+    <string name="success_accept_friend">Friend request accepted</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -44,6 +47,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="main_menu_fragment_label">Main Menu</string>
+    <string name="game_overlay_team_fragment_label">Team Overview</string>
+
     <string name="invite_menu_fragment_label">Invite Menu</string>
     <string name="game_membership_fragment_label">Game Membership</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -69,5 +74,8 @@
     <string name="select_president_desc">Special Election - Select a new president</string>
     <string name="view_laws_desc">View Laws</string>
     <string name="view_law_desc">Law to be viewed</string>
+    <string name="players_count">"Players accepted: >%1$s"</string>
+    <string name="player_name">Player - %1$s</string>
+    <string name="player_state">State - %1$s</string>
 
 </resources>
