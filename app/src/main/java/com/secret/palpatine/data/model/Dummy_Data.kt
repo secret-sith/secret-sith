@@ -11,34 +11,35 @@ import java.time.LocalDateTime
 import java.time.Month
 import java.util.*
 
+/**
 public val dummy_Invites = listOf(
-    Invite(
-        "Alexander Rose",
-        LocalDateTime.of(2020, Month.MAY, 26, 21, 1),
-        "Grüß Gott! Nach langer Zeit mal wieder eine Runde?"
-    ),
-    Invite(
-        "Winston Churchill",
-        LocalDateTime.of(1941, Month.MAY, 26, 14, 31),
-        "Hello dear Sir! Do you want to catch Hitler with me?"
-    ),
-    Invite(
-        "Franklin D. Roosevelt",
-        LocalDateTime.of(1944, Month.MAY, 11, 21, 22),
-        "Im planing a trip to france. You want to come?"
-    ),
-    Invite(
-        "Joseph Stalin",
-        LocalDateTime.of(1945, Month.APRIL, 30, 3, 17),
-        "I need someone to check the basement. Do you have time?"
-    ),
-    Invite(
-        "Future Man",
-        LocalDateTime.of(2020, Month.MAY, 26, 21, 1),
-        "Wahnsinn Jungs. Euer Game ging durch die Decke!!"
-    )
+Invite(
+"Alexander Rose",
+LocalDateTime.of(2020, Month.MAY, 26, 21, 1),
+"Grüß Gott! Nach langer Zeit mal wieder eine Runde?"
+),
+Invite(
+"Winston Churchill",
+LocalDateTime.of(1941, Month.MAY, 26, 14, 31),
+"Hello dear Sir! Do you want to catch Hitler with me?"
+),
+Invite(
+"Franklin D. Roosevelt",
+LocalDateTime.of(1944, Month.MAY, 11, 21, 22),
+"Im planing a trip to france. You want to come?"
+),
+Invite(
+"Joseph Stalin",
+LocalDateTime.of(1945, Month.APRIL, 30, 3, 17),
+"I need someone to check the basement. Do you have time?"
+),
+Invite(
+"Future Man",
+LocalDateTime.of(2020, Month.MAY, 26, 21, 1),
+"Wahnsinn Jungs. Euer Game ging durch die Decke!!"
 )
-
+)
+ **/
 public val dummy_Friends = listOf(
     Friend("Alexander Rose"),
     Friend("Adrian Uffmann"),
@@ -61,7 +62,7 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000001",
         UUID.randomUUID(),
-        dummy_game
+        "dummy_game"
     ),
     User(
         "2",
@@ -69,7 +70,7 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000010",
         UUID.randomUUID(),
-        dummy_game
+        "dummy_game"
     ),
     User(
         "3",
@@ -77,7 +78,7 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        dummy_game
+        "dummy_game"
     ),
     User(
         "4",
@@ -85,7 +86,7 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        dummy_game
+        "dummy_game"
     ),
     User(
         "5",
@@ -93,6 +94,6 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        dummy_game
+        "dummy_game"
     )
 )

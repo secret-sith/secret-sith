@@ -4,11 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".ui.game.GameActivity"
-    android:layout_gravity="center"
     tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="1dp">
+
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/spinner_overlay" />
 
     <EditText
         android:id="@+id/playerName"
@@ -17,6 +21,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Player Name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameID"
+
+        android:text="@string/join_game_id" />
 
     <Button
         android:id="@+id/join_button"

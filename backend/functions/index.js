@@ -62,29 +62,69 @@ exports.addUsersAsFriends = functions.firestore
     return Promise.resolve();
   });
 
-
 exports.createPlayerInvite = functions.firestore
   .document("games/{gamesId}/players/{playerId}")
   .onCreate((player, context) => {
     const data = player.data();
     const gameId = context.params.gamesId;
-
+    const playerId = context.params.playerId;
     return db.collection("invites").add({
       gameId,
       from: data.inviteBy,
       fromId: data.inviteById,
       to: data.user,
       timestamp: data.createdAt,
+      state: "pending",
+      playerId,
     });
   });
-
 
 exports.updateUserStartedGame = functions.firestore
   .document("games/{gamesId}")
   .onCreate((game, context) => {
     const data = game.data();
     const gameId = context.params.gamesId;
-    return db.collection("users").doc(data.host).set({
-      currentGame: gameId,
-    }, {merge:true});
+    return db.collection("users").doc(data.host).set(
+      {
+        currentGame: gameId,
+      },
+      { merge: true }
+    );
+  });
+
+exports.userAcceptOrDeclineInvite = functions.firestore
+  .document("invites/{invitesId}")
+  .onUpdate((change, context) => {
+    const newValue = change.after.data();
+    const invitesId = context.params.invitesId;
+    const { state, gameId, playerId, isHost, to } = newValue;
+
+    if (isHost) {
+      return Promise.resolve();
+    }
+
+    if (state === "accepted" || state === "declined") {
+      return db
+        .collection("games")
+        .doc(gameId)
+        .collection("players")
+        .doc(playerId)
+        .set(
+          {
+            state: state,
+          },
+          { merge: true }
+        )
+        .then(() => {
+          return Promise.all([
+            db
+              .collection("users")
+              .doc(to)
+              .set({ currentGame: gameId }, { merge: true }),
+            db.collection("invites").doc(invitesId).delete(),
+          ]);
+        });
+    } else {
+      return Promise.resolve();
+    }
   });

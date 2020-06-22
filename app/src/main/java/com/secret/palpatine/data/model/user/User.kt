@@ -11,7 +11,7 @@ data class User(
     val createdAt: String,
     val deviceID: String?,
     val loginID: UUID?,
-    val currentGame: Game?,
+    val currentGame: String?,
     var isSelected: Boolean = false
 ): Serializable {
     constructor() : this("","","","",null,null, false)

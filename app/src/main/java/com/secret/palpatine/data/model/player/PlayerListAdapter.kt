@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Created by Florian Fuchs on 19.06.2020.
  */
-class PlayerListAdapter(private val list: List<Player>, private var context: Context) :
+class PlayerListAdapter(private val list: List<Player>, private var context: Context, private var currentUserId: String) :
     RecyclerView.Adapter<PlayerListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return PlayerListViewHolder(inflater, parent, context)
+        return PlayerListViewHolder(inflater, parent, context, currentUserId)
     }
 
     override fun onBindViewHolder(holder: PlayerListViewHolder, position: Int) {

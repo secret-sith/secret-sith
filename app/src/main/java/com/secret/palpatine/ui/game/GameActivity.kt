@@ -8,6 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
 import com.secret.palpatine.data.model.game.Game
@@ -26,6 +29,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityGameBinding
     private lateinit var viewModel: GameViewModel
     private lateinit var game: Game
+    private var auth: FirebaseAuth = Firebase.auth
     private var canStartGame: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +39,21 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
         binding.showLayover.setOnClickListener(this)
         binding.gamePending.btnStart.setOnClickListener(this)
+        setProgressBar(binding.progressOverlay.root)
 
-        binding.progressOverlay.root.visibility = View.VISIBLE
+        showProgressBar()
+        viewModel.currentGame.observe(this@GameActivity, Observer {
+            val currentGameId = it ?: return@Observer
+            viewModel.getGame();
+            viewModel.getPlayers()
+
+        })
+        val reference = viewModel.getCurrentGameID(gameId)
 
         viewModel.currentGameResult.observe(this@GameActivity, Observer {
             val currentGameResult = it ?: return@Observer
 
+            reference?.remove()
             if (currentGameResult.error != null) {
                 Toast.makeText(this, "Error loading Game", Toast.LENGTH_LONG).show()
             } else if (currentGameResult.game != null) {
@@ -49,8 +62,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             } else {
 
             }
-            binding.progressOverlay.root.visibility = View.GONE
-
+            hideProgressBar()
         })
 
         viewModel.canStartGame.observe(this@GameActivity, Observer {
@@ -70,14 +82,15 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
         })
 
-        viewModel.getGame(gameId);
-        viewModel.getPlayers(gameId)
     }
 
     fun initGame(game: Game) {
 
-        Log.d("Game", game.toString())
-        Log.d("Game State", game.state.toString())
+
+        if (game.host !== auth.currentUser?.uid) {
+
+            binding.gamePending.btnStart.visibility = View.INVISIBLE
+        }
 
         when (game!!.state) {
 
@@ -93,12 +106,12 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
         }
 
         binding.gamePending.playersListOverlay.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
         }
     }
 

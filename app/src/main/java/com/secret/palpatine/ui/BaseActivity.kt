@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 open class BaseActivity : AppCompatActivity() {
 
-    private var progressBar: ProgressBar? = null
+    private var progressBar: View? = null
     private var errorText: TextView ? = null
 
-    fun setProgressBar(bar: ProgressBar) {
+    fun setProgressBar(bar: View) {
         progressBar = bar
     }
 
@@ -24,7 +24,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun hideProgressBar() {
-        progressBar?.visibility = View.INVISIBLE
+        progressBar?.visibility = View.GONE
     }
 
     fun hideKeyboard(view: View) {

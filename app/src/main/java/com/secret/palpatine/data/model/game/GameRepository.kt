@@ -2,10 +2,7 @@ package com.secret.palpatine.data.model.game
 
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.player.PlayerState
@@ -19,6 +16,13 @@ class GameRepository {
 
     val db = Firebase.firestore
 
+
+    fun startGame(gameId: String): Task<Void> {
+        val data = hashMapOf(
+            "state" to GameState.started
+        )
+        return db.collection("games").document(gameId).set(data, SetOptions.merge())
+    }
 
     fun getPlayers(gameId: String): CollectionReference {
 
@@ -34,6 +38,14 @@ class GameRepository {
             "phase" to "nominate_chancellor",
             "host" to userId
 
+        )
+
+        val host = hashMapOf(
+            "user" to userId,
+            "createdAt" to FieldValue.serverTimestamp(),
+            "state" to PlayerState.accepted,
+            "userName" to userName,
+            "isHost" to true
         )
 
 
@@ -57,6 +69,9 @@ class GameRepository {
                         db.collection("games").document(id).collection("players").add(playerToAdd)
                     )
                 }
+                plist.add(
+                    db.collection("games").document(id).collection("players").add(host)
+                )
                 Tasks.whenAll(plist)
             }
         }
@@ -68,5 +83,27 @@ class GameRepository {
         return db.collection("games").document(gameId)
     }
 
+
+    fun joinGame(gameId: String, userId: String, userName: String): Task<Void> {
+
+        val data = hashMapOf(
+            "user" to userId,
+            "createdAt" to FieldValue.serverTimestamp(),
+            "state" to PlayerState.accepted,
+            "userName" to userName
+        )
+        return db.collection("games").document(gameId).collection("players")
+            .add(data).continueWithTask {
+
+                val userUpdate = hashMapOf(
+                    "currentGame" to gameId
+                )
+                if (it.exception != null) {
+                    throw it.exception!!
+                } else {
+                    db.collection("users").document(userId).set(userUpdate, SetOptions.merge())
+                }
+            }
+    }
 
 }

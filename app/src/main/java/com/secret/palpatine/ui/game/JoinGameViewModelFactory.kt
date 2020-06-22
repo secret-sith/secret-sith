@@ -1,29 +1,22 @@
-package com.secret.palpatine.ui.mainmenu
+package com.secret.palpatine.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import com.secret.palpatine.data.model.game.GameRepository
-import com.secret.palpatine.data.model.invitation.InviteRepository
 import com.secret.palpatine.data.model.user.UserRepository
+import com.secret.palpatine.ui.mainmenu.MainMenuViewModel
 
 /**
- * Created by Florian Fuchs on 08.06.2020.
+ * Created by Florian Fuchs on 19.06.2020.
  */
-class MainMenuViewModelFactory(
+class JoinGameViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainMenuViewModel(
-            Firebase.auth,
-            FriendRepository(),
-            GameRepository(),
-            UserRepository(),
-            InviteRepository()
-        ) as T
+        return JoinGameViewModel(Firebase.auth, GameRepository(), UserRepository()) as T
     }
 }

@@ -77,5 +77,6 @@
     <string name="players_count">"Players accepted: >%1$s"</string>
     <string name="player_name">Player - %1$s</string>
     <string name="player_state">State - %1$s</string>
+    <string name="join_game_id">Game Id: %1$s!</string>
 
 </resources>

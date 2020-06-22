@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.secret.palpatine.data.model.game.CurrentGameResult
 import com.secret.palpatine.data.model.game.Game
@@ -13,6 +13,7 @@ import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.player.PlayersResult
+import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 
 /**
@@ -27,6 +28,9 @@ class GameViewModel constructor(
     private val _currentGameResult = MutableLiveData<CurrentGameResult>()
     val currentGameResult: LiveData<CurrentGameResult> = _currentGameResult
 
+    private val _currentGame = MutableLiveData<String>()
+    val currentGame: LiveData<String> = _currentGame
+
     private val _playersResult = MutableLiveData<PlayersResult>()
     val playersResult: LiveData<PlayersResult> = _playersResult
 
@@ -35,80 +39,75 @@ class GameViewModel constructor(
     val canStartGame: LiveData<Boolean> = _canStartGame
 
 
-    fun getPlayers(gameId: String?) {
+    fun getCurrentGameID(currentGameId: String?): ListenerRegistration? {
 
-        if (gameId != null) {
-            gameRepository.getPlayers(gameId).addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Log.w("GAME", "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && !snapshot.isEmpty()) {
-
-                    var playerList: MutableList<Player> = mutableListOf()
-                    for (document in snapshot!!.documents) {
-                        playerList.add(document.toObject<Player>()!!)
+        if (currentGameId != null) {
+            _currentGame.value = currentGameId
+            return null
+        } else {
+            return userRepository.getLiveUser(auth.currentUser!!.uid)
+                .addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Log.w("GAME", "Listen failed.", e)
+                        return@addSnapshotListener
                     }
-                    _canStartGame.value = checkCanStartGame(playerList)
-                    _playersResult.value = PlayersResult(players = playerList)
-                } else {
-                    _playersResult.value = PlayersResult(error = 1)
+                    if (snapshot != null && snapshot.exists()) {
+
+                        val user = snapshot!!.toObject<User>()
+                        if (user?.currentGame != null) {
+                            _currentGame.value = user?.currentGame
+                        }
+                    }
                 }
+        }
+
+    }
+
+
+    fun getPlayers() {
+
+        gameRepository.getPlayers(_currentGame.value!!).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("GAME", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null && !snapshot.isEmpty()) {
+
+                var playerList: MutableList<Player> = mutableListOf()
+                for (document in snapshot!!.documents) {
+                    playerList.add(document.toObject<Player>()!!)
+                }
+                _canStartGame.value = checkCanStartGame(playerList)
+                _playersResult.value = PlayersResult(players = playerList)
+            } else {
+                _playersResult.value = PlayersResult(error = 1)
             }
         }
+
     }
 
     fun start() {
-
-
+        gameRepository.startGame(currentGame.value!!).addOnSuccessListener {
+            Log.d("Game", "Game was started")
+        }.addOnFailureListener {
+            Log.e("Game", "Error while starting game")
+        }
     }
 
-    fun getGame(gameId: String?) {
-        if (gameId != null) {
-            gameRepository.getGame(gameId).addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Log.w("GAME", "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-
-                    val game = snapshot!!.toObject<Game>()
-                    _currentGameResult.value = CurrentGameResult(game = game, gameId = gameId)
-                } else {
-                    _currentGameResult.value = CurrentGameResult(error = 1)
-                }
-
+    fun getGame() {
+        gameRepository.getGame(_currentGame.value!!).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("GAME", "Listen failed.", e)
+                return@addSnapshotListener
             }
-        } else {
+            if (snapshot != null && snapshot.exists()) {
 
-            userRepository.getUserByReference(auth.currentUser!!.uid)
-                .addOnSuccessListener { it ->
-                    val currentGameId = it.getString("currentGame")
-                    if (currentGameId != null) {
-                        gameRepository.getGame(currentGameId)
-                            .addSnapshotListener { snapshot, e ->
-                                if (e != null) {
-                                    Log.w("GAME", "Listen failed.", e)
-                                    return@addSnapshotListener
-                                }
-
-                                if (snapshot != null && snapshot.exists()) {
-                                    val game = snapshot!!.toObject<Game>()
-                                    _currentGameResult.value =
-                                        CurrentGameResult(game = game, gameId = currentGameId)
-                                } else {
-                                    _currentGameResult.value = CurrentGameResult(error = 1)
-                                }
-
-                            }
-
-                    } else {
-                        _currentGameResult.value = CurrentGameResult(error = 1)
-                    }
-                }.addOnFailureListener {
-                    _currentGameResult.value = CurrentGameResult(error = 1)
-
-                }
+                val game = snapshot!!.toObject<Game>()
+                _currentGameResult.value =
+                    CurrentGameResult(game = game, gameId = _currentGame.value)
+            } else {
+                _currentGameResult.value = CurrentGameResult(error = 1)
+            }
 
         }
 

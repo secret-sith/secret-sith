@@ -12,7 +12,12 @@ import com.secret.palpatine.data.model.PlayerRole
 /**
  * Created by Florian Fuchs on 19.06.2020.
  */
-class PlayerListViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: Context) :
+class PlayerListViewHolder(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    var context: Context,
+    private var currentUserId: String
+) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_row_player, parent, false)) {
     private var nameTextView: TextView? = null
     private var stateTextView: TextView? = null
@@ -23,7 +28,13 @@ class PlayerListViewHolder(inflater: LayoutInflater, parent: ViewGroup, var cont
     }
 
     fun bind(player: Player) {
-        nameTextView?.text = context.getString(R.string.player_name, player.userName)
+        if (currentUserId == player.user) {
+            nameTextView?.text = "You"
+
+        } else {
+            nameTextView?.text = context.getString(R.string.player_name, player.userName)
+
+        }
         stateTextView?.text = context.getString(R.string.player_state, player.state.toString())
     }
 

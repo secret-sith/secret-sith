@@ -26,6 +26,12 @@ class UserRepository {
 
     }
 
+    fun getLiveUser(userId: String): DocumentReference {
+
+        return db.collection("users").document(userId);
+
+    }
+
     fun getUserByReference(userId: String): Task<DocumentSnapshot> {
 
         return db.collection("users").document(userId).get();

@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.toObject
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.friends.friend.FriendListResult
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
@@ -18,7 +19,13 @@ import com.secret.palpatine.data.model.friends.friend.request.FriendRequestListR
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestResult
 import com.secret.palpatine.data.model.game.CreateGameResult
 import com.secret.palpatine.data.model.game.CurrentGameResult
+import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameRepository
+import com.secret.palpatine.data.model.invitation.Invite
+import com.secret.palpatine.data.model.invitation.InviteListResult
+import com.secret.palpatine.data.model.invitation.InviteRepository
+import com.secret.palpatine.data.model.player.Player
+import com.secret.palpatine.data.model.player.PlayersResult
 import com.secret.palpatine.data.model.user.UserRepository
 
 /**
@@ -28,7 +35,8 @@ class MainMenuViewModel constructor(
     private val auth: FirebaseAuth,
     private val friendRepository: FriendRepository,
     private val gameRepository: GameRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val inviteRepository: InviteRepository
 ) : ViewModel() {
 
     private val _friendsListResult = MutableLiveData<FriendListResult>()
@@ -53,6 +61,9 @@ class MainMenuViewModel constructor(
 
     private val _currentGameResult = MutableLiveData<CurrentGameResult>()
     val currentGameResult: LiveData<CurrentGameResult> = _currentGameResult
+
+    private val _inviteListResult = MutableLiveData<InviteListResult>()
+    val inviteListResult: LiveData<InviteListResult> = _inviteListResult
 
 
     fun refreshUserFriends() {
@@ -115,19 +126,24 @@ class MainMenuViewModel constructor(
 
     fun checkCurrentUsersGame() {
 
-        userRepository.getUserByReference(auth.currentUser!!.uid).addOnSuccessListener {
+        userRepository.getLiveUser(auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("GAME", "Listen failed.", e)
+                _currentGameResult.value = CurrentGameResult(error = 1)
+                return@addSnapshotListener
+            }
+            if (snapshot != null && snapshot.exists()) {
 
-            val gameId = it!!.getString("currentGame")
+                val user = snapshot!!.toObject<User>()
+                if (user?.currentGame != null) {
+                    _currentGameResult.value = CurrentGameResult(gameId = user.currentGame)
+                } else {
+                    _currentGameResult.value = CurrentGameResult(error = 1)
 
-            if (gameId != null) {
-                _currentGameResult.value = CurrentGameResult(gameId = gameId)
-
+                }
             } else {
                 _currentGameResult.value = CurrentGameResult(error = 1)
-
             }
-        }.addOnFailureListener {
-            _currentGameResult.value = CurrentGameResult(error = 1)
 
         }
     }
@@ -166,4 +182,28 @@ class MainMenuViewModel constructor(
         }
 
     }
+
+    fun getInvites() {
+
+        inviteRepository.getInvites(auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("INVITE", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null && !snapshot.isEmpty()) {
+                var inviteList: MutableList<Invite> = mutableListOf()
+                for (document in snapshot!!.documents) {
+                    inviteList.add(document.toObject<Invite>()!!)
+                }
+                _inviteListResult.value = InviteListResult(success = inviteList)
+            } else {
+                _inviteListResult.value = InviteListResult(error = 1)
+            }
+        }
+    }
+
+    fun acceptInvite(invite: Invite) {
+        inviteRepository.acceptInvite(invite)
+    }
+
 }
