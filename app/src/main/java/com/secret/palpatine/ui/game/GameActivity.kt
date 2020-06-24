@@ -116,8 +116,8 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun showOverlay() {
-        val intent = Intent(this, GameOverlayActivity::class.java).apply {
-            putExtra("game", game)
+        val intent = Intent(this, GameOverlay2Activity::class.java).apply {
+            putExtra("gameId", viewModel.currentGame.value)
         }
         startActivity(intent)
     }
