@@ -116,7 +116,7 @@ class GameViewModel constructor(
     }
 
     private fun checkCanStartGame(players: List<Player>): Boolean {
-        if (players.size < 4) {
+        if (players.size < 2) {
             return false
         } else {
             for (player in players) {
