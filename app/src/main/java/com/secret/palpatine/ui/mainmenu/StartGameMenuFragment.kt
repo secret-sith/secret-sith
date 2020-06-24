@@ -79,7 +79,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         })
 
         viewModel.createGameResult.observe(viewLifecycleOwner, Observer {
-            val createGameResult = it ?: return@Observer
+            val createGameResult = it
 
 
             if (createGameResult.success) {

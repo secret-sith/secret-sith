@@ -45,6 +45,7 @@ class GameViewModel constructor(
             _currentGame.value = currentGameId
             return null
         } else {
+            // TODO: Update User after create game
             return userRepository.getLiveUser(auth.currentUser!!.uid)
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) {

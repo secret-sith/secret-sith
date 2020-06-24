@@ -87,7 +87,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     fun initGame(game: Game) {
 
 
-        if (game.host !== auth.currentUser?.uid) {
+        if (game.host != auth.currentUser?.uid) {
 
             binding.gamePending.btnStart.visibility = View.INVISIBLE
         }
