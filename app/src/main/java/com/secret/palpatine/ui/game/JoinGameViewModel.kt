@@ -11,7 +11,7 @@ import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 
 /**
- * Created by Florain Fuchs on 22.06.2020.
+ * Created by Florian Fuchs on 22.06.2020.
  */
 class JoinGameViewModel(
     private val auth: FirebaseAuth,
@@ -46,19 +46,15 @@ class JoinGameViewModel(
             _joinGameResult.value = JoinGameResult(success = true)
         }.addOnFailureListener {
             _joinGameResult.value = JoinGameResult(success = false, error = 1)
-
         }
-
     }
 
     fun getCurrentUser() {
-
         userRepository.getUserByReference(auth.currentUser!!.uid).addOnSuccessListener {
             var user = it.toObject(User::class.java)
             _currentUserResult.value = CurrentUserResult(user = user)
         }.addOnFailureListener {
             _currentUserResult.value = CurrentUserResult(error = 1)
-
         }
     }
 

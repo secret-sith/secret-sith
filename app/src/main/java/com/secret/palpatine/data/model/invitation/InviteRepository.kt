@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 /**
- * Created by Florain Fuchs on 20.06.2020.
+ * Created by Florian Fuchs on 20.06.2020.
  */
 class InviteRepository {
 

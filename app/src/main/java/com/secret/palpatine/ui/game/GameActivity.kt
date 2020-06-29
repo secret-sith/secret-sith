@@ -60,7 +60,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 game = currentGameResult?.game
                 initGame(currentGameResult?.game)
             } else {
-
+                //Error message here
             }
             hideProgressBar()
         })
