@@ -87,7 +87,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     fun initGame(game: Game) {
 
 
-        if (game.host !== auth.currentUser?.uid) {
+        if (game.host != auth.currentUser?.uid) {
 
             binding.gamePending.btnStart.visibility = View.INVISIBLE
         }
@@ -136,7 +136,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 } else {
                     Toast.makeText(
                         this@GameActivity,
-                        "At least 5 Players have to accept to start a game",
+                        "At least 2 Players have to accept to start a game",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
