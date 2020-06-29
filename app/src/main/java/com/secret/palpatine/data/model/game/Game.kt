@@ -11,7 +11,7 @@ data class Game(
     val phase: GamePhase,
     val state: GameState,
     val host: String,
-    val president: DocumentReference?
+    val presidentialCandidate: DocumentReference?
 ) {
     constructor() : this("", 0, 0, 0, GamePhase.nominate_chancellor, GameState.pending, "", null)
 }

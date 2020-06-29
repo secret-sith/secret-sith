@@ -51,7 +51,7 @@ class NominateChancellorFragment : Fragment() {
     }
 
     private fun updatePlayers(players: List<Player>, game: Game?) {
-        val eligiblePlayers = players.filter { it.id != game?.president?.id }
+        val eligiblePlayers = players.filter { it.id != game?.presidentialCandidate?.id }
         binding.players.apply {
             adapter = SelectPlayerListAdapter(eligiblePlayers, context)
         }
