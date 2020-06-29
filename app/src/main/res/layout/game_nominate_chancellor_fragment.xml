@@ -22,15 +22,19 @@
         android:gravity="center"
         android:text="@string/select_chancellor_desc" />
 
-    <TextView
-        android:id="@+id/debug"
+    <ListView
+        android:id="@+id/players"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/select_chancellor_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:enabled="false"
+        android:text="@string/confirm" />
 
 </LinearLayout>

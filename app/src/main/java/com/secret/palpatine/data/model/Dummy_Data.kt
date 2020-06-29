@@ -53,7 +53,7 @@ public val dummy_Friends = listOf(
 
 )
 
-public val dummy_game = Game("1", 0, 0, 0, GamePhase.vote, GameState.pending, "")
+public val dummy_game = Game("1", 0, 0, 0, GamePhase.vote, GameState.pending, "", null)
 
 public val dummy_users = listOf(
     User(
