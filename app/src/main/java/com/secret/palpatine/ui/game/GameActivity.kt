@@ -30,7 +30,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var viewModel: GameViewModel
     private lateinit var game: Game
     private var auth: FirebaseAuth = Firebase.auth
-    private var canStartGame: Boolean = false
+    private var canStartGame: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameId = intent.extras?.getString("gameId")
@@ -87,7 +87,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     fun initGame(game: Game) {
 
 
-        if (game.host !== auth.currentUser?.uid) {
+        if (game.host != auth.currentUser?.uid) {
 
             binding.gamePending.btnStart.visibility = View.INVISIBLE
         }
@@ -130,7 +130,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.btnStart -> {
 
-                if (canStartGame) {
+                if (true) { // TODO
                     binding.gamePending.root.visibility = View.GONE
                     viewModel.start()
                 } else {
