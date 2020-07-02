@@ -35,7 +35,7 @@ class PlayerListViewHolder(
             nameTextView?.text = context.getString(R.string.player_name, player.userName)
 
         }
-        stateTextView?.text = context.getString(R.string.player_state, player.state.toString())
+        stateTextView?.text = context.getString(R.string.player_role, player.role.toString().capitalize())
     }
 
 }

@@ -57,7 +57,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         super.onViewCreated(view, savedInstanceState)
 
         loading.visibility = View.VISIBLE
-        start_game_button.isClickable = false
+        start_game_button.isClickable = true
         start_game_button.setOnClickListener(this)
         viewModel.friendListResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
@@ -74,18 +74,20 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         viewModel.usersToStartGame.observe(viewLifecycleOwner, Observer {
             val userList = it ?: return@Observer
             selectedUsers = userList
-            start_game_button.isClickable = selectedUsers.size > 3
+            // start_game_button.isClickable = selectedUsers.size > 3
 
         })
 
         viewModel.createGameResult.observe(viewLifecycleOwner, Observer {
-            val createGameResult = it ?: return@Observer
+            val createGameResult = it
 
 
             if (createGameResult.success) {
 
                 val intent = Intent(context, GameActivity::class.java).apply {
                     putExtra("gameId", createGameResult.gameId)
+                    putExtra("userId", viewModel.auth.currentUser!!.uid)
+                    putExtra("userName", viewModel.auth.currentUser!!.displayName!!)
 
                 }
                 startActivity(intent)

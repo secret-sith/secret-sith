@@ -45,6 +45,7 @@ class GameViewModel constructor(
             _currentGame.value = currentGameId
             return null
         } else {
+            // TODO: Update User after create game
             return userRepository.getLiveUser(auth.currentUser!!.uid)
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) {
@@ -115,7 +116,7 @@ class GameViewModel constructor(
     }
 
     private fun checkCanStartGame(players: List<Player>): Boolean {
-        if (players.size < 4) {
+        if (players.size < 2) {
             return false
         } else {
             for (player in players) {

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameoverlay2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="150dp"
     android:orientation="vertical"
-    tools:context=".ui.game.SelectChancellorFragment">
+    tools:context="ui.game.ui.gameoverlay2.NominateChancellorFragment">
 
     <TextView
         android:id="@+id/select_chancellor_header"
@@ -21,9 +22,19 @@
         android:gravity="center"
         android:text="@string/select_chancellor_desc" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/players"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/confirm" />
 
 </LinearLayout>

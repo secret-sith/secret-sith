@@ -30,15 +30,23 @@ class GameRepository {
     }
 
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<Void> {
+
+
         val game = hashMapOf(
             "loylistPolitics" to 0,
             "imperialPolitics" to 0,
             "failedGoverments" to 0,
             "state" to "pending",
             "phase" to "nominate_chancellor",
-            "host" to userId
-
+            "host" to userId,
+            "numberPlayers" to playerList.size + 1
         )
+
+        val election = hashMapOf(
+            "votes_left" to playerList.size + 1,
+            "counter" to 0
+        )
+        game["election"] = election
 
         val host = hashMapOf(
             "user" to userId,
@@ -54,6 +62,7 @@ class GameRepository {
                 throw it.exception!!
             } else {
                 val id = it.result!!.id
+
                 var plist: ArrayList<Task<DocumentReference>> = arrayListOf()
 
                 for (player in playerList) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.secret.palpatine">
 
     <application
@@ -10,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.game.GameOverlay2Activity" />
         <activity
             android:name=".ui.game.GameOverlayActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
@@ -26,16 +26,17 @@
                     android:host="www.secret-sith.com"
                     android:pathPrefix="/join-game"
                     android:scheme="https" />
-
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "example://gizmos” -->
-                <data android:scheme="app"
+                <data
                     android:host="secret-sith"
-                    android:pathPrefix="/join-game"/>
+                    android:pathPrefix="/join-game"
+                    android:scheme="app" />
             </intent-filter>
         </activity>
         <activity

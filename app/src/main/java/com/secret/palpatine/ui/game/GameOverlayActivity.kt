@@ -6,8 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.secret.palpatine.R
+import com.secret.palpatine.data.model.game.Game
+import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.databinding.ActivityGameOverlayBinding
-import com.secret.palpatine.util.replaceFragment
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
@@ -17,6 +18,7 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityGameOverlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(toolbar)
@@ -24,13 +26,14 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
         binding.gameActivityParent.setOnClickListener(this)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        pushFragment(SelectChancellorFragment(), R.id.overlay_frame_layout)
 
-        Toast.makeText(
-            this@GameOverlayActivity,
-            "push select chancellor",
-            Toast.LENGTH_SHORT
-        ).show()
+        val game : Game = intent.extras?.get("game") as Game
+
+        when (game.phase) {
+            GamePhase.nominate_chancellor -> {
+
+            }
+        }
     }
 
 
@@ -61,9 +64,4 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    public fun push_select_chancellor(){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.overlay_frame_layout, SelectChancellorFragment())
-        transaction.commit()
-    }
 }

@@ -1,17 +1,24 @@
 package com.secret.palpatine.data.model.game
 
 import com.google.firebase.firestore.DocumentId
-import java.io.Serializable
+import com.google.firebase.firestore.DocumentReference
+import com.secret.palpatine.data.model.Election
 
 data class Game(
     @DocumentId val id: String,
-    val failedGoverments: Int,
+    val failedGovernments: Int,
     val imperialPolitics: Int,
     val loylistPolitics: Int,
     val phase: GamePhase,
     val state: GameState,
-    val host: String
-) : Serializable {
-    constructor() : this("", 0, 0, 0, GamePhase.vote, GameState.pending, "")
+    val host: String,
+    val presidentialCandidate: DocumentReference?,
+    val chancellorCandidate: DocumentReference?,
+    val president: DocumentReference?,
+    val chancellor: DocumentReference?
+) {
 
+
+    constructor() : this("", 0, 0, 0, GamePhase.nominate_chancellor, GameState.pending,
+                       "", null, null, null, null)
 }

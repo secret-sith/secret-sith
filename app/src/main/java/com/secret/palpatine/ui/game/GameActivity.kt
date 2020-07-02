@@ -31,9 +31,15 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var game: Game
     private var auth: FirebaseAuth = Firebase.auth
     private var canStartGame: Boolean = true
+
+    private var userId: String? = null
+    private var userName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameId = intent.extras?.getString("gameId")
+        userId = intent.extras?.getString("userId")
+        userName = intent.extras?.getString("userName")
         binding = ActivityGameBinding.inflate(layoutInflater)
         viewModel = GameViewModelFactory().create(GameViewModel::class.java)
         setContentView(binding.root)
@@ -60,7 +66,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 game = currentGameResult?.game
                 initGame(currentGameResult?.game)
             } else {
-
+                //Error message here
             }
             hideProgressBar()
         })
@@ -82,20 +88,22 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
         })
 
+
+
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE or
+                                               View.SYSTEM_UI_FLAG_FULLSCREEN or
+                                               View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+
     }
 
     fun initGame(game: Game) {
 
-
         if (game.host != auth.currentUser?.uid) {
-
             binding.gamePending.btnStart.visibility = View.INVISIBLE
         }
 
         when (game!!.state) {
-
             GameState.pending -> {
-
                 binding.gamePending.root.visibility = View.VISIBLE
             }
         }
@@ -116,8 +124,10 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun showOverlay() {
-        val intent = Intent(this, GameOverlayActivity::class.java).apply {
-            putExtra("game", game)
+        val intent = Intent(this, GameOverlay2Activity::class.java).apply {
+            putExtra("gameId", viewModel.currentGame.value)
+            putExtra("userId", userId)
+            putExtra("userName", userName)
         }
         startActivity(intent)
     }
@@ -136,7 +146,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 } else {
                     Toast.makeText(
                         this@GameActivity,
-                        "At least 5 Players have to accept to start a game",
+                        "At least 2 Players have to accept to start a game",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
