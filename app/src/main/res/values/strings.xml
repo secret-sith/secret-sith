@@ -75,8 +75,10 @@
     <string name="view_laws_desc">View Laws</string>
     <string name="view_law_desc">Law to be viewed</string>
     <string name="players_count">"Players accepted: >%1$s"</string>
-    <string name="player_name">Player - %1$s</string>
+    <string name="player_name">%1$s</string>
     <string name="player_state">State - %1$s</string>
     <string name="join_game_id">Game Id: %1$s!</string>
+    <string name="winner">"And the winners are ... "</string>
+    <string name="player_membership">"is a "</string>
 
 </resources>

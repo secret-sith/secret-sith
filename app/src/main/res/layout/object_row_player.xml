@@ -1,44 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/playerUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="@string/player_name" />
 
-            <TextView
-                android:id="@+id/playerUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="playername"
-                tools:text="@string/player_name" />
-
-            <TextView
-                android:id="@+id/playerState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="playername"
-                tools:text="@string/player_state" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/playerStateIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginStart="2dp"
+            app:srcCompat="@drawable/baseline_pending_white_18dp" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/membershipLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/playerMemberShip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="@string/player_membership" />
+
+        <ImageView
+            android:id="@+id/playerMemberShipCard"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/membership_imperialist" />
+    </LinearLayout>
+
+</LinearLayout>

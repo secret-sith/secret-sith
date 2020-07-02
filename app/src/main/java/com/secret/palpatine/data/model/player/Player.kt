@@ -1,9 +1,9 @@
 package com.secret.palpatine.data.model.player
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId
 import com.secret.palpatine.data.model.PlayerRole
-import com.secret.palpatine.data.model.game.Game
-import com.secret.palpatine.data.model.user.User
 import java.io.Serializable
 
 data class Player(
@@ -13,7 +13,8 @@ data class Player(
     val userName: String?,
     val state: PlayerState
 ) : Serializable {
-    constructor() : this("", PlayerRole.IMPERIALIST, "", "", PlayerState.pending)
+    constructor() : this("", PlayerRole.imperialist, "", "", PlayerState.pending)
+
 
 }
 
