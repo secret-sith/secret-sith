@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/imperialistPolitic2"
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/imperialistPolitic3"
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/imperialistPolitic4"
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/imperialistPolitic5"
@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/imperialistPolitic6"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_imperialist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                 </LinearLayout>
 
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_loyalist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/loyalistPolitic2"
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_loyalist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/loyalistPolitic3"
@@ -181,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_loyalist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/loyalistPolitic4"
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_loyalist" />
+                        app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
                         android:id="@+id/loyalistPolitic5"
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/membership_loyalist" />
+                        app:srcCompat="@drawable/placeholder" />
                 </LinearLayout>
 
             </LinearLayout>
