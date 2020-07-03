@@ -89,6 +89,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -97,6 +99,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -105,6 +109,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -113,6 +119,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -121,6 +129,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -129,6 +139,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                 </LinearLayout>
@@ -165,6 +177,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -173,6 +187,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -181,6 +197,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -189,6 +207,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -197,6 +217,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@layout/img_border"
+                        android:padding="7dp"
                         app:srcCompat="@drawable/placeholder" />
                 </LinearLayout>
 
