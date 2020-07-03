@@ -1,60 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center|top"
-    android:orientation="vertical"
-    tools:context=".ui.mainmenu.MainMenuFragment">
+    android:layout_height="match_parent">
 
-
-    <ImageView
-        android:id="@+id/main_menu_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:src="@drawable/logo_white" />
-
-    <Button
-        android:id="@+id/mainmenu_startbutton"
+    <LinearLayout
+        android:gravity="center|top"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/mainmenu_startgame_button" />
+        android:layout_height="match_parent"
+        tools:context=".ui.mainmenu.MainMenuFragment">
 
-    <Button
-        android:id="@+id/mainmenu_invitesbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/mainmenu_invites_button" />
 
-    <Button
-        android:id="@+id/mainmenu_friendsbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/mainmenu_friends_button" />
+        <ImageView
+            android:id="@+id/main_menu_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/logo_white" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/logout" />
-</LinearLayout>
+        <Button
+            android:id="@+id/mainmenu_startbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/mainmenu_startgame_button" />
+
+        <Button
+            android:id="@+id/mainmenu_invitesbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/mainmenu_invites_button" />
+
+        <Button
+            android:id="@+id/mainmenu_friendsbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/mainmenu_friends_button" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/logout" />
+    </LinearLayout>
+</ScrollView>
