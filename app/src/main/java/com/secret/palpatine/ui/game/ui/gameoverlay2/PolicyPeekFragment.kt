@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.Game
+import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
@@ -36,7 +37,7 @@ class PolicyPeekFragment : Fragment() {
             binding.policyPeekPolicy2.setImageResource(currentHand[2].type.drawableResource)
         })
         binding.close.setOnClickListener {
-            viewModel.nominateNextPresident()
+            viewModel.setGamePhase(GamePhase.nominate_chancellor)
             requireActivity().finish()
         }
     }

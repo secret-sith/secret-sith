@@ -128,3 +128,30 @@ exports.userAcceptOrDeclineInvite = functions.firestore
       return Promise.resolve();
     }
   });
+
+exports.onGamePhaseNominateChancellor = functions.firestore
+  .document("games/{gameId}")
+  .onUpdate((change, context) => {
+    if (change.before.get("phase") === "nominate_chancellor") {
+      return Promise.resolve();
+    }
+    if (change.after.get("phase") !== "nominate_chancellor") {
+      return Promise.resolve();
+    }
+    const gameRef = change.after.ref
+    const presidentialCandidateRef = change.after.get("presidentialCandidate");
+    return db.runTransaction((transaction) => {
+      return transaction
+        .get(gameRef.collection("players").orderBy("index"))
+        .then(players => {
+          const playerRefs = players.docs.map(it => it.ref)
+          const oldIndex = playerRefs.findIndex(it => it.isEqual(presidentialCandidateRef))
+          const newIndex = (oldIndex + 1) % playerRefs.length
+          const newPlayerRef = playerRefs[newIndex]
+          return transaction.update(gameRef, {
+            presidentialCandidate: newPlayerRef,
+            chancellorCandidate: null,
+          })
+        })
+    })
+  });

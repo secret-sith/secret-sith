@@ -74,24 +74,9 @@ class GameOverlay2ViewModel : ViewModel() {
         )
     }
 
-    // TODO: This should be a trigger when phase is set to nominate_chancellor
-    fun nominateNextPresident() {
-        val game = game.value!!
-        val players = players.value!!
-        game.presidentialCandidate!!.get().addOnSuccessListener {
-            val presidentialCandidate = it.toObject(Player::class.java)!!
-            val nextPresidentialCandidate = players[presidentialCandidate.index + 1 % players.size]
-            val nextPresidentialCandidateRef = getPlayerRef(nextPresidentialCandidate.id)
-            gameRef.update(
-                mapOf(
-                    "presidentialCandidate" to nextPresidentialCandidateRef,
-                    "chancellorCandidate" to null,
-                    "phase" to GamePhase.nominate_chancellor
-                )
-            )
-        }
+    fun setGamePhase(phase: GamePhase) {
+        gameRef.update("phase", phase)
     }
-
 
     fun handleElectionResult() {
 
