@@ -14,10 +14,6 @@ import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
 
 class NominateChancellorFragment : Fragment() {
-    companion object {
-        fun newInstance(): NominateChancellorFragment = NominateChancellorFragment()
-    }
-
     private lateinit var binding: GameNominateChancellorFragmentBinding
     private lateinit var viewModel: GameOverlay2ViewModel
 

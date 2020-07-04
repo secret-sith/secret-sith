@@ -8,7 +8,7 @@ data class Game(
     @DocumentId val id: String,
     val failedGovernments: Int,
     val imperialPolitics: Int,
-    val loylistPolitics: Int,
+    val loyalistPolitics: Int,
     val phase: GamePhase,
     val state: GameState,
     val host: String,

@@ -69,7 +69,7 @@ class VoteChancellorFragment : Fragment(){
         for (player in viewModel.players.value!!){
             if (viewModel.userId == player.user){
                 // update your vote
-                val playerRef = viewModel.playersRef.document(player.id)
+                val playerRef = viewModel.getPlayerRef(player.id)
                 playerRef.update(
                     mapOf(
                         VOTE to didAcceptGovernment

@@ -12,9 +12,10 @@ data class Player(
     val user: String,
     val userName: String?,
     val state: PlayerState,
-    var vote: Boolean? = null
+    var vote: Boolean? = null,
+    val index: Int
 ) : Serializable {
-    constructor() : this("", PlayerRole.IMPERIALIST, "", "", PlayerState.pending)
+    constructor() : this("", PlayerRole.IMPERIALIST, "", "", PlayerState.pending, null, 0)
 
 }
 

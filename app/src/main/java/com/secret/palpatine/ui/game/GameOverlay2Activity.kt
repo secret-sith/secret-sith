@@ -10,6 +10,7 @@ import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.ui.game.ui.gameoverlay2.GameOverlay2ViewModel
 import com.secret.palpatine.ui.game.ui.gameoverlay2.NominateChancellorFragment
+import com.secret.palpatine.ui.game.ui.gameoverlay2.PolicyPeekFragment
 import com.secret.palpatine.util.pushFragment
 
 class GameOverlay2Activity : AppCompatActivity() {
@@ -35,6 +36,9 @@ class GameOverlay2Activity : AppCompatActivity() {
                 }
                 GamePhase.vote -> {
                     pushFragment(VoteChancellorFragment(), R.id.container)
+                }
+                GamePhase.policy_peek -> {
+                    pushFragment(PolicyPeekFragment(), R.id.container)
                 }
             }
 

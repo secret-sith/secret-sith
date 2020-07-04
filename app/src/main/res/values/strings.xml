@@ -59,6 +59,7 @@
     <string name="presidential_power_desc">Select a player to kill!</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="government_election_header">Vote on the government</string>
     <string name="government_election_desc">Do you want %1$s to be your president and %2$s to be your chancellor?</string>
     <string name="yes_option_for_chancellor_vote">Yes option for chancellor vote</string>
@@ -72,8 +73,7 @@
     <string name="select_chancellor_desc">Select a chancellor</string>
     <string name="select_president_header">Presidential Power</string>
     <string name="select_president_desc">Special Election - Select a new president</string>
-    <string name="view_laws_desc">View Laws</string>
-    <string name="view_law_desc">Law to be viewed</string>
+    <string name="policy_peek_desc">Policy Peek</string>
     <string name="players_count">"Players accepted: >%1$s"</string>
     <string name="player_name">%1$s</string>
     <string name="player_state">State - %1$s</string>
