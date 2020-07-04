@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -41,7 +42,7 @@ class GameOverlay2ViewModel : ViewModel() {
             _game.value = game
             if (exception != null) Log.e(null, null, exception)
         }
-        playersRef = gameRef.collection("players").orderBy("index")
+        playersRef = gameRef.collection("players").orderBy(ORDER)
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -54,7 +55,7 @@ class GameOverlay2ViewModel : ViewModel() {
             }
             if (exception != null) Log.e(null, null, exception)
         }
-        currentHandRef = gameRef.collection("currentHand").orderBy("index")
+        currentHandRef = gameRef.collection("currentHand").orderBy(ORDER)
         currentHandReg?.remove()
         currentHandReg = currentHandRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -73,7 +74,7 @@ class GameOverlay2ViewModel : ViewModel() {
     fun setGamePhase(phase: GamePhase) {
         val game = game.value!!
         if (phase == game.phase) return
-        when (phase) {
+        val task = when (phase) {
             GamePhase.nominate_chancellor -> {
                 val players = players.value!!
                 val newPresidentialCandidateRef = getNextPresidentialCandidate(game, players)
@@ -84,8 +85,25 @@ class GameOverlay2ViewModel : ViewModel() {
                     )
                 )
             }
+            GamePhase.policy_peek -> {
+                gameRef.collection(CURRENTHAND).get().continueWithTask { task ->
+                    Tasks.whenAll(task.result!!.documents.map { it.reference.delete() })
+                }.continueWithTask {
+                    gameRef.collection(DRAWPILE).orderBy(ORDER).limit(3).get()
+                }.continueWithTask { task ->
+                    Tasks.whenAll(task.result!!.documents.flatMap {
+                        val policy = it.data!!
+                        val deleteTask = it.reference.delete()
+                        val addTask = gameRef.collection(CURRENTHAND).add(policy)
+                        listOf(deleteTask, addTask)
+                    })
+                }
+            }
+            else -> Tasks.forResult(Unit)
         }
-        gameRef.update(PHASE, phase)
+        task.continueWithTask {
+            gameRef.update(PHASE, phase)
+        }
     }
 
     private fun getNextPresidentialCandidate(game: Game, players: List<Player>): DocumentReference {

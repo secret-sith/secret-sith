@@ -14,6 +14,7 @@ const val PRESIDENT = "president"
 const val PRESIDENTIALCANDIDATE = "presidentialCandidate"
 const val STATE = "state"
 const val CURRENTHAND = "currentHand"
+const val DRAWPILE = "drawpile"
 
 /**
  *   PLAYER VALUES
@@ -23,3 +24,4 @@ const val ISHOST = "isHost"
 const val USER = "user"
 const val USERNAME = "userName"
 const val VOTE = "vote"
+const val ORDER = "order"
