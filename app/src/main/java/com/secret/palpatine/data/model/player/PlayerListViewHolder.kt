@@ -73,6 +73,9 @@ class PlayerListViewHolder(
                     membershipImageView?.setImageDrawable(context.getDrawable(R.drawable.secret_role_sith))
                 }
             }
+        }else {
+            membershipLayout?.visibility = View.GONE
+
         }
     }
 

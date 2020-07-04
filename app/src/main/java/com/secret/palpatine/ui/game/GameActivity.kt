@@ -136,12 +136,12 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid, false)
         }
 
         binding.gamePending.playersListOverlay.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid,false)
         }
     }
 
