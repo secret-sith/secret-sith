@@ -66,16 +66,36 @@ class GameOverlay2ViewModel : ViewModel() {
 
     fun setChancellorCandidate(player: Player) {
         val playerRef = getPlayerRef(player.id)
-        gameRef.update(
-            mapOf(
-                "chancellorCandidate" to playerRef,
-                "phase" to GamePhase.vote
-            )
-        )
+        gameRef.update(CHANCELLORCANDIDATE, playerRef)
+        setGamePhase(GamePhase.vote)
     }
 
     fun setGamePhase(phase: GamePhase) {
-        gameRef.update("phase", phase)
+        val game = game.value!!
+        if (phase == game.phase) return
+        when (phase) {
+            GamePhase.nominate_chancellor -> {
+                val players = players.value!!
+                val newPresidentialCandidateRef = getNextPresidentialCandidate(game, players)
+                gameRef.update(
+                    mapOf(
+                        PRESIDENTIALCANDIDATE to newPresidentialCandidateRef,
+                        CHANCELLORCANDIDATE to null
+                    )
+                )
+            }
+        }
+        gameRef.update(PHASE, phase)
+    }
+
+    private fun getNextPresidentialCandidate(game: Game, players: List<Player>): DocumentReference {
+        val oldPresidentialCandidateRef = game.presidentialCandidate
+        val oldIndex =
+            if (oldPresidentialCandidateRef != null) players.indexOfFirst { it -> it.id == oldPresidentialCandidateRef.id }
+            else -1
+        val newIndex = (oldIndex + 1) % players.size
+        val newPresidentialCandidate = players[newIndex]
+        return getPlayerRef(newPresidentialCandidate.id)
     }
 
     fun handleElectionResult() {
