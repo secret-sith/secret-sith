@@ -79,5 +79,7 @@
     <string name="player_state">State - %1$s</string>
     <string name="player_role">%1$s</string>
     <string name="join_game_id">Game Id: %1$s!</string>
+    <string name="winner">"And the winners are ... "</string>
+    <string name="player_membership">"is a "</string>
 
 </resources>

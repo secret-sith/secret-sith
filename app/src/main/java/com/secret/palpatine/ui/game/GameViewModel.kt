@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.secret.palpatine.data.model.game.CurrentGameResult
+import com.secret.palpatine.data.model.game.EndGameResult
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.player.Player
@@ -38,6 +39,8 @@ class GameViewModel constructor(
     private val _canStartGame = MutableLiveData<Boolean>()
     val canStartGame: LiveData<Boolean> = _canStartGame
 
+    private val _endGameResult = MutableLiveData<EndGameResult>()
+    val endGameResult: LiveData<EndGameResult> = _endGameResult
 
     fun getCurrentGameID(currentGameId: String?): ListenerRegistration? {
 
@@ -115,6 +118,16 @@ class GameViewModel constructor(
 
     }
 
+    fun endGame(){
+        userRepository.endGameForPlayer(auth.currentUser!!.uid).addOnSuccessListener {
+
+            _endGameResult.value = EndGameResult(success = true)
+        }.addOnFailureListener {
+            _endGameResult.value = EndGameResult(success = false)
+
+        }
+    }
+
     private fun checkCanStartGame(players: List<Player>): Boolean {
         if (players.size < 2) {
             return false
@@ -127,5 +140,6 @@ class GameViewModel constructor(
         }
         return true
     }
+
 
 }

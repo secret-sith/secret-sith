@@ -4,6 +4,16 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+const IMPERIALISTS = "imperalists";
+const LOYALISTS = "loyalists";
+
+const setGameFinished = (gameId, optional = {}) => {
+  const attributesToUpdate = Object.assign({}, { state: "finished" }, optional);
+  return db.collection("games").doc(gameId).set(attributesToUpdate, {
+    merge: true,
+  });
+};
+
 exports.createUserInDatabase = functions.auth.user().onCreate((user) => {
   const email = user.email; // The email of the user.
   const name = user.displayName || email; // The display name of the user.
@@ -124,6 +134,47 @@ exports.userAcceptOrDeclineInvite = functions.firestore
             db.collection("invites").doc(invitesId).delete(),
           ]);
         });
+    } else {
+      return Promise.resolve();
+    }
+  });
+
+exports.checkIfGameEndsGame = functions.firestore
+  .document("games/{gamesId}")
+  .onUpdate((change, context) => {
+    const newValue = change.after.data();
+    const gameId = context.params.gamesId;
+
+    const { imperialPolitics, loylistPolitics, chancellor } = newValue;
+    if (imperialPolitics > 5 || loylistPolitics > 4) {
+      return setGameFinished(gameId, {
+        winner: imperialPolitics > 5 ? IMPERIALISTS : LOYALISTS,
+      });
+    } else if (imperialPolitics > 2 && chancellor) {
+      return chancellor.get().then((doc) => {
+        const { role } = doc.data();
+
+        if (role === "sith") {
+          return setGameFinished(gameId, { winner: IMPERIALISTS });
+        }
+
+        return Promise.resolve();
+      });
+    } else {
+      return Promise.resolve();
+    }
+  });
+
+exports.checkIfGameEndsPlayer = functions.firestore
+  .document("games/{gamesId}/players/{playerId}")
+  .onUpdate((change, context) => {
+    const newValue = change.after.data();
+    const gameId = context.params.gamesId;
+
+    const { role, killed } = newValue;
+
+    if (role === "sith" && killed) {
+      return setGameFinished(gameId, { winner: LOYALISTS });
     } else {
       return Promise.resolve();
     }

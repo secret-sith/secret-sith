@@ -23,9 +23,9 @@ class MembershipViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     fun bind(player: Player) {
         nameTextView?.text = player.userName
         when (player.role) {
-            PlayerRole.LOYALIST -> membershipImageView?.setImageResource(R.drawable.secret_role_loyalist)
-            PlayerRole.IMPERIALIST -> membershipImageView?.setImageResource(R.drawable.secret_role_imperialist)
-            PlayerRole.SECRET_PALPATINE -> membershipImageView?.setImageResource(R.drawable.ic_secret_role_sith)
+            PlayerRole.loyalist -> membershipImageView?.setImageResource(R.drawable.secret_role_loyalist)
+            PlayerRole.imperialist -> membershipImageView?.setImageResource(R.drawable.secret_role_imperialist)
+            PlayerRole.sith -> membershipImageView?.setImageResource(R.drawable.ic_secret_role_sith)
         }
     }
 }

@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 class PlayerListAdapter(
     private val list: List<Player>,
     private var context: Context,
-    private var currentUserId: String
+    private var currentUserId: String,
+    private var showMembership: Boolean = false
 ) :
     RecyclerView.Adapter<PlayerListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return PlayerListViewHolder(inflater, parent, context, currentUserId)
+        return PlayerListViewHolder(inflater, parent, context, currentUserId, showMembership)
     }
 
     override fun onBindViewHolder(holder: PlayerListViewHolder, position: Int) {

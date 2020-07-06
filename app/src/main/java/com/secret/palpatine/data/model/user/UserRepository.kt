@@ -37,4 +37,12 @@ class UserRepository {
         return db.collection("users").document(userId).get();
 
     }
+
+    fun endGameForPlayer(userId: String): Task<Void>{
+        val userMap = hashMapOf(
+            "currentGame" to null
+        )
+        return db.collection("users").document(userId).set(userMap, SetOptions.merge())
+
+    }
 }

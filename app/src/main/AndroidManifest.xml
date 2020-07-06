@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.game.GameFinishedActivity"></activity>
         <activity android:name=".ui.game.GameOverlay2Activity" />
         <activity
             android:name=".ui.game.GameOverlayActivity"
@@ -51,7 +52,8 @@
             android:label="@string/action_sign_in" />
         <activity
             android:name=".ui.signup.SignupActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
