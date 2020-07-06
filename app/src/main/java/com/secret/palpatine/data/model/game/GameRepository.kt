@@ -35,8 +35,6 @@ class GameRepository {
 
             null
         }
-
-        return db.collection("games").document(gameId).set(data, SetOptions.merge())
     }
 
     fun getPlayers(gameId: String): CollectionReference {
