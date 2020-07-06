@@ -77,6 +77,7 @@ class PlayerListViewHolder(
             membershipLayout?.visibility = View.GONE
 
         }
+        stateTextView?.text = context.getString(R.string.player_role, player.role.toString().capitalize())
     }
 
 }

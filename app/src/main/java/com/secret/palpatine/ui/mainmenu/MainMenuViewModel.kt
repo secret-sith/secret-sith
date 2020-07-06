@@ -32,7 +32,7 @@ import com.secret.palpatine.data.model.user.UserRepository
  * Created by Florian Fuchs on 08.06.2020.
  */
 class MainMenuViewModel constructor(
-    private val auth: FirebaseAuth,
+    val auth: FirebaseAuth,
     private val friendRepository: FriendRepository,
     private val gameRepository: GameRepository,
     private val userRepository: UserRepository,
@@ -64,6 +64,8 @@ class MainMenuViewModel constructor(
 
     private val _inviteListResult = MutableLiveData<InviteListResult>()
     val inviteListResult: LiveData<InviteListResult> = _inviteListResult
+
+    var userId: String? = null
 
 
     fun refreshUserFriends() {
@@ -136,6 +138,7 @@ class MainMenuViewModel constructor(
 
                 val user = snapshot!!.toObject<User>()
                 if (user?.currentGame != null) {
+                    userId = auth.currentUser!!.uid
                     _currentGameResult.value = CurrentGameResult(gameId = user.currentGame)
                 } else {
                     _currentGameResult.value = CurrentGameResult(error = 1)

@@ -4,11 +4,7 @@ import com.secret.palpatine.data.model.friends.friend.Friend
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.data.model.game.GameState
-import com.secret.palpatine.data.model.invitation.Invite
-import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.user.User
-import java.time.LocalDateTime
-import java.time.Month
 import java.util.*
 
 /**
@@ -52,7 +48,6 @@ public val dummy_Friends = listOf(
     Friend("Anakin Skywalker")
 
 )
-
 
 public val dummy_users = listOf(
     User(

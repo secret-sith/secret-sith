@@ -86,6 +86,8 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
 
                 val intent = Intent(context, GameActivity::class.java).apply {
                     putExtra("gameId", createGameResult.gameId)
+                    putExtra("userId", viewModel.auth.currentUser!!.uid)
+                    putExtra("userName", viewModel.auth.currentUser!!.displayName!!)
 
                 }
                 startActivity(intent)

@@ -14,10 +14,6 @@ import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
 
 class NominateChancellorFragment : Fragment() {
-    companion object {
-        fun newInstance() = NominateChancellorFragment()
-    }
-
     private lateinit var binding: GameNominateChancellorFragmentBinding
     private lateinit var viewModel: GameOverlay2ViewModel
 
@@ -37,7 +33,7 @@ class NominateChancellorFragment : Fragment() {
         })
         viewModel.players.observe(viewLifecycleOwner, Observer { players ->
             val game = viewModel.game.value
-            updatePlayers(players, game)
+            if (game != null) updatePlayers(players, game)
         })
         binding.players.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, _ ->
             binding.confirm.isEnabled = binding.players.checkedItemCount > 0
@@ -50,10 +46,19 @@ class NominateChancellorFragment : Fragment() {
         }
     }
 
-    private fun updatePlayers(players: List<Player>, game: Game?) {
-        val eligiblePlayers = players.filter { it.id != game?.presidentialCandidate?.id }
+    private fun updatePlayers(players: List<Player>, game: Game) {
+        val eligiblePlayers = getEligiblePlayers(game, players)
         binding.players.apply {
             adapter = SelectPlayerListAdapter(eligiblePlayers, context)
+        }
+    }
+
+    private fun getEligiblePlayers(game: Game, players: List<Player>): List<Player> {
+        return players.filter { player ->
+            if (player.id == game.presidentialCandidate?.id) return@filter false
+            if (player.id == game.chancellor?.id) return@filter false
+            if (player.id == game.president?.id && players.size > 5) return@filter false
+            return@filter true
         }
     }
 

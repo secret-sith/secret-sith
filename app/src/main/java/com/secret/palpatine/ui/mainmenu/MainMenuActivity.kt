@@ -53,6 +53,7 @@ class MainMenuActivity : BaseActivity() {
             if (currentGameResult.gameId != null) {
                 val intent = Intent(this, GameActivity::class.java).apply {
                     putExtra("gameId", currentGameResult.gameId)
+                    putExtra("userId", viewModel.userId)
                 }
                 startActivity(intent)
                 finish()
