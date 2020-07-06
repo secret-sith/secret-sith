@@ -58,6 +58,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@drawable/img_border"
+                android:padding="5dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -65,6 +67,8 @@
                     android:layout_width="99dp"
                     android:layout_height="127dp"
                     android:layout_weight="1"
+                    android:background="@drawable/img_border"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_secret_role_sith" />
 
 
@@ -97,12 +101,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/img_border"
+                    android:padding="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -111,6 +118,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -119,6 +128,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -127,6 +138,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/see_next_politicts_field" />
 
                     <ImageView
@@ -135,6 +148,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/blaster_field" />
 
                     <ImageView
@@ -143,7 +158,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/kill_player_field" />
+
 
                     <ImageView
                         android:id="@+id/imperialistPolitic6"
@@ -151,13 +169,19 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
+
                         app:srcCompat="@drawable/win_imperalist_field" />
+
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/img_border"
+                    android:padding="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -179,6 +203,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/img_border"
+                    android:padding="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -187,6 +213,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -195,6 +223,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -203,6 +233,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -211,6 +243,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/placeholder" />
 
                     <ImageView
@@ -219,6 +253,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/img_border"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/win_imperalist_field" />
                 </LinearLayout>
 
