@@ -5,6 +5,8 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.secret.palpatine.data.model.PlayerRole
+import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 
@@ -21,6 +23,19 @@ class GameRepository {
         val data = hashMapOf(
             "state" to GameState.started
         )
+
+        val gameRef = db.collection("games").document(gameId)
+        val playerRef = this.getPlayers(gameId)
+        val players = this.setPlayerRoles(playerRef.get())
+
+        return db.runTransaction { transaction ->
+
+            transaction.set(gameRef, data, SetOptions.merge())
+            transaction.set(playerRef, players, SetOptions.merge())
+
+            null
+        }
+
         return db.collection("games").document(gameId).set(data, SetOptions.merge())
     }
 
@@ -113,6 +128,28 @@ class GameRepository {
                     db.collection("users").document(userId).set(userUpdate, SetOptions.merge())
                 }
             }
+    }
+
+   fun setPlayerRoles(players: List<Player>): List<Player> {
+       val playerRoleList: List<PlayerRole>
+
+       if (players.size == 5){
+            playerRoleList = listOf(
+                PlayerRole.loyalist,
+                PlayerRole.loyalist,
+                PlayerRole.loyalist,
+                PlayerRole.imperialist,
+                PlayerRole.sith).shuffled()
+        }
+        else {
+            throw Exception("Number of players is not supported.")
+        }
+
+        for (i in 0..players.size){
+            players[i].role = playerRoleList[i]
+        }
+
+       return players
     }
 
 }
