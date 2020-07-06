@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.game.SelectChancellorFragment"
-    android:orientation="vertical">
+    android:layout_marginTop="150dp"
+    android:orientation="vertical"
+    tools:context=".ui.game.SelectChancellorFragment">
 
     <TextView
         android:id="@+id/select_chancellor_header"
@@ -23,7 +24,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

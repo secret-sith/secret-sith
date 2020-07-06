@@ -4,52 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.game.ViewLawFragment"
+    tools:context=".ui.game.ui.gameoverlay2.PolicyPeekFragment"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/view_laws_header"
+        android:id="@+id/policy_peek_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/presidential_power" />
 
     <TextView
-        android:id="@+id/view_laws_desc"
+        android:id="@+id/policy_peek_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/view_laws_desc" />
+        android:text="@string/policy_peek_desc" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/button_view_law_1"
+        <ImageView
+            android:id="@+id/policy_peek_policy_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/view_law_desc"
             android:src="@drawable/loyalist_card" />
 
-        <ImageButton
-            android:id="@+id/button_view_law_2"
+        <ImageView
+            android:id="@+id/policy_peek_policy_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/view_law_desc"
             android:src="@drawable/loyalist_card" />
 
-        <ImageButton
-            android:id="@+id/button_view_law_3"
+        <ImageView
+            android:id="@+id/policy_peek_policy_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/view_law_desc"
             android:src="@drawable/loyalist_card" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/close" />
 
 </LinearLayout>

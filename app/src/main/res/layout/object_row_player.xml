@@ -39,24 +39,37 @@
     <LinearLayout
         android:id="@+id/membershipLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        tools:visibility="gone">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/playerMemberShip"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="@string/player_membership" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/playerMemberShipCard"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/membership_imperialist" />
+            <TextView
+                android:id="@+id/playerUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="playername"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="@string/player_name" />
+
+            <TextView
+                android:id="@+id/playerState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="playername"
+                android:textColor="#750909"
+                android:textStyle="bold"
+                tools:text="@string/player_role" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

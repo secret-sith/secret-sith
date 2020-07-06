@@ -73,7 +73,11 @@ class PlayerListViewHolder(
                     membershipImageView?.setImageDrawable(context.getDrawable(R.drawable.secret_role_sith))
                 }
             }
+        }else {
+            membershipLayout?.visibility = View.GONE
+
         }
+        stateTextView?.text = context.getString(R.string.player_role, player.role.toString().capitalize())
     }
 
 }

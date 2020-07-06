@@ -3,6 +3,7 @@ package com.secret.palpatine.ui.game
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.Game
@@ -25,6 +26,7 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
         binding.gameActivityParent.setOnClickListener(this)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
+
         val game : Game = intent.extras?.get("game") as Game
 
         when (game.phase) {
@@ -33,6 +35,9 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -58,4 +63,5 @@ class GameOverlayActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
 }

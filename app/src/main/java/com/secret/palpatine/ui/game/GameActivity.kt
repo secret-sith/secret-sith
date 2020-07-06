@@ -32,9 +32,16 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private var canStartGame: Boolean = false
     private var imperialistPolitics: HashMap<Int, ImageView> = hashMapOf()
     private var loyalistPolitics: HashMap<Int, ImageView> = hashMapOf()
+    private var canStartGame: Boolean = true
+
+    private var userId: String? = null
+    private var userName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameId = intent.extras?.getString("gameId")
+        userId = intent.extras?.getString("userId")
+        userName = intent.extras?.getString("userName")
         binding = ActivityGameBinding.inflate(layoutInflater)
         viewModel = GameViewModelFactory().create(GameViewModel::class.java)
         setContentView(binding.root)
@@ -88,20 +95,22 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
         })
 
+
+
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE or
+                                               View.SYSTEM_UI_FLAG_FULLSCREEN or
+                                               View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+
     }
 
     private fun initGame(game: Game) {
 
-
         if (game.host != auth.currentUser?.uid) {
-
             binding.gamePending.btnStart.visibility = View.INVISIBLE
         }
 
         when (game.state) {
-
             GameState.pending -> {
-
                 binding.gamePending.root.visibility = View.VISIBLE
             }
 
@@ -136,18 +145,20 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid, false)
         }
 
         binding.gamePending.playersListOverlay.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid)
+            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid,false)
         }
     }
 
     fun showOverlay() {
         val intent = Intent(this, GameOverlay2Activity::class.java).apply {
             putExtra("gameId", viewModel.currentGame.value)
+            putExtra("userId", userId)
+            putExtra("userName", userName)
         }
         startActivity(intent)
     }
@@ -160,7 +171,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.btnStart -> {
 
-                if (canStartGame) {
+                if (true) { // TODO
                     binding.gamePending.root.visibility = View.GONE
                     viewModel.start()
                 } else {
