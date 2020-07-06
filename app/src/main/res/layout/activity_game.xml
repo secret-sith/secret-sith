@@ -22,29 +22,7 @@
         <include
             android:id="@+id/progress_overlay"
             layout="@layout/spinner_overlay" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="15dp">
 
-            <ImageView
-                android:id="@+id/yourSecretRole"
-                android:layout_width="99dp"
-                android:layout_height="127dp"
-                app:srcCompat="@drawable/ic_secret_role_sith" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/players"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/showLayover"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Show Layover" />
         <include
             android:id="@+id/gamePending"
             layout="@layout/content_game" />
@@ -221,11 +199,9 @@
                         android:layout_weight="1"
                         app:srcCompat="@drawable/win_imperalist_field" />
                 </LinearLayout>
-
+            </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

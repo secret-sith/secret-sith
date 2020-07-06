@@ -27,12 +27,12 @@ class PlayerListViewHolder(
     private var playerStateIcon: ImageView? = null
     private var membershipLayout: LinearLayout? = null
     private var membershipImageView: ImageView? = null
+    private var stateTextView: TextView? = null
 
     init {
         nameTextView = itemView.findViewById(R.id.playerUserName)
-        playerStateIcon = itemView.findViewById(R.id.playerStateIcon)
         membershipLayout = itemView.findViewById(R.id.membershipLayout)
-        membershipImageView = itemView.findViewById(R.id.playerMemberShipCard)
+        stateTextView = itemView.findViewById(R.id.playerState)
     }
 
     fun bind(player: Player) {

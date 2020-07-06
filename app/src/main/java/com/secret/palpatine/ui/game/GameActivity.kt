@@ -32,7 +32,6 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private var canStartGame: Boolean = false
     private var imperialistPolitics: HashMap<Int, ImageView> = hashMapOf()
     private var loyalistPolitics: HashMap<Int, ImageView> = hashMapOf()
-    private var canStartGame: Boolean = true
 
     private var userId: String? = null
     private var userName: String? = null
@@ -135,7 +134,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         for (i in 0 until game.imperialPolitics) {
             imperialistPolitics[i + 1]?.setImageDrawable(getDrawable(R.drawable.imperialist_card))
         }
-        for (i in 0 until game.loylistPolitics) {
+        for (i in 0 until game.loyalistPolitics) {
             loyalistPolitics[i + 1]?.setImageDrawable(getDrawable(R.drawable.loyalist_card))
         }
     }
