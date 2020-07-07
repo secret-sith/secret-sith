@@ -2,6 +2,7 @@ package com.secret.palpatine.ui.game
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
@@ -78,6 +79,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             }
         })
         viewModel.players.observe(this@GameActivity, Observer {
+            Log.d("Players", it.toString())
             populatePlayerList(it)
         })
 

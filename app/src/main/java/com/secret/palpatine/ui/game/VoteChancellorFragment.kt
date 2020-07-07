@@ -19,6 +19,7 @@ class VoteChancellorFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
 
+        // Not going to work - das game kann in diesem moment der Abfrage noch null sein bzw das value...
         val presidentialCandidateName =
             viewModel.getPlayerForReference(viewModel.game.value!!.presidentialCandidate!!)?.userName
         val chancellorCandidateName =

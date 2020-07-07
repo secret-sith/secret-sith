@@ -1,10 +1,10 @@
 package com.secret.palpatine.data.model.game
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.player.Player
@@ -21,23 +21,42 @@ class GameRepository {
 
 
     fun startGame(gameId: String, players: List<Player>): Task<Void> {
-        val data = hashMapOf(
-            "state" to GameState.started
-        )
+
 
         val gameRef = db.collection("games").document(gameId)
+        Log.d("Players", players.size.toString())
+        var roleListPlayers: List<Player> = generatePlayerRolesAndOrder(players)
 
+        val batch = db.batch()
 
-            var roleListPlayers: List<Player> = setPlayerRoles(players)
+        val randomNumbers = (0..4).shuffled();
+        var counter = 0;
 
-            val batch = db.batch()
+        // First Player in Ref
+        var playerRef = buildPlayerRef(gameId, roleListPlayers[0].id)
 
-            for (player in roleListPlayers){
-                var playerRef = db.collection("games").document(gameId).collection("players").document(player.id)
-                batch.update(playerRef, "role", player.role)
-            }
-            batch.update(gameRef, "state", GameState.started)
-            return batch.commit()
+        for (player in roleListPlayers) {
+            // Same for first player, then increment through for each
+            playerRef = buildPlayerRef(gameId, player.id)
+            val playerData = hashMapOf(
+                "role" to player.role,
+                "order" to randomNumbers[counter]
+            )
+
+            batch.set(playerRef, playerData, SetOptions.merge())
+            counter++;
+
+        }
+
+        val gameData = hashMapOf(
+            "state" to GameState.started,
+            "presidentialCandidate" to buildPlayerRef(
+                gameId,
+                players[randomNumbers[0]].id
+            )
+        )
+        batch.set(gameRef, gameData, SetOptions.merge())
+        return batch.commit()
 
     }
 
@@ -47,13 +66,6 @@ class GameRepository {
 
 
     }
-
-    fun getAcceptedPlayers(gameId: String): Query {
-        return db.collection("games").document(gameId).collection("players")
-            .whereEqualTo("state", PlayerState.accepted.toString())
-
-    }
-
 
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<String> {
 
@@ -98,7 +110,8 @@ class GameRepository {
                         "inviteById" to userId,
                         "createdAt" to FieldValue.serverTimestamp(),
                         "state" to PlayerState.pending,
-                        "userName" to player.username
+                        "userName" to player.username,
+                        "order" to 0
                     )
                     plist.add(
                         db.collection("games").document(id).collection("players").add(playerToAdd)
@@ -141,7 +154,7 @@ class GameRepository {
             }
     }
 
-    fun setPlayerRoles(players: List<Player>): List<Player> {
+    private fun generatePlayerRolesAndOrder(players: List<Player>): List<Player> {
         val playerRoleList: List<PlayerRole>
 
         if (players.size == 5) {
@@ -163,4 +176,9 @@ class GameRepository {
         return players
     }
 
+
+    private fun buildPlayerRef(gameId: String, playerId: String): DocumentReference {
+        return db.collection("games").document(gameId).collection("players").document(playerId)
+
+    }
 }
