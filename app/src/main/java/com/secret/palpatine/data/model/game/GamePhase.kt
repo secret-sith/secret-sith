@@ -6,8 +6,8 @@ package com.secret.palpatine.data.model.game
 enum class GamePhase {
     nominate_chancellor,
     vote,
-    president_discard_politic,
-    chancellor_discard_politic,
+    president_discard_policy,
+    chancellor_discard_policy,
     investigate_loyality_choose_player,
     investigate_loyality_return_card,
     call_special_election,

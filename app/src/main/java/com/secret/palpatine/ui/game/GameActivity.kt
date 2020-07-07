@@ -2,10 +2,13 @@ package com.secret.palpatine.ui.game
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,6 +65,12 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 }
                 GamePhase.vote -> {
                     pushFragment(VoteChancellorFragment(), R.id.actionOverlay)
+                }
+                GamePhase.president_discard_policy -> {
+                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
+                }
+                GamePhase.chancellor_discard_policy -> {
+                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
                 }
                 GamePhase.policy_peek -> {
                     pushFragment(PolicyPeekFragment(), R.id.actionOverlay)

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -12,13 +13,10 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.game.*
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
-import com.secret.palpatine.data.model.player.PlayersResult
-import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 import com.secret.palpatine.util.*
 
@@ -63,14 +61,14 @@ class GameViewModel : ViewModel() {
     val endGameResult: LiveData<EndGameResult> = _endGameResult
 
     fun setGameId(gameId: String) {
-        gameRef = Firebase.firestore.collection("games").document(gameId)
+        gameRef = Firebase.firestore.collection(GAMES).document(gameId)
         gameReg?.remove()
         gameReg = gameRef.addSnapshotListener { snapshot, exception ->
             val game = snapshot?.toObject(Game::class.java)
             _game.value = game
             if (exception != null) Log.e(null, null, exception)
         }
-        playersRef = gameRef.collection("players").orderBy(ORDER)
+        playersRef = gameRef.collection(PLAYERS).orderBy(ORDER)
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -83,7 +81,7 @@ class GameViewModel : ViewModel() {
             }
             if (exception != null) Log.e(null, null, exception)
         }
-        currentHandRef = gameRef.collection("currentHand").orderBy(ORDER)
+        currentHandRef = gameRef.collection(CURRENTHAND).orderBy(ORDER)
         currentHandReg?.remove()
         currentHandReg = currentHandRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -93,15 +91,16 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    fun setChancellorCandidate(player: Player) {
+    fun setChancellorCandidate(player: Player): Task<Void> {
         val playerRef = getPlayerRef(player.id)
-        gameRef.update(CHANCELLORCANDIDATE, playerRef)
-        setGamePhase(GamePhase.vote)
+        return gameRef.update(CHANCELLORCANDIDATE, playerRef).continueWithTask {
+            setGamePhase(GamePhase.vote)
+        }
     }
 
-    fun setGamePhase(phase: GamePhase) {
+    fun setGamePhase(phase: GamePhase): Task<Void> {
         val game = game.value!!
-        if (phase == game.phase) return
+        if (phase == game.phase) return Tasks.forResult(null)
         val task = when (phase) {
             GamePhase.nominate_chancellor -> {
                 val players = players.value!!
@@ -129,7 +128,7 @@ class GameViewModel : ViewModel() {
             }
             else -> Tasks.forResult(Unit)
         }
-        task.continueWithTask {
+        return task.continueWithTask {
             gameRef.update(PHASE, phase)
         }
     }
@@ -185,7 +184,7 @@ class GameViewModel : ViewModel() {
                     CHANCELLOR to _game.value!!.chancellorCandidate,
                     PRESIDENTIALCANDIDATE to null,
                     CHANCELLORCANDIDATE to null,
-                    PHASE to GamePhase.president_discard_politic,
+                    PHASE to GamePhase.president_discard_policy,
                     FAILEDGOVERNMENTS to 0
                 )
             )
@@ -264,5 +263,29 @@ class GameViewModel : ViewModel() {
             }
         }
         return true
+    }
+
+    fun discardPolicy(i: Int): Task<Void> {
+        val currentHand = currentHand.value!!
+        val discardedPolicy = currentHand[i]
+        val discardedPolicyRef = gameRef.collection(CURRENTHAND).document(discardedPolicy.id)
+        return discardedPolicyRef.delete().continueWithTask {
+            if (currentHand.size == 2) {
+                val enactedPolicy = currentHand[1 - i]
+                enactPolicy(enactedPolicy).continueWithTask {
+                    setGamePhase(GamePhase.nominate_chancellor)
+                }
+            } else {
+                setGamePhase(GamePhase.chancellor_discard_policy)
+            }
+        }
+    }
+
+    private fun enactPolicy(policy: Policy): Task<Void> {
+        return if (policy.type == PolicyType.loyalist) {
+            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1))
+        } else {
+            gameRef.update(IMPERIALPOLITICS, FieldValue.increment(1))
+        }
     }
 }

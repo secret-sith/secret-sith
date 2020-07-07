@@ -1,5 +1,7 @@
 package com.secret.palpatine.util
 
+const val GAMES = "games"
+
 /**
  *   GAME VALUES
  */
@@ -13,6 +15,7 @@ const val PHASE = "phase"
 const val PRESIDENT = "president"
 const val PRESIDENTIALCANDIDATE = "presidentialCandidate"
 const val STATE = "state"
+const val PLAYERS = "players"
 const val CURRENTHAND = "currentHand"
 const val DRAWPILE = "drawpile"
 
