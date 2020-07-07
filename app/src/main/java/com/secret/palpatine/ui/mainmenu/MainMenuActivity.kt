@@ -67,8 +67,17 @@ class MainMenuActivity : BaseActivity() {
 
     private fun startGame() {
         Log.v("v", "game would start now")
-        startActivity(Intent(this, GameActivity::class.java))
-        finish()
+        viewModel.startGame()
+
+        viewModel.createGameResult.observe(this, Observer {
+            val intent = Intent(this, GameActivity::class.java).apply {
+                putExtra("gameId", it.gameId)
+                putExtra("userId", viewModel.auth.currentUser!!.uid)
+                putExtra("userName", viewModel.auth.currentUser!!.displayName!!)
+            }
+            startActivity(intent)
+            finish()
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {

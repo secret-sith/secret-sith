@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryColor">#212121</color>
+    <color name="overlayBackground">#8F212121</color>
     <color name="primaryLightColor">#000000</color>
     <color name="primaryDarkColor">#c29d6f</color>
     <color name="secondaryColor">#FF9800</color>

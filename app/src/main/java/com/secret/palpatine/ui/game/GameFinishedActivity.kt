@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
@@ -16,8 +17,6 @@ import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 
 class GameFinishedActivity : BaseActivity(), View.OnClickListener {
-
-
     private lateinit var binding: ActivityGameFinishedBinding
     private lateinit var viewModel: GameViewModel
 
@@ -30,38 +29,24 @@ class GameFinishedActivity : BaseActivity(), View.OnClickListener {
 
 
         setContentView(binding.root)
-        viewModel = GameViewModelFactory().create(GameViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         setProgressBar(binding.progressOverlay.root)
 
 
         showProgressBar()
-        viewModel.currentGame.observe(this@GameFinishedActivity, Observer {
-            val currentGameId = it ?: return@Observer
-            viewModel.getPlayers()
+        viewModel.game.observe(this@GameFinishedActivity, Observer {
             hideProgressBar()
-
         })
-        viewModel.getCurrentGameID(gameId)
-
-
-        viewModel.playersResult.observe(this@GameFinishedActivity, Observer {
-            val playersResult = it ?: return@Observer
-
-            if (playersResult.error != null) {
-                Toast.makeText(this, "Error loading players", Toast.LENGTH_LONG).show()
-
-            } else {
-
+        viewModel.players.observe(this@GameFinishedActivity, Observer {
                 binding.gameEndPlayerList.apply {
                     layoutManager = GridLayoutManager(this@GameFinishedActivity, 2)
                     adapter = PlayerListAdapter(
-                        playersResult.players!!,
+                        it,
                         context,
                         userId!!,
                         showMembership = true
                     )
                 }
-            }
         })
 
         viewModel.endGameResult.observe(this@GameFinishedActivity, Observer {
@@ -82,19 +67,13 @@ class GameFinishedActivity : BaseActivity(), View.OnClickListener {
         binding.endGameButton.setOnClickListener(this)
 
         binding.winnerTeam.text = winner
-
     }
 
     override fun onClick(view: View) {
         when (view.id) {
-
             R.id.endGameButton -> {
-
-
                 viewModel.endGame()
-
             }
-
         }
     }
 }

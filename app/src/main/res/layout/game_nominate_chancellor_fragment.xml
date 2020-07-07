@@ -5,8 +5,9 @@
     android:id="@+id/gameoverlay2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/overlayBackground"
     android:orientation="vertical"
-    tools:context="ui.game.ui.gameoverlay2.NominateChancellorFragment">
+    tools:context=".ui.game.NominateChancellorFragment">
 
     <TextView
         android:id="@+id/select_chancellor_header"

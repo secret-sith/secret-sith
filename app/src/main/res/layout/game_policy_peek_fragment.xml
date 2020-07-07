@@ -1,59 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.game.ui.gameoverlay2.PolicyPeekFragment"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/policy_peek_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/presidential_power" />
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    tools:context=".ui.game.PolicyPeekFragment">
 
     <TextView
         android:id="@+id/policy_peek_desc"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/overlayBackground"
         android:gravity="center"
-        android:text="@string/policy_peek_desc" />
+        android:padding="5dp"
+        android:text="@string/policy_peek_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/policy_peek_desc">
 
         <ImageView
             android:id="@+id/policy_peek_policy_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:src="@drawable/loyalist_card" />
 
         <ImageView
             android:id="@+id/policy_peek_policy_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:src="@drawable/loyalist_card" />
 
         <ImageView
             android:id="@+id/policy_peek_policy_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:src="@drawable/loyalist_card" />
-
     </LinearLayout>
 
     <Button
         android:id="@+id/close"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/close" />
+        android:text="@string/close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

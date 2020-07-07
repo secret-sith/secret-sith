@@ -121,7 +121,7 @@ class MainMenuViewModel constructor(
             if (it.exception != null) {
                 _createGameResult.value = CreateGameResult(success = false, error = 1)
             } else {
-                _createGameResult.value = CreateGameResult(success = true)
+                _createGameResult.value = CreateGameResult(success = true, gameId = it.result)
             }
         }
     }

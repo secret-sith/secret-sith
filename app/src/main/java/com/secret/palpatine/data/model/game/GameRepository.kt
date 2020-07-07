@@ -55,7 +55,7 @@ class GameRepository {
     }
 
 
-    fun createGame(playerList: List<User>, userId: String, userName: String): Task<Void> {
+    fun createGame(playerList: List<User>, userId: String, userName: String): Task<String> {
 
 
         val game: HashMap<String, Any> = hashMapOf(
@@ -107,7 +107,7 @@ class GameRepository {
                 plist.add(
                     db.collection("games").document(id).collection("players").add(host)
                 )
-                Tasks.whenAll(plist)
+                Tasks.whenAll(plist).continueWith { id }
             }
         }
     }

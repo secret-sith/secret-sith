@@ -1,4 +1,4 @@
-package com.secret.palpatine.ui.game.ui.gameoverlay2
+package com.secret.palpatine.ui.game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
 
 class NominateChancellorFragment : Fragment() {
     private lateinit var binding: GameNominateChancellorFragmentBinding
-    private lateinit var viewModel: GameOverlay2ViewModel
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,7 +26,7 @@ class NominateChancellorFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(GameOverlay2ViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
         viewModel.game.observe(viewLifecycleOwner, Observer { game ->
             val players = viewModel.players.value ?: emptyList()
             updatePlayers(players, game)
