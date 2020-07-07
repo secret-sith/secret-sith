@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.game.GameFinishedActivity"></activity>
-        <activity android:name=".ui.game.GameOverlay2Activity" />
-        <activity
-            android:name=".ui.game.GameOverlayActivity"
-            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".ui.game.JoinGameActivity"
             android:theme="@style/NoActionBar">
