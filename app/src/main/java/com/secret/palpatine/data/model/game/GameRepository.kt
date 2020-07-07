@@ -58,8 +58,8 @@ class GameRepository {
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<Void> {
 
 
-        val game = hashMapOf(
-            "loylistPolitics" to 0,
+        val game: HashMap<String, Any> = hashMapOf(
+            "loyalistPolitics" to 0,
             "imperialPolitics" to 0,
             "failedGoverments" to 0,
             "state" to "pending",
