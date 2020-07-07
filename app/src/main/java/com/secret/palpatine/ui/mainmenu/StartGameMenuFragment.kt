@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.secret.palpatine.R
@@ -23,12 +22,6 @@ import com.secret.palpatine.ui.game.GameActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_start_game_menu.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FriendsMenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener,
     View.OnClickListener {
     private lateinit var viewModel: MainMenuViewModel
@@ -38,11 +31,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        viewModel = ViewModelProviders.of(
-            this,
-            MainMenuViewModelFactory()
-        )
-            .get(MainMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -75,28 +64,6 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
             val userList = it ?: return@Observer
             selectedUsers = userList
             // start_game_button.isClickable = selectedUsers.size > 3
-
-        })
-
-        viewModel.createGameResult.observe(viewLifecycleOwner, Observer {
-            val createGameResult = it
-
-
-            if (createGameResult.success) {
-
-                val intent = Intent(context, GameActivity::class.java).apply {
-                    putExtra("gameId", createGameResult.gameId)
-                    putExtra("userId", viewModel.auth.currentUser!!.uid)
-                    putExtra("userName", viewModel.auth.currentUser!!.displayName!!)
-
-                }
-                startActivity(intent)
-                requireActivity().finish()
-
-
-            } else {
-                Toast.makeText(context, "Could not start game", Toast.LENGTH_SHORT)
-            }
 
         })
 
@@ -143,10 +110,13 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
     override fun onClick(v: View) {
         when (v.id) {
             R.id.start_game_button -> {
-
-                viewModel.startGame()
+                viewModel.startGame().addOnSuccessListener {
+                    startActivity(Intent(context, GameActivity::class.java).apply {
+                        putExtra("gameId", it)
+                    })
+                    requireActivity().finish()
+                }
             }
-
         }
     }
 

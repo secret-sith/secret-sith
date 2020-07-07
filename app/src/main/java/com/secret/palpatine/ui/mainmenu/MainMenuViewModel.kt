@@ -6,38 +6,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
-import com.secret.palpatine.data.model.user.User
+import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.friends.friend.FriendListResult
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestCountResult
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestListResult
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestResult
-import com.secret.palpatine.data.model.game.CreateGameResult
-import com.secret.palpatine.data.model.game.CurrentGameResult
-import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.invitation.Invite
 import com.secret.palpatine.data.model.invitation.InviteListResult
 import com.secret.palpatine.data.model.invitation.InviteRepository
-import com.secret.palpatine.data.model.player.Player
-import com.secret.palpatine.data.model.player.PlayersResult
+import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 
 /**
  * Created by Florian Fuchs on 08.06.2020.
  */
-class MainMenuViewModel constructor(
-    val auth: FirebaseAuth,
-    private val friendRepository: FriendRepository,
-    private val gameRepository: GameRepository,
-    private val userRepository: UserRepository,
-    private val inviteRepository: InviteRepository
-) : ViewModel() {
+class MainMenuViewModel : ViewModel() {
+    private val auth = Firebase.auth
+    private val friendRepository = FriendRepository()
+    private val gameRepository = GameRepository()
+    private val userRepository = UserRepository()
+    private val inviteRepository = InviteRepository()
 
     private val _friendsListResult = MutableLiveData<FriendListResult>()
     val friendListResult: LiveData<FriendListResult> = _friendsListResult
@@ -55,17 +50,10 @@ class MainMenuViewModel constructor(
     private val _usersToStartGame = mutableListOf<User>()
     val usersToStartGame = MutableLiveData<List<User>>()
 
-
-    private val _createGameResult = MutableLiveData<CreateGameResult>()
-    val createGameResult: LiveData<CreateGameResult> = _createGameResult
-
-    private val _currentGameResult = MutableLiveData<CurrentGameResult>()
-    val currentGameResult: LiveData<CurrentGameResult> = _currentGameResult
-
     private val _inviteListResult = MutableLiveData<InviteListResult>()
     val inviteListResult: LiveData<InviteListResult> = _inviteListResult
 
-    var userId: String? = null
+    var userId: String? = auth.currentUser!!.uid
 
 
     fun refreshUserFriends() {
@@ -112,42 +100,19 @@ class MainMenuViewModel constructor(
         usersToStartGame.value = _usersToStartGame
     }
 
-    fun startGame() {
-        gameRepository.createGame(
+    fun startGame(): Task<String> {
+        return gameRepository.createGame(
             _usersToStartGame,
             auth.currentUser!!.uid,
             auth.currentUser!!.displayName!!
-        ).addOnCompleteListener {
-            if (it.exception != null) {
-                _createGameResult.value = CreateGameResult(success = false, error = 1)
-            } else {
-                _createGameResult.value = CreateGameResult(success = true, gameId = it.result)
-            }
-        }
+        )
     }
 
-    fun checkCurrentUsersGame() {
-
-        userRepository.getLiveUser(auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w("GAME", "Listen failed.", e)
-                _currentGameResult.value = CurrentGameResult(error = 1)
-                return@addSnapshotListener
-            }
-            if (snapshot != null && snapshot.exists()) {
-
-                val user = snapshot!!.toObject<User>()
-                if (user?.currentGame != null) {
-                    userId = auth.currentUser!!.uid
-                    _currentGameResult.value = CurrentGameResult(gameId = user.currentGame)
-                } else {
-                    _currentGameResult.value = CurrentGameResult(error = 1)
-
-                }
-            } else {
-                _currentGameResult.value = CurrentGameResult(error = 1)
-            }
-
+    fun getCurrentUsersGameId(): Task<String?> {
+        return userRepository.getLiveUser(auth.currentUser!!.uid).get().continueWith {
+            val snapshot = it.result
+            val user = snapshot?.toObject(User::class.java)
+            user?.currentGame
         }
     }
 

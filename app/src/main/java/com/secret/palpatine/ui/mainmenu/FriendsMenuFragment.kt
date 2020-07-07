@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 import com.secret.palpatine.R
@@ -29,11 +30,7 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(
-            this,
-            MainMenuViewModelFactory()
-        )
-            .get(MainMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         setHasOptionsMenu(true)
         retainInstance = true
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
@@ -28,11 +29,7 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(
-            this,
-            MainMenuViewModelFactory()
-        )
-            .get(MainMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         retainInstance = true
     }
 

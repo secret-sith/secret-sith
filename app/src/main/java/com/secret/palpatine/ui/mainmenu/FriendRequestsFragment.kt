@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
@@ -31,11 +32,7 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(
-            this,
-            MainMenuViewModelFactory()
-        )
-            .get(MainMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         retainInstance = true
     }
 
