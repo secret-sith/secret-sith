@@ -105,10 +105,10 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
     private fun initGameField(game: Game) {
         for (i in 0 until game.imperialPolitics) {
-            imperialistPolitics[i + 1]?.setImageDrawable(getDrawable(R.drawable.imperialist_card))
+            imperialistPolitics[i + 1]?.setImageResource(R.drawable.imperialist_card)
         }
         for (i in 0 until game.loyalistPolitics) {
-            loyalistPolitics[i + 1]?.setImageDrawable(getDrawable(R.drawable.loyalist_card))
+            loyalistPolitics[i + 1]?.setImageResource(R.drawable.loyalist_card)
         }
     }
 
