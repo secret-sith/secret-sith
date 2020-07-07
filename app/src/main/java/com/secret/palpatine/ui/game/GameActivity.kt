@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
+import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameState
 import com.secret.palpatine.data.model.player.Player
@@ -140,7 +141,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun populatePlayerList(players: List<Player>) {
+   private fun populatePlayerList(players: List<Player>) {
 
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
@@ -151,9 +152,34 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             layoutManager = LinearLayoutManager(this@GameActivity)
             adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid,false)
         }
+
+        updateSecretRole(players.findLast { it.user == auth.currentUser!!.uid })
+    }
+    private fun updateSecretRole(userPlayer: Player?){
+
+        if(userPlayer != null){
+
+            when(userPlayer.role){
+
+                PlayerRole.imperialist -> {
+                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_imperialist))
+
+                }
+
+                PlayerRole.loyalist -> {
+                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_loyalist))
+
+                }
+
+                PlayerRole.sith -> {
+                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_sith))
+
+                }
+            }
+        }
     }
 
-    fun showOverlay() {
+   private fun showOverlay() {
         val intent = Intent(this, GameOverlay2Activity::class.java).apply {
             putExtra("gameId", viewModel.currentGame.value)
             putExtra("userId", userId)

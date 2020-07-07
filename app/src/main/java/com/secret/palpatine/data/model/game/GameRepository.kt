@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.player.Player
@@ -19,28 +20,40 @@ class GameRepository {
     val db = Firebase.firestore
 
 
-    fun startGame(gameId: String): Task<Void> {
+    fun startGame(gameId: String, players: List<Player>): Task<Void> {
         val data = hashMapOf(
             "state" to GameState.started
         )
 
         val gameRef = db.collection("games").document(gameId)
-        val playerRef = this.getPlayers(gameId)
-        val players = this.setPlayerRoles(playerRef.get())
 
-        return db.runTransaction { transaction ->
 
-            transaction.set(gameRef, data, SetOptions.merge())
-            transaction.set(playerRef, players, SetOptions.merge())
+            var roleListPlayers: List<Player> = setPlayerRoles(players)
 
-            null
-        }
+            val batch = db.batch()
+
+            for (player in roleListPlayers){
+                var playerRef = db.collection("games").document(gameId).collection("players").document(player.id)
+                batch.update(playerRef, "role", player.role)
+            }
+            batch.update(gameRef, "state", GameState.started)
+            return batch.commit()
+
     }
 
     fun getPlayers(gameId: String): CollectionReference {
 
         return db.collection("games").document(gameId).collection("players")
+
+
     }
+
+    fun getAcceptedPlayers(gameId: String): Query {
+        return db.collection("games").document(gameId).collection("players")
+            .whereEqualTo("state", PlayerState.accepted.toString())
+
+    }
+
 
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<Void> {
 
@@ -128,26 +141,26 @@ class GameRepository {
             }
     }
 
-   fun setPlayerRoles(players: List<Player>): List<Player> {
-       val playerRoleList: List<PlayerRole>
+    fun setPlayerRoles(players: List<Player>): List<Player> {
+        val playerRoleList: List<PlayerRole>
 
-       if (players.size == 5){
+        if (players.size == 5) {
             playerRoleList = listOf(
                 PlayerRole.loyalist,
                 PlayerRole.loyalist,
                 PlayerRole.loyalist,
                 PlayerRole.imperialist,
-                PlayerRole.sith).shuffled()
-        }
-        else {
+                PlayerRole.sith
+            ).shuffled()
+        } else {
             throw Exception("Number of players is not supported.")
         }
 
-        for (i in 0..players.size){
+        for (i in players.indices) {
             players[i].role = playerRoleList[i]
         }
 
-       return players
+        return players
     }
 
 }

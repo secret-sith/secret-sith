@@ -91,13 +91,8 @@ class GameViewModel constructor(
     }
 
     fun start() {
-        gameRepository.setPlayerRoles(currentGame.value!!).addOnSuccessListener {
-            Log.d("Game", "Player roles were distributed")
-        }.addOnFailureListener {
-            Log.e("Game", "Error while setting player roles")
-        }
 
-        gameRepository.startGame(currentGame.value!!).addOnSuccessListener {
+        gameRepository.startGame(currentGame.value!!, players = playersResult.value?.players!!).addOnSuccessListener {
             Log.d("Game", "Game was started")
         }.addOnFailureListener {
             Log.e("Game", "Error while starting game")
