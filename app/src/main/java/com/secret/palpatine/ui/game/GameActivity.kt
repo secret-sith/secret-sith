@@ -47,7 +47,6 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         binding.showLayover.setOnClickListener(this)
-        binding.gamePending.btnStart.setOnClickListener(this)
         binding.showPlayers.setOnClickListener(this)
         setProgressBar(binding.progressOverlay.root)
 
@@ -89,14 +88,8 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initGame(game: Game) {
-        if (game.host != auth.currentUser?.uid) {
-            binding.gamePending.btnStart.visibility = View.INVISIBLE
-        }
 
         when (game.state) {
-            GameState.pending -> {
-                binding.gamePending.root.visibility = View.VISIBLE
-            }
 
             GameState.finished -> {
                 val intent = Intent(this, GameFinishedActivity::class.java).apply {
@@ -125,11 +118,6 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
     private fun populatePlayerList(players: List<Player>) {
         binding.players.apply {
-            layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid, false)
-        }
-
-        binding.gamePending.playersListOverlay.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
             adapter = PlayerListAdapter(players, context, auth.currentUser!!.uid, false)
         }
@@ -171,19 +159,6 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.showLayover -> {
                 toggleOverlay()
-            }
-            R.id.btnStart -> {
-
-                if (true) { // TODO
-                    binding.gamePending.root.visibility = View.GONE
-                    viewModel.start()
-                } else {
-                    Toast.makeText(
-                        this@GameActivity,
-                        "At least 2 Players have to accept to start a game",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
             }
             R.id.showPlayers -> {
                 if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)

@@ -32,7 +32,8 @@ class PlayerListViewHolder(
     init {
         nameTextView = itemView.findViewById(R.id.playerUserName)
         membershipLayout = itemView.findViewById(R.id.membershipLayout)
-        stateTextView = itemView.findViewById(R.id.playerState)
+        playerStateIcon = itemView.findViewById(R.id.membershipImageView)
+        stateTextView = itemView.findViewById(R.id.playerRole)
     }
 
     fun bind(player: Player) {

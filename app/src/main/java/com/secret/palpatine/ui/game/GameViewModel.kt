@@ -49,6 +49,7 @@ class GameViewModel : ViewModel() {
 
     private lateinit var playersRef: Query
     private var playersReg: ListenerRegistration? = null
+
     private val _players = MutableLiveData<List<Player>>()
     val players: LiveData<List<Player>> = _players
 
@@ -280,6 +281,28 @@ class GameViewModel : ViewModel() {
             }
         }
     }
+
+    fun loadGameAndPlayersForPendingState(gameId: String){
+
+        gameRepository.getGame(gameId).addSnapshotListener { snapshot, exception ->
+            val game = snapshot?.toObject(Game::class.java)
+            _game.value = game
+            if (exception != null) Log.e(null, null, exception)
+        }
+
+        gameRepository.getPlayers(gameId).addSnapshotListener { snapshot, exception ->
+            if (snapshot != null) {
+                _players.value = snapshot.toObjects(Player::class.java)
+                for (player in players.value!!) {
+                    if (userId == player.user) {
+                        thisPlayer = player
+                    }
+                }
+            }
+            if (exception != null) Log.e(null, null, exception)
+        }
+    }
+
 
     private fun enactPolicy(policy: Policy): Task<Void> {
         return if (policy.type == PolicyType.loyalist) {

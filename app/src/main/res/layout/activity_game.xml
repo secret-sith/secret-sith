@@ -241,9 +241,6 @@
             android:id="@+id/progress_overlay"
             layout="@layout/spinner_overlay" />
 
-        <include
-            android:id="@+id/gamePending"
-            layout="@layout/content_game" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
