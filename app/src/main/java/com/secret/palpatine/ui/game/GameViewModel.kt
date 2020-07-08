@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.game.*
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
+import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 import com.secret.palpatine.util.*
 
@@ -303,6 +304,13 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    fun getCurrentUsersGameId(): Task<String?> {
+        return userRepository.getLiveUser(auth.currentUser!!.uid).get().continueWith {
+            val snapshot = it.result
+            val user = snapshot?.toObject(User::class.java)
+            user?.currentGame
+        }
+    }
 
     private fun enactPolicy(policy: Policy): Task<Void> {
         return if (policy.type == PolicyType.loyalist) {

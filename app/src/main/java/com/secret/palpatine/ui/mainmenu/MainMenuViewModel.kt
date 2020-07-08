@@ -108,13 +108,7 @@ class MainMenuViewModel : ViewModel() {
         )
     }
 
-    fun getCurrentUsersGameId(): Task<String?> {
-        return userRepository.getLiveUser(auth.currentUser!!.uid).get().continueWith {
-            val snapshot = it.result
-            val user = snapshot?.toObject(User::class.java)
-            user?.currentGame
-        }
-    }
+
 
 
     fun getUserFriendRequests() {

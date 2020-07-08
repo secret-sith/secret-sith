@@ -33,16 +33,6 @@ class MainMenuActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
 
-        binding.progressOverlay.root.visibility = View.VISIBLE
-        viewModel.getCurrentUsersGameId().addOnSuccessListener {
-                if (it != null) {
-
-                    val bundle = bundleOf("gameId" to it, "userId" to viewModel.userId)
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_mainMenuFragment_to_gamePendingFragment, bundle)
-                }
-
-            binding.progressOverlay.root.visibility = View.GONE
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

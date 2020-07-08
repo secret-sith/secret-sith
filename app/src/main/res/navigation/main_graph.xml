@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainMenuFragment">
+    app:startDestination="@id/gamePendingFragment">
 
     <fragment
         android:id="@+id/mainMenuFragment"
@@ -20,18 +20,6 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_startGameMenuFragment"
             app:destination="@id/startGameMenuFragment" />
-        <action
-            android:id="@+id/action_mainMenuFragment_to_gamePendingFragment"
-            app:destination="@id/gamePendingFragment" >
-            <argument
-                android:name="gameId"
-                app:argType="string"
-                android:defaultValue="0" />
-            <argument
-                android:name="userId"
-                app:argType="string"
-                android:defaultValue="0" />
-        </action>
     </fragment>
 
     <fragment
@@ -65,6 +53,10 @@
     <fragment
         android:id="@+id/gamePendingFragment"
         android:name="com.secret.palpatine.ui.mainmenu.GamePendingFragment"
-        android:label="GamePendingFragment" />
+        android:label="GamePendingFragment" >
+        <action
+            android:id="@+id/action_gamePendingFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
 
 </navigation>

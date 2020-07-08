@@ -12,6 +12,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -35,7 +36,7 @@ class GamePendingFragment : Fragment() {
     private lateinit var list: RecyclerView
     private lateinit var viewModel: GameViewModel
     private lateinit var startButton: Button
-
+    private var gameId: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +60,7 @@ class GamePendingFragment : Fragment() {
             if (true) { // TODO
                 viewModel.start()
                 val intent = Intent(context, GameActivity::class.java).apply {
-                    putExtra("gameId", arguments?.getString("gameId")!!)
+                    putExtra("gameId", gameId)
                     putExtra("userId", viewModel.userId)
                 }
                 startActivity(intent)
@@ -83,7 +84,15 @@ class GamePendingFragment : Fragment() {
             progress_overlay.rootView.visibility= View.INVISIBLE
         })
 
-        viewModel.loadGameAndPlayersForPendingState(arguments?.getString("gameId")!!)
+        viewModel.getCurrentUsersGameId().addOnSuccessListener {
+            if (it != null) {
+                viewModel.loadGameAndPlayersForPendingState(it)
+                gameId = it
+            }else {
+                findNavController().navigate(R.id.action_gamePendingFragment_to_mainMenuFragment)
+            }
+
+        }
     }
 
     override fun onStart() {
@@ -114,7 +123,7 @@ class GamePendingFragment : Fragment() {
 
         if(game.state == GameState.started){
             val intent = Intent(context, GameActivity::class.java).apply {
-                putExtra("gameId", arguments?.getString("gameId")!!)
+                putExtra("gameId", gameId)
                 putExtra("userId", viewModel.userId)
             }
             startActivity(intent)
