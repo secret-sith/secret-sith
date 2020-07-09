@@ -1,7 +1,9 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.SyncStateContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +59,12 @@ class MainMenuFragment : Fragment() {
             auth.signOut()
             val intent = Intent(this.context, LoginActivity::class.java).apply {
             }
+            startActivity(intent)
+        }
+
+        view.findViewById<Button>(R.id.mainmenu_manualbutton).setOnClickListener {
+            val url = Uri.parse("https://docs.google.com/viewerng/viewer?url=https://tinyurl.com/ydbvvlrq")
+            val intent = Intent(Intent.ACTION_VIEW, url)
             startActivity(intent)
         }
     }

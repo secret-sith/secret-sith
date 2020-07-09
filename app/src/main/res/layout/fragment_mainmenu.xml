@@ -54,6 +54,16 @@
             android:text="@string/mainmenu_friends_button" />
 
         <Button
+            android:id="@+id/mainmenu_manualbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/mainmenu_manual_button" />
+
+        <Button
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
