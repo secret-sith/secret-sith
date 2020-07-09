@@ -64,6 +64,9 @@ class GameFinishedActivity : BaseActivity(), View.OnClickListener {
             }
 
         })
+
+        viewModel.setGameId(gameId!!)
+
         binding.endGameButton.setOnClickListener(this)
 
         binding.winnerTeam.text = winner

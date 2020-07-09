@@ -9,8 +9,10 @@ import android.view.ViewGroup
 
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.secret.palpatine.R
@@ -111,10 +113,9 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         when (v.id) {
             R.id.start_game_button -> {
                 viewModel.startGame().addOnSuccessListener {
-                    startActivity(Intent(context, GameActivity::class.java).apply {
-                        putExtra("gameId", it)
-                    })
-                    requireActivity().finish()
+                    val bundle = bundleOf(Pair("gameId", it))
+                    findNavController().navigate(R.id.action_startGameMenuFragment_to_gamePendingFragment,bundle)
+
                 }
             }
         }

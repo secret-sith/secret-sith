@@ -80,5 +80,8 @@
     <string name="join_game_id">Game Id: %1$s!</string>
     <string name="winner">"And the winners are ... "</string>
     <string name="player_membership">"is a "</string>
-
+    <string name="invite_url_template">https://www.secret-sith.com/join-game?game_id=%1$s</string>
+    <string name="join_url_text">Invite Link</string>
+    <string name="copy_succcess">Copied the Link to the Clipboard</string>
+    <string name="end_game">End game</string>
 </resources>
