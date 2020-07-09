@@ -82,7 +82,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
         for (user in friendList) {
-            letterList.add(user.username.first())
+            letterList.add(user.username.decapitalize().first())
             userList.add(user)
         }
         val letterSet: Set<Char> = letterList.toSortedSet()
@@ -94,7 +94,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
                     ArrayList()
                 )
             for (user in userList) {
-                if (user.username.first() == letter) {
+                if (user.username.decapitalize().first() == letter) {
                     friendGroup.friendList.add(user)
                 }
             }
