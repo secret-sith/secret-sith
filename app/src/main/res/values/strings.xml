@@ -85,4 +85,5 @@
     <string name="copy_succcess">Copied the Link to the Clipboard</string>
     <string name="end_game">End game</string>
     <string name="mainmenu_manual_button">How to play</string>
+    <string name="text_failed_governments">Failed Governments</string>
 </resources>

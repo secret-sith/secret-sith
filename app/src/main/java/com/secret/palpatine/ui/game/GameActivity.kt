@@ -3,13 +3,10 @@ package com.secret.palpatine.ui.game
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
 import android.view.Gravity
-import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +31,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private var auth: FirebaseAuth = Firebase.auth
     private var imperialistPolitics: HashMap<Int, ImageView> = hashMapOf()
     private var loyalistPolitics: HashMap<Int, ImageView> = hashMapOf()
+    private var failedGovernments: HashMap<Int, ImageButton> = hashMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +112,19 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         for (i in 0 until game.loyalistPolitics) {
             loyalistPolitics[i + 1]?.setImageResource(R.drawable.loyalist_card)
         }
+
+        setFailedGovernments(game.failedGovernments)
+
+    }
+
+    private fun setFailedGovernments(failedGovernments: Int){
+
+
+        for (i in 0 until failedGovernments) {
+            this.failedGovernments[i + 1]?.setColorFilter(getColor(R.color.secondaryColor))
+        }
+
+
     }
 
     private fun populatePlayerList(players: List<Player>) {
@@ -192,6 +203,11 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             4 to binding.loyalistPolitic4,
             5 to binding.loyalistPolitic5
 
+        )
+        failedGovernments = hashMapOf(
+            1 to binding.btnFirstFailedGovernment,
+            2 to binding.btnSecondFailedGovernment,
+            3 to binding.btnThirdFailedGovernment
         )
     }
 
