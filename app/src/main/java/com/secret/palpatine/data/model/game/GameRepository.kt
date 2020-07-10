@@ -73,7 +73,7 @@ class GameRepository {
         val game: HashMap<String, Any> = hashMapOf(
             "loyalistPolitics" to 0,
             "imperialPolitics" to 0,
-            "failedGoverments" to 0,
+            "failedGovernments" to 0,
             "state" to "pending",
             "phase" to "nominate_chancellor",
             "host" to userId,

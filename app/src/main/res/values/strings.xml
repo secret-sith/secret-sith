@@ -98,4 +98,5 @@
     <string name="rights_content">- Share: copy and redistribute the game in any medium or format\n- Adapt: remix, transform, and build upon the game.</string>
     <string name="terms_header">UNDER THE FOLLOWING TERMS:</string>
     <string name="terms_content">- Attribution: If you make something using the game, you need to give us credit and link back to us, and you need to explain what you changed.\n- Non-Commercial: You can’t use the game to make money.\n- Share Alike: If you remix, transform, or build upon the game, you have to release your work under the same Creative Commons license that we use (BY-NC-SA 4.0).\n- No additional restrictions: You can’t apply legal terms or technological measures to your work that legally restrict others from doing anything the license allows. That means you can’t submit anything using the game to any app store without the approval.</string>
+    <string name="text_failed_governments">Failed Governments</string>
 </resources>

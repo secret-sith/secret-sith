@@ -4,22 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.secret.palpatine.data.model.game.GamePhase
-import com.secret.palpatine.databinding.GameDiscardPolicyFragmentBinding
+import com.secret.palpatine.R
+import com.secret.palpatine.databinding.GamePresidentDiscardPolicyFragmentBinding
 
-class DiscardPolicyFragment : Fragment() {
-    private lateinit var binding: GameDiscardPolicyFragmentBinding
+class PresidentDiscardPolicyFragment : Fragment() {
+    private lateinit var binding: GamePresidentDiscardPolicyFragmentBinding
     private lateinit var viewModel: GameViewModel
     private lateinit var detector: GestureDetectorCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = GameDiscardPolicyFragmentBinding.inflate(inflater, container, false)
+        binding = GamePresidentDiscardPolicyFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -32,21 +34,20 @@ class DiscardPolicyFragment : Fragment() {
             binding.discardPolicy2
         )
         viewModel.currentHand.observe(viewLifecycleOwner, Observer { currentHand ->
-            for (i in 0 until 3) {
+            for (i in discardPolicyBindings.indices) {
                 val policy = currentHand.getOrNull(i)
-                val binding = discardPolicyBindings[i]
-                if (policy != null) {
-                    binding.setImageResource(policy.type.drawableResource)
-                    binding.visibility = View.VISIBLE
-                } else {
-                    binding.visibility = View.GONE
+                val resourceId = policy?.type?.drawableResource ?: R.drawable.placeholder
+                discardPolicyBindings[i].setImageResource(resourceId)
+            }
+        })
+        binding.motionLayout.setTransitionListener(object : TransitionAdapter() {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                when (currentId) {
+                    R.id.end0 -> viewModel.presidentDiscardPolicy(0)
+                    R.id.end1 -> viewModel.presidentDiscardPolicy(1)
+                    R.id.end2 -> viewModel.presidentDiscardPolicy(2)
                 }
             }
         })
-        for (i in 0 until 3) {
-            discardPolicyBindings[i].setOnClickListener {
-                viewModel.discardPolicy(i)
-            }
-        }
     }
 }

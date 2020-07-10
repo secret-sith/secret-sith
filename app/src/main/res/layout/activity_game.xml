@@ -143,7 +143,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/img_border"
@@ -151,19 +151,47 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/txtFailedGovernments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Failed Governments" />
+                    android:text="@string/text_failed_governments"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView5"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="0" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtFailedGovernments" >
+
+
+                    <ImageButton
+                        android:id="@+id/btnFirstFailedGovernment"
+                        android:layout_width="@dimen/userIconSize"
+                        android:layout_height="@dimen/userIconSize"
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_48dp" />
+
+                    <ImageButton
+                        android:id="@+id/btnSecondFailedGovernment"
+                        android:layout_width="@dimen/userIconSize"
+                        android:layout_height="@dimen/userIconSize"
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_48dp" />
+
+                    <ImageButton
+                        android:id="@+id/btnThirdFailedGovernment"
+                        android:layout_width="@dimen/userIconSize"
+                        android:layout_height="@dimen/userIconSize"
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_48dp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -230,7 +258,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="64dp"
             android:layout_marginEnd="64dp"
             app:layout_constraintBottom_toBottomOf="@id/gameContent"
             app:layout_constraintEnd_toEndOf="@id/gameContent"
