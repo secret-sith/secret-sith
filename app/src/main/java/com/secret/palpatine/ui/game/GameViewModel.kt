@@ -95,7 +95,7 @@ class GameViewModel : ViewModel() {
 
     fun setChancellorCandidate(player: Player): Task<Void> {
         val playerRef = getPlayerRef(player.id)
-        return gameRef.update(CHANCELLORCANDIDATE, playerRef).continueWithTask {
+        return gameRef.update(CHANCELLORCANDIDATE, playerRef).onSuccessTask {
             setGamePhase(GamePhase.vote)
         }
     }
@@ -114,24 +114,26 @@ class GameViewModel : ViewModel() {
                     )
                 )
             }
-            GamePhase.policy_peek -> {
-                gameRef.collection(CURRENTHAND).get().continueWithTask { task ->
-                    Tasks.whenAll(task.result!!.documents.map { it.reference.delete() })
-                }.continueWithTask {
-                    gameRef.collection(DRAWPILE).orderBy(ORDER).limit(3).get()
-                }.continueWithTask { task ->
-                    Tasks.whenAll(task.result!!.documents.flatMap {
-                        val policy = it.data!!
-                        val deleteTask = it.reference.delete()
-                        val addTask = gameRef.collection(CURRENTHAND).add(policy)
-                        listOf(deleteTask, addTask)
-                    })
-                }
+            GamePhase.president_discard_policy -> {
+                val currentHand = currentHand.value!!
+                drawCards(3L - currentHand.size)
             }
+            GamePhase.policy_peek -> drawCards(3)
             else -> Tasks.forResult(Unit)
         }
-        return task.continueWithTask {
+        return task.onSuccessTask {
             gameRef.update(PHASE, phase)
+        }
+    }
+
+    private fun drawCards(amount: Long): Task<Void> {
+        return gameRef.collection(DRAWPILE).orderBy(ORDER).limit(amount).get().onSuccessTask {
+            Tasks.whenAll(it!!.documents.flatMap { snapshot ->
+                val policy = snapshot.data!!
+                val deleteTask = snapshot.reference.delete()
+                val addTask = gameRef.collection(CURRENTHAND).add(policy)
+                listOf(deleteTask, addTask)
+            })
         }
     }
 
@@ -288,6 +290,8 @@ class GameViewModel : ViewModel() {
         val game = game.value!!
         return if (policy.type == PolicyType.loyalist) {
             gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1)).onSuccessTask {
+                refreshDrawpileIfNeccessary()
+            }.onSuccessTask {
                 setGamePhase(GamePhase.nominate_chancellor)
             }
         } else {
@@ -299,7 +303,33 @@ class GameViewModel : ViewModel() {
                 else -> GamePhase.nominate_chancellor
             }
             gameRef.update(IMPERIALPOLITICS, imperialPolitics).onSuccessTask {
+                refreshDrawpileIfNeccessary()
+            }.onSuccessTask {
                 setGamePhase(phase)
+            }
+        }
+    }
+
+    private fun refreshDrawpileIfNeccessary(): Task<Void> {
+        return gameRef.collection(DRAWPILE).get().onSuccessTask { drawpile ->
+            if (drawpile == null || drawpile.size() >= 3) return@onSuccessTask Tasks.forResult<Void>(null)
+            Tasks.whenAll(drawpile.documents.map { it.reference.delete() }).onSuccessTask {
+                gameRef.get()
+            }.onSuccessTask {
+                val game = it!!.toObject(Game::class.java)!!
+                val imperialPolicyCount = 11 - game.imperialPolitics
+                val loyalistPolicyCount = 6 - game.loyalistPolitics
+                val imperialistPolicies = (1..imperialPolicyCount).map { PolicyType.imperialist }
+                val loyalistPolicies = (1..loyalistPolicyCount).map { PolicyType.loyalist }
+                val policies = (imperialistPolicies + loyalistPolicies).shuffled()
+                Tasks.whenAll(policies.mapIndexed { index, policyType ->
+                    gameRef.collection(DRAWPILE).add(
+                        mapOf(
+                            TYPE to policyType,
+                            ORDER to index
+                        )
+                    )
+                })
             }
         }
     }

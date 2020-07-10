@@ -28,3 +28,8 @@ const val USER = "user"
 const val USERNAME = "userName"
 const val VOTE = "vote"
 const val ORDER = "order"
+
+/**
+ *   POLICY VALUES
+ */
+const val TYPE = "type"
