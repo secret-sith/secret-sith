@@ -277,12 +277,30 @@ class GameViewModel : ViewModel() {
 
     fun chancellorDiscardPolicy(i: Int): Task<Void> {
         val currentHand = currentHand.value!!
-        val discardedPolicy = currentHand[i]
         val enactedPolicy = currentHand[1 - i]
-        return gameRef.collection(CURRENTHAND).document(discardedPolicy.id).delete().onSuccessTask {
+        val currentHandRefs = currentHand.map { gameRef.collection(CURRENTHAND).document(it.id) }
+        return Tasks.whenAll(currentHandRefs.map { it.delete() }).onSuccessTask {
             enactPolicy(enactedPolicy)
-        }.onSuccessTask {
-            setGamePhase(GamePhase.nominate_chancellor)
+        }
+    }
+
+    private fun enactPolicy(policy: Policy): Task<Void> {
+        val game = game.value!!
+        return if (policy.type == PolicyType.loyalist) {
+            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1)).onSuccessTask {
+                setGamePhase(GamePhase.nominate_chancellor)
+            }
+        } else {
+            val imperialPolitics = game.imperialPolitics + 1
+            val phase = when (imperialPolitics) {
+                3 -> GamePhase.policy_peek
+                4 -> GamePhase.kill
+                5 -> GamePhase.kill
+                else -> GamePhase.nominate_chancellor
+            }
+            gameRef.update(IMPERIALPOLITICS, imperialPolitics).onSuccessTask {
+                setGamePhase(phase)
+            }
         }
     }
 
@@ -312,14 +330,6 @@ class GameViewModel : ViewModel() {
             val snapshot = it.result
             val user = snapshot?.toObject(User::class.java)
             user?.currentGame
-        }
-    }
-
-    private fun enactPolicy(policy: Policy): Task<Void> {
-        return if (policy.type == PolicyType.loyalist) {
-            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1))
-        } else {
-            gameRef.update(IMPERIALPOLITICS, FieldValue.increment(1))
         }
     }
 }
