@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_startGameMenuFragment"
             app:destination="@id/startGameMenuFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_creditsFragment"
+            app:destination="@id/creditsFragment" />
     </fragment>
 
     <fragment
@@ -65,5 +68,11 @@
         android:name="com.secret.palpatine.ui.mainmenu.FriendsAddFragment"
         android:label="@string/add_friends_fragment_label"
         tools:layout="@layout/fragment_add_friends" />
+
+    <fragment
+        android:id="@+id/creditsFragment"
+        android:name="com.secret.palpatine.ui.mainmenu.CreditsFragment"
+        android:label="@string/credits_fragment_label"
+        tools:layout="@layout/fragment_credits" />
 
 </navigation>

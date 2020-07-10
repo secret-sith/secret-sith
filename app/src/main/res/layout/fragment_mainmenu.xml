@@ -64,6 +64,16 @@
             android:text="@string/mainmenu_manual_button" />
 
         <Button
+            android:id="@+id/mainmenu_creditsbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/credits" />
+
+        <Button
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,6 +81,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="5dp"
+            android:alpha="0.5"
             android:text="@string/logout" />
     </LinearLayout>
 </ScrollView>
