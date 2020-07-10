@@ -65,10 +65,10 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                     pushFragment(VoteChancellorFragment(), R.id.actionOverlay)
                 }
                 GamePhase.president_discard_policy -> {
-                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
+                    pushFragment(PresidentDiscardPolicyFragment(), R.id.actionOverlay)
                 }
                 GamePhase.chancellor_discard_policy -> {
-                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
+                    pushFragment(ChancellorDiscardPolicyFragment(), R.id.actionOverlay)
                 }
                 GamePhase.policy_peek -> {
                     pushFragment(PolicyPeekFragment(), R.id.actionOverlay)

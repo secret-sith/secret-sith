@@ -267,23 +267,26 @@ class GameViewModel : ViewModel() {
         return true
     }
 
-    fun discardPolicy(i: Int): Task<Void> {
+    fun presidentDiscardPolicy(i: Int): Task<Void> {
         val currentHand = currentHand.value!!
         val discardedPolicy = currentHand[i]
-        val discardedPolicyRef = gameRef.collection(CURRENTHAND).document(discardedPolicy.id)
-        return discardedPolicyRef.delete().continueWithTask {
-            if (currentHand.size == 2) {
-                val enactedPolicy = currentHand[1 - i]
-                enactPolicy(enactedPolicy).continueWithTask {
-                    setGamePhase(GamePhase.nominate_chancellor)
-                }
-            } else {
-                setGamePhase(GamePhase.chancellor_discard_policy)
-            }
+        return gameRef.collection(CURRENTHAND).document(discardedPolicy.id).delete().onSuccessTask {
+            setGamePhase(GamePhase.chancellor_discard_policy)
         }
     }
 
-    fun loadGameAndPlayersForPendingState(gameId: String){
+    fun chancellorDiscardPolicy(i: Int): Task<Void> {
+        val currentHand = currentHand.value!!
+        val discardedPolicy = currentHand[i]
+        val enactedPolicy = currentHand[1 - i]
+        return gameRef.collection(CURRENTHAND).document(discardedPolicy.id).delete().onSuccessTask {
+            enactPolicy(enactedPolicy)
+        }.onSuccessTask {
+            setGamePhase(GamePhase.nominate_chancellor)
+        }
+    }
+
+    fun loadGameAndPlayersForPendingState(gameId: String) {
 
         gameRepository.getGame(gameId).addSnapshotListener { snapshot, exception ->
             val game = snapshot?.toObject(Game::class.java)
