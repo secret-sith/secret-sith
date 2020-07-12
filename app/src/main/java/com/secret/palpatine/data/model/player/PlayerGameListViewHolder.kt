@@ -48,14 +48,14 @@ class PlayerGameListViewHolder(
 
             GamePhase.vote -> {
 
-                voteWrapper?.visibility = View.VISIBLE
+                voteWrapper?.visibility = View.GONE
             }
             else -> {
-                voteWrapper?.visibility = View.GONE
+                voteWrapper?.visibility = View.VISIBLE
 
             }
         }
-        Log.d("PlayerVote", player.vote.toString())
+
         when (player.vote) {
 
             true -> {
