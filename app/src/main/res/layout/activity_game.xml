@@ -5,7 +5,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
@@ -147,7 +146,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/img_border"
-                android:orientation="vertical"
                 android:padding="5dp">
 
                 <TextView
@@ -167,7 +165,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtFailedGovernments" >
+                    app:layout_constraintTop_toBottomOf="@+id/txtFailedGovernments">
 
 
                     <ImageButton
@@ -191,7 +189,7 @@
                         android:background="@null"
                         app:srcCompat="@drawable/ic_fiber_manual_record_white_48dp" />
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout >
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -276,20 +274,41 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/overlayBackground"
         android:fitsSystemWindows="true"
+        android:overScrollMode="never"
         android:padding="10dp"
         app:headerLayout="@layout/drawer_game_header">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/players"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/players"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/secondaryColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/players"
+                android:layout_width="wrap_content"
+                android:layout_height="392dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintVertical_bias="0.19999999"
+                tools:listitem="@layout/object_game_player">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

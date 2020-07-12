@@ -12,9 +12,26 @@ data class Player(
     val user: String,
     val userName: String?,
     val state: PlayerState,
-    var vote: Boolean? = null
+    var vote: Boolean? = null,
+    var killed: Boolean? = null,
+    private var selected: Boolean = false
 ) : Serializable {
-    constructor() : this("", PlayerRole.imperialist, "", "", PlayerState.pending, false)
+    constructor() : this("", PlayerRole.imperialist, "", "", PlayerState.pending, null, null)
+
+
+    fun selectPlayer() {
+        selected = !selected
+    }
+
+
+    fun resetSelection() {
+        selected = false
+    }
+
+    fun isSelected(): Boolean {
+        return selected
+    }
+
 
 }
 

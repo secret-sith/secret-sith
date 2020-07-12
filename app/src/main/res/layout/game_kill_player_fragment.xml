@@ -10,27 +10,27 @@
     tools:context=".ui.game.NominateChancellorFragment">
 
     <TextView
-        android:id="@+id/select_chancellor_header"
+        android:id="@+id/kill_player_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/select_chancellor_header"
+        android:text="@string/kill_player_header"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/select_chancellor_desc"
+        android:id="@+id/kill_player_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/select_chancellor_desc"
+        android:text="@string/kill_player_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_chancellor_header" />
+        app:layout_constraintTop_toBottomOf="@+id/kill_player_header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/select_player"
-        app:layout_constraintTop_toBottomOf="@+id/select_chancellor_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/kill_player_desc" />
 
     <Button
         android:id="@+id/confirm"

@@ -28,6 +28,7 @@ const val USER = "user"
 const val USERNAME = "userName"
 const val VOTE = "vote"
 const val ORDER = "order"
+const val KILLED = "killed"
 
 /**
  *   POLICY VALUES

@@ -100,6 +100,14 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    fun killPlayer(player: Player): Task<Void> {
+
+        val playerRef = getPlayerRef(player.id)
+        return playerRef.update(KILLED, true).onSuccessTask {
+            setGamePhase(GamePhase.nominate_chancellor)
+        }
+    }
+
     fun setGamePhase(phase: GamePhase): Task<Void> {
         val game = game.value!!
         if (phase == game.phase) return Tasks.forResult(null)
@@ -312,7 +320,9 @@ class GameViewModel : ViewModel() {
 
     private fun refreshDrawpileIfNeccessary(): Task<Void> {
         return gameRef.collection(DRAWPILE).get().onSuccessTask { drawpile ->
-            if (drawpile == null || drawpile.size() >= 3) return@onSuccessTask Tasks.forResult<Void>(null)
+            if (drawpile == null || drawpile.size() >= 3) return@onSuccessTask Tasks.forResult<Void>(
+                null
+            )
             Tasks.whenAll(drawpile.documents.map { it.reference.delete() }).onSuccessTask {
                 gameRef.get()
             }.onSuccessTask {
