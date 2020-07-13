@@ -13,4 +13,8 @@
     <color name="successColor">#28a745</color>
     <color name="itemDividerColor">#28a745</color>
 
+    <color name="backgroundColor">#363835</color>
+    <color name="evilColor">#e66444</color>
+    <color name="goodColor">#61c8d9</color>
+
 </resources>

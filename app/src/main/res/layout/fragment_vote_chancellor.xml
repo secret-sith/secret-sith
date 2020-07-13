@@ -37,20 +37,22 @@
             android:id="@+id/button_vote_yes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/yes_option_for_chancellor_vote"
-            android:src="@drawable/yes" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/vote_yes" />
 
         <ImageButton
             android:id="@+id/button_vote_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/no_option_for_chancellor_vote"
             android:padding="10dp"
-            android:src="@drawable/no" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/vote_no" />
     </LinearLayout>
 
 </LinearLayout>

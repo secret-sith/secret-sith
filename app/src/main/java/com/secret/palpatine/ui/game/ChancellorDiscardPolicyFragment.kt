@@ -35,7 +35,7 @@ class ChancellorDiscardPolicyFragment : Fragment() {
         viewModel.currentHand.observe(viewLifecycleOwner, Observer { currentHand ->
             for (i in discardPolicyBindings.indices) {
                 val policy = currentHand.getOrNull(i)
-                val resourceId = policy?.type?.drawableResource ?: R.drawable.placeholder
+                val resourceId = policy?.type?.drawableResource ?: R.drawable.policy_back
                 discardPolicyBindings[i].setImageResource(resourceId)
             }
         })
