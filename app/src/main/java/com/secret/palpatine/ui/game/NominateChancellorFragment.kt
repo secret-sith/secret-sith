@@ -80,7 +80,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
 
     override fun onSelectPlayer(player: Player) {
         binding.nominateChancellorConfirm.isEnabled = true
-        
+
         for (p in playerListAdapter.list) {
             p.resetSelection()
         }
