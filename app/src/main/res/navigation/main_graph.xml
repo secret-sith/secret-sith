@@ -40,6 +40,9 @@
         android:name="com.secret.palpatine.ui.mainmenu.InviteMenuFragment"
         android:label="@string/invite_menu_fragment_label"
         tools:layout="@layout/fragment_invitemenu">
+        <action
+            android:id="@+id/action_inviteMenuFragment_to_gamePendingFragment"
+            app:destination="@id/gamePendingFragment" />
     </fragment>
 
     <fragment
@@ -67,7 +70,11 @@
         android:id="@+id/addFriendsFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsAddFragment"
         android:label="@string/add_friends_fragment_label"
-        tools:layout="@layout/fragment_add_friends" />
+        tools:layout="@layout/fragment_add_friends" >
+        <action
+            android:id="@+id/action_addFriendsFragment_to_friendsMenuFragment"
+            app:destination="@id/friendsMenuFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/creditsFragment"

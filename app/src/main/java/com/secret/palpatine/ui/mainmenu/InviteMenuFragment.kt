@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.invitation.Invite
@@ -83,8 +86,17 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
     }
 
     override fun onAccept(data: Invite) {
+        invitesLoading.visibility = View.VISIBLE
 
-        viewModel.acceptInvite(data)
+        viewModel.acceptInvite(data).addOnSuccessListener {
+            invitesLoading.visibility = View.GONE
+            val bundle = bundleOf(Pair("gameId", data.gameId))
+            findNavController().navigate(R.id.action_inviteMenuFragment_to_gamePendingFragment,bundle)
+        }.addOnFailureListener {
+            invitesLoading.visibility = View.GONE
+            Toast.makeText(context, "Could not join Game!", Toast.LENGTH_SHORT).show()
+
+        }
     }
 
     companion object {

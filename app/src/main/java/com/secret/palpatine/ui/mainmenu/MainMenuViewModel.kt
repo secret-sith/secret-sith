@@ -9,11 +9,13 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.friends.friend.FriendListResult
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
+import com.secret.palpatine.data.model.friends.friend.FriendShipState
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestCountResult
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestListResult
@@ -22,8 +24,11 @@ import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.invitation.Invite
 import com.secret.palpatine.data.model.invitation.InviteListResult
 import com.secret.palpatine.data.model.invitation.InviteRepository
+import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
+import com.secret.palpatine.util.USER
+import com.secret.palpatine.util.USERS
 
 /**
  * Created by Florian Fuchs on 08.06.2020.
@@ -50,6 +55,8 @@ class MainMenuViewModel : ViewModel() {
 
     private val _usersToStartGame = mutableListOf<User>()
     val usersToStartGame = MutableLiveData<List<User>>()
+
+    private val _friendsToAdd = mutableListOf<User>()
 
     private val _inviteListResult = MutableLiveData<InviteListResult>()
     val inviteListResult: LiveData<InviteListResult> = _inviteListResult
@@ -121,6 +128,7 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+
     fun updateUserToStartGameList(user: User) {
         Log.d("User to add", user.toString())
         if (user.isSelected) {
@@ -141,6 +149,35 @@ class MainMenuViewModel : ViewModel() {
         )
     }
 
+    fun updateFriendsToAddList(user: User) {
+        if (user.isSelected) {
+            _friendsToAdd.add(user)
+
+        } else {
+            _friendsToAdd.remove(user)
+        }
+    }
+
+    fun sendFriendRequests(): Task<Void> {
+
+        val db = Firebase.firestore
+
+        var plist: ArrayList<Task<DocumentReference>> = arrayListOf()
+
+        for (user in _friendsToAdd) {
+            val friendToAdd = hashMapOf(
+                "user" to db.collection(USERS).document(auth.currentUser!!.uid),
+                "friend" to db.collection(USERS).document(user.id),
+                "state" to FriendShipState.requested
+            )
+            plist.add(
+                db.collection("friendships").add(friendToAdd)
+            )
+        }
+
+
+        return Tasks.whenAll(plist)
+    }
 
     fun getUserFriendRequests() {
 
@@ -195,8 +232,8 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
-    fun acceptInvite(invite: Invite) {
-        inviteRepository.acceptInvite(invite)
+    fun acceptInvite(invite: Invite): Task<Void> {
+        return inviteRepository.acceptInvite(invite)
     }
 
 }

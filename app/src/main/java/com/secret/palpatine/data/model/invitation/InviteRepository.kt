@@ -1,6 +1,8 @@
 package com.secret.palpatine.data.model.invitation
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -18,11 +20,11 @@ class InviteRepository {
         return db.collection("invites").whereEqualTo("to", userId)
     }
 
-    fun acceptInvite(invite: Invite) {
+    fun acceptInvite(invite: Invite): Task<Void> {
 
         val data = hashMapOf(
             "state" to "accepted"
         )
-        db.collection("invites").document(invite.id).set(data, SetOptions.merge())
+       return  db.collection("invites").document(invite.id).set(data, SetOptions.merge())
     }
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
@@ -64,6 +65,20 @@ class FriendsAddFragment : Fragment(), FriendsListAdapter.FriendListAdapterListe
             }
             progress_overlay.visibility = View.GONE
         })
+
+        btn_add_friends.setOnClickListener {
+            progress_overlay.visibility = View.VISIBLE
+
+            viewModel.sendFriendRequests().addOnSuccessListener {
+                Toast.makeText(context, "Send friendship requests!", Toast.LENGTH_SHORT).show()
+                progress_overlay.visibility = View.GONE
+                findNavController().popBackStack(R.id.friendsMenuFragment, false)
+            }.addOnFailureListener {
+                Toast.makeText(context, "Could not send requests!", Toast.LENGTH_SHORT).show()
+                progress_overlay.visibility = View.GONE
+
+            }
+        }
 
     }
 
@@ -130,6 +145,7 @@ class FriendsAddFragment : Fragment(), FriendsListAdapter.FriendListAdapterListe
     }
 
     override fun onSelect(data: User) {
-
+        viewModel.updateFriendsToAddList(data)
+        btn_add_friends.isEnabled = true
     }
 }
