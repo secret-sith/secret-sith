@@ -23,7 +23,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/evilPlayfield"
+            app:layout_constraintStart_toEndOf="@id/evilPlayfieldLayout"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -70,281 +70,308 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/evilPlayfield"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/evilPlayfieldLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:adjustViewBounds="true"
             android:padding="4dp"
-            app:layout_constraintBottom_toTopOf="@id/goodPlayfield"
+            app:layout_constraintBottom_toTopOf="@id/goodPlayfieldLayout"
             app:layout_constraintEnd_toStartOf="@id/sidebar"
-            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintHorizontal_weight="6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/playfield_evil_5_6" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Space
-            android:id="@+id/evilStartSpace"
+            <ImageView
+                android:id="@+id/evilPlayfield"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/playfield_evil_5_6" />
+
+            <Space
+                android:id="@+id/evilStartSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy0"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toStartOf="@id/evilPlayfield"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy1"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilStartSpace"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy2"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilPolicy0"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy3"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilPolicy1"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy4"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilPolicy2"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilPolicy5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilPolicy3"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <ImageView
+                android:id="@+id/evilPolicy5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/evilEndSpace"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/evilPolicy4"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+            <Space
+                android:id="@+id/evilEndSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
+                app:layout_constraintEnd_toEndOf="@+id/evilPlayfield"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/evilPolicy5"
+                app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/goodPlayfieldLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy0"
-            app:layout_constraintHorizontal_weight="0.525"
-            app:layout_constraintStart_toStartOf="@id/evilPlayfield"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy0"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy1"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilStartSpace"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy2"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilPolicy0"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy3"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilPolicy1"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy4"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilPolicy2"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilPolicy5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilPolicy3"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/evilPolicy5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/evilEndSpace"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/evilPolicy4"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <Space
-            android:id="@+id/evilEndSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/evilPlayfield"
-            app:layout_constraintEnd_toEndOf="@+id/evilPlayfield"
-            app:layout_constraintHorizontal_weight="0.525"
-            app:layout_constraintStart_toEndOf="@id/evilPolicy5"
-            app:layout_constraintTop_toTopOf="@id/evilPlayfield" />
-
-        <ImageView
-            android:id="@+id/goodPlayfield"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
             android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/evilPlayfield"
-            app:layout_constraintStart_toStartOf="@id/evilPlayfield"
-            app:layout_constraintTop_toBottomOf="@+id/evilPlayfield"
-            app:srcCompat="@drawable/playfield_good" />
+            app:layout_constraintEnd_toEndOf="@id/evilPlayfieldLayout"
+            app:layout_constraintStart_toStartOf="@id/evilPlayfieldLayout"
+            app:layout_constraintTop_toBottomOf="@+id/evilPlayfieldLayout">
 
-        <Space
-            android:id="@+id/goodStartSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodPolicy0"
-            app:layout_constraintHorizontal_weight="0.525"
-            app:layout_constraintStart_toStartOf="@id/goodPlayfield"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPlayfield"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/playfield_good" />
 
-        <ImageView
-            android:id="@+id/goodPolicy0"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            <Space
+                android:id="@+id/goodStartSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodPolicy0"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toStartOf="@id/goodPlayfield"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
 
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodPolicy1"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/goodStartSpace"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPolicy0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
 
-        <ImageView
-            android:id="@+id/goodPolicy1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodPolicy2"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/goodPolicy0"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodPolicy1"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/goodStartSpace"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:srcCompat="@drawable/policy_good" />
 
-        <ImageView
-            android:id="@+id/goodPolicy2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodPolicy3"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/goodPolicy1"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPolicy1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodPolicy2"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/goodPolicy0"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:srcCompat="@drawable/policy_good" />
 
-        <ImageView
-            android:id="@+id/goodPolicy3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodPolicy4"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/goodPolicy2"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPolicy2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodPolicy3"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/goodPolicy1"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:srcCompat="@drawable/policy_good" />
 
-        <ImageView
-            android:id="@+id/goodPolicy4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/goodEndSpace"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/goodPolicy3"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPolicy3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodPolicy4"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/goodPolicy2"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:srcCompat="@drawable/policy_good" />
 
-        <Space
-            android:id="@+id/goodEndSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toEndOf="@+id/goodPlayfield"
-            app:layout_constraintHorizontal_weight="0.525"
-            app:layout_constraintStart_toEndOf="@id/goodPolicy4"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/goodPolicy4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/goodEndSpace"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/goodPolicy3"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:srcCompat="@drawable/policy_good" />
 
-        <Space
-            android:id="@+id/electionTrackerTopSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/electionTracker0"
-            app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
-            app:layout_constraintStart_toStartOf="@id/goodPlayfield"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-            app:layout_constraintVertical_weight="638" />
+            <Space
+                android:id="@+id/goodEndSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toEndOf="@+id/goodPlayfield"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/goodPolicy4"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
 
-        <Space
-            android:id="@+id/electionTrackerStartSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toStartOf="@+id/electionTracker0"
-            app:layout_constraintHorizontal_weight="2.4"
-            app:layout_constraintStart_toStartOf="@id/goodPlayfield"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <Space
+                android:id="@+id/electionTrackerTopSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/electionTracker0"
+                app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
+                app:layout_constraintStart_toStartOf="@id/goodPlayfield"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield"
+                app:layout_constraintVertical_weight="603" />
 
-        <ImageView
-            android:id="@+id/electionTracker0"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
-            app:layout_constraintEnd_toStartOf="@+id/electionTracker1"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/electionTrackerStartSpace"
-            app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
-            app:layout_constraintVertical_weight="90"
-            app:srcCompat="@drawable/election_tracker" />
+            <Space
+                android:id="@+id/electionTrackerStartSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toStartOf="@+id/electionTracker0"
+                app:layout_constraintHorizontal_weight="507"
+                app:layout_constraintStart_toStartOf="@id/goodPlayfield"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
 
-        <ImageView
-            android:id="@+id/electionTracker1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
-            app:layout_constraintEnd_toStartOf="@+id/electionTracker2"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/electionTracker0"
-            app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
-            app:layout_constraintVertical_weight="90"
-            app:srcCompat="@drawable/election_tracker" />
+            <ImageView
+                android:id="@+id/electionTracker0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
+                app:layout_constraintEnd_toStartOf="@+id/electionTracker1"
+                app:layout_constraintHorizontal_weight="218"
+                app:layout_constraintStart_toEndOf="@+id/electionTrackerStartSpace"
+                app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
+                app:layout_constraintVertical_weight="88"
+                app:srcCompat="@drawable/election_tracker" />
 
-        <ImageView
-            android:id="@+id/electionTracker2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
-            app:layout_constraintEnd_toStartOf="@+id/electionTracker3"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/electionTracker1"
-            app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
-            app:layout_constraintVertical_weight="90"
-            app:srcCompat="@drawable/election_tracker" />
+            <ImageView
+                android:id="@+id/electionTracker1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
+                app:layout_constraintEnd_toStartOf="@+id/electionTracker2"
+                app:layout_constraintHorizontal_weight="218"
+                app:layout_constraintStart_toEndOf="@+id/electionTracker0"
+                app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
+                app:layout_constraintVertical_weight="88"
+                app:srcCompat="@drawable/election_tracker" />
 
-        <ImageView
-            android:id="@+id/electionTracker3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
-            app:layout_constraintEnd_toStartOf="@+id/electionTrackerEndSpace"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/electionTracker2"
-            app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
-            app:layout_constraintVertical_weight="90"
-            app:srcCompat="@drawable/election_tracker" />
+            <ImageView
+                android:id="@+id/electionTracker2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
+                app:layout_constraintEnd_toStartOf="@+id/electionTracker3"
+                app:layout_constraintHorizontal_weight="218"
+                app:layout_constraintStart_toEndOf="@+id/electionTracker1"
+                app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
+                app:layout_constraintVertical_weight="88"
+                app:srcCompat="@drawable/election_tracker" />
 
-        <Space
-            android:id="@+id/electionTrackerEndSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
-            app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
-            app:layout_constraintHorizontal_weight="2.55"
-            app:layout_constraintStart_toEndOf="@+id/electionTracker3"
-            app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+            <ImageView
+                android:id="@+id/electionTracker3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/electionTrackerBottomSpace"
+                app:layout_constraintEnd_toStartOf="@+id/electionTrackerEndSpace"
+                app:layout_constraintHorizontal_weight="218"
+                app:layout_constraintStart_toEndOf="@+id/electionTracker2"
+                app:layout_constraintTop_toBottomOf="@id/electionTrackerTopSpace"
+                app:layout_constraintVertical_weight="88"
+                app:srcCompat="@drawable/election_tracker" />
 
-        <Space
-            android:id="@+id/electionTrackerBottomSpace"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
-            app:layout_constraintStart_toStartOf="@id/goodPlayfield"
-            app:layout_constraintTop_toBottomOf="@id/electionTracker0"
-            app:layout_constraintVertical_weight="56" />
+            <Space
+                android:id="@+id/electionTrackerEndSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
+                app:layout_constraintHorizontal_weight="540"
+                app:layout_constraintStart_toEndOf="@+id/electionTracker3"
+                app:layout_constraintTop_toTopOf="@id/goodPlayfield" />
+
+            <Space
+                android:id="@+id/electionTrackerBottomSpace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/goodPlayfield"
+                app:layout_constraintEnd_toEndOf="@id/goodPlayfield"
+                app:layout_constraintStart_toStartOf="@id/goodPlayfield"
+                app:layout_constraintTop_toBottomOf="@id/electionTracker0"
+                app:layout_constraintVertical_weight="38" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/actionOverlay"
@@ -353,8 +380,8 @@
             android:layout_marginStart="64dp"
             android:layout_marginEnd="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/evilPlayfield"
-            app:layout_constraintStart_toStartOf="@id/evilPlayfield"
+            app:layout_constraintEnd_toEndOf="@id/evilPlayfieldLayout"
+            app:layout_constraintStart_toStartOf="@id/evilPlayfieldLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
