@@ -11,14 +11,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.secret.palpatine.data.model.PoliticType
 import com.secret.palpatine.data.model.game.*
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 import com.secret.palpatine.util.*
-import kotlin.reflect.typeOf
 
 /**
  * Created by Florian Fuchs on 19.06.2020.
@@ -53,6 +51,7 @@ class GameViewModel : ViewModel() {
     var chancellorCandidate: Player? = null
     var chancellor: Player? = null
     var president: Player? = null
+    var oldGamePhase: GamePhase? = null
 
     private lateinit var playersRef: Query
     private var playersReg: ListenerRegistration? = null
@@ -80,17 +79,18 @@ class GameViewModel : ViewModel() {
         gameReg?.remove()
         gameReg = gameRef.addSnapshotListener { snapshot, exception ->
             val game = snapshot?.toObject(Game::class.java)
-            updateRoleOwners(){
+            if (oldGamePhase != game?.phase){
+                updateRoleOwners(){
+                    _game.value = game
+                }
+            } else {
                 _game.value = game
-                Log.v("ROLES", "presidentialCandidate: " + presidentialCandidate?.userName)
-                Log.v("ROLES", "chancellorCandidate: " + chancellorCandidate?.userName)
-                Log.v("ROLES", "chancellor: " + chancellor?.userName)
-                Log.v("ROLES", "president: " + president?.userName)
             }
+            oldGamePhase = game?.phase
             if (exception != null) Log.e(null, null, exception)
         }
 
-        playersRef = gameRef.collection(PLAYERS)//.orderBy(ORDER)
+        playersRef = gameRef.collection(PLAYERS).orderBy(ORDER)
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -125,8 +125,16 @@ class GameViewModel : ViewModel() {
 
     fun setChancellorCandidate(player: Player): Task<Void> {
         val playerRef = getPlayerRef(player.id)
-        return gameRef.update(CHANCELLORCANDIDATE, playerRef).continueWithTask {
+        return gameRef.update(CHANCELLORCANDIDATE, playerRef).onSuccessTask {
             setGamePhase(GamePhase.vote)
+        }
+    }
+
+    fun killPlayer(player: Player): Task<Void> {
+
+        val playerRef = getPlayerRef(player.id)
+        return playerRef.update(KILLED, true).onSuccessTask {
+            setGamePhase(GamePhase.nominate_chancellor)
         }
     }
 
@@ -144,24 +152,26 @@ class GameViewModel : ViewModel() {
                     )
                 )
             }
-            GamePhase.policy_peek -> {
-                gameRef.collection(CURRENTHAND).get().continueWithTask { task ->
-                    Tasks.whenAll(task.result!!.documents.map { it.reference.delete() })
-                }.continueWithTask {
-                    gameRef.collection(DRAWPILE).orderBy(ORDER).limit(3).get()
-                }.continueWithTask { task ->
-                    Tasks.whenAll(task.result!!.documents.flatMap {
-                        val policy = it.data!!
-                        val deleteTask = it.reference.delete()
-                        val addTask = gameRef.collection(CURRENTHAND).add(policy)
-                        listOf(deleteTask, addTask)
-                    })
-                }
+            GamePhase.president_discard_policy -> {
+                val currentHand = currentHand.value!!
+                drawCards(3L - currentHand.size)
             }
+            GamePhase.policy_peek -> drawCards(3)
             else -> Tasks.forResult(Unit)
         }
-        return task.continueWithTask {
+        return task.onSuccessTask {
             gameRef.update(PHASE, phase)
+        }
+    }
+
+    private fun drawCards(amount: Long): Task<Void> {
+        return gameRef.collection(DRAWPILE).orderBy(ORDER).limit(amount).get().onSuccessTask {
+            Tasks.whenAll(it!!.documents.flatMap { snapshot ->
+                val policy = snapshot.data!!
+                val deleteTask = snapshot.reference.delete()
+                val addTask = gameRef.collection(CURRENTHAND).add(policy)
+                listOf(deleteTask, addTask)
+            })
         }
     }
 
@@ -207,11 +217,11 @@ class GameViewModel : ViewModel() {
             // save the new elects and advance the game phase
             gameRef.update(
                 mapOf(
+                    PHASE to GamePhase.president_discard_policy,
                     PRESIDENT to _game.value!!.presidentialCandidate,
                     CHANCELLOR to _game.value!!.chancellorCandidate,
                     PRESIDENTIALCANDIDATE to null,
                     CHANCELLORCANDIDATE to null,
-                    PHASE to GamePhase.president_discard_policy,
                     FAILEDGOVERNMENTS to 0
                 )
             )
@@ -222,10 +232,10 @@ class GameViewModel : ViewModel() {
             // update the counter for failed governments and set the new presidential candidate
             gameRef.update(
                 mapOf(
+                    PHASE to GamePhase.nominate_chancellor,
                     FAILEDGOVERNMENTS to FieldValue.increment(1),
                     PRESIDENTIALCANDIDATE to getNextPresidentialCandidate(),
-                    CHANCELLORCANDIDATE to null,
-                    PHASE to GamePhase.nominate_chancellor
+                    CHANCELLORCANDIDATE to null
                 )
 
             ).addOnSuccessListener {
@@ -280,23 +290,74 @@ class GameViewModel : ViewModel() {
         return true
     }
 
-    fun discardPolicy(i: Int): Task<Void> {
+    fun presidentDiscardPolicy(i: Int): Task<Void> {
         val currentHand = currentHand.value!!
         val discardedPolicy = currentHand[i]
-        val discardedPolicyRef = gameRef.collection(CURRENTHAND).document(discardedPolicy.id)
-        return discardedPolicyRef.delete().continueWithTask {
-            if (currentHand.size == 2) {
-                val enactedPolicy = currentHand[1 - i]
-                enactPolicy(enactedPolicy).continueWithTask {
-                    setGamePhase(GamePhase.nominate_chancellor)
-                }
-            } else {
-                setGamePhase(GamePhase.chancellor_discard_policy)
+        return gameRef.collection(CURRENTHAND).document(discardedPolicy.id).delete().onSuccessTask {
+            setGamePhase(GamePhase.chancellor_discard_policy)
+        }
+    }
+
+    fun chancellorDiscardPolicy(i: Int): Task<Void> {
+        val currentHand = currentHand.value!!
+        val enactedPolicy = currentHand[1 - i]
+        val currentHandRefs = currentHand.map { gameRef.collection(CURRENTHAND).document(it.id) }
+        return Tasks.whenAll(currentHandRefs.map { it.delete() }).onSuccessTask {
+            enactPolicy(enactedPolicy)
+        }
+    }
+
+    private fun enactPolicy(policy: Policy): Task<Void> {
+        val game = game.value!!
+        return if (policy.type == PolicyType.loyalist) {
+            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1)).onSuccessTask {
+                refreshDrawpileIfNeccessary()
+            }.onSuccessTask {
+                setGamePhase(GamePhase.nominate_chancellor)
+            }
+        } else {
+            val imperialPolitics = game.imperialPolitics + 1
+            val phase = when (imperialPolitics) {
+                3 -> GamePhase.policy_peek
+                4 -> GamePhase.kill
+                5 -> GamePhase.kill
+                else -> GamePhase.nominate_chancellor
+            }
+            gameRef.update(IMPERIALPOLITICS, imperialPolitics).onSuccessTask {
+                refreshDrawpileIfNeccessary()
+            }.onSuccessTask {
+                setGamePhase(phase)
             }
         }
     }
 
-    fun loadGameAndPlayersForPendingState(gameId: String){
+    private fun refreshDrawpileIfNeccessary(): Task<Void> {
+        return gameRef.collection(DRAWPILE).get().onSuccessTask { drawpile ->
+            if (drawpile == null || drawpile.size() >= 3) return@onSuccessTask Tasks.forResult<Void>(
+                null
+            )
+            Tasks.whenAll(drawpile.documents.map { it.reference.delete() }).onSuccessTask {
+                gameRef.get()
+            }.onSuccessTask {
+                val game = it!!.toObject(Game::class.java)!!
+                val imperialPolicyCount = 11 - game.imperialPolitics
+                val loyalistPolicyCount = 6 - game.loyalistPolitics
+                val imperialistPolicies = (1..imperialPolicyCount).map { PolicyType.imperialist }
+                val loyalistPolicies = (1..loyalistPolicyCount).map { PolicyType.loyalist }
+                val policies = (imperialistPolicies + loyalistPolicies).shuffled()
+                Tasks.whenAll(policies.mapIndexed { index, policyType ->
+                    gameRef.collection(DRAWPILE).add(
+                        mapOf(
+                            TYPE to policyType,
+                            ORDER to index
+                        )
+                    )
+                })
+            }
+        }
+    }
+
+    fun loadGameAndPlayersForPendingState(gameId: String) {
 
         gameRepository.getGame(gameId).addSnapshotListener { snapshot, exception ->
             val game = snapshot?.toObject(Game::class.java)
@@ -325,17 +386,8 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    private fun enactPolicy(policy: Policy): Task<Void> {
-        return if (policy.type == PolicyType.loyalist) {
-            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1))
-        } else {
-            gameRef.update(IMPERIALPOLITICS, FieldValue.increment(1))
-        }
-    }
 
-
-
-    fun handleFailedGovernment(){
+    private fun handleFailedGovernment(){
         var minOrder = Int.MAX_VALUE
         var nextCard: QueryDocumentSnapshot? = null
 
@@ -347,9 +399,14 @@ class GameViewModel : ViewModel() {
                     nextCard = element
                 }
             }
+
             val politic = nextCard?.get(TYPE).toString()
-            val policy = if (politic == LOYALIST) Policy("", PolicyType.loyalist) else Policy("", PolicyType.imperialist)
-            enactPolicy(policy)
+            if (politic == LOYALIST) {
+                gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1))
+            } else {
+                gameRef.update(IMPERIALPOLITICS, FieldValue.increment(1))
+            }
+
             gameRef.collection(DRAWPILE).document(nextCard!!.id).delete()
             }
 
@@ -361,7 +418,7 @@ class GameViewModel : ViewModel() {
     }
 
 
-    fun updateRoleOwners(callback: () -> Unit){
+    private fun updateRoleOwners(callback: () -> Unit){
         val taskList: ArrayList<Task<DocumentSnapshot>?> = arrayListOf()
         taskList.add(game.value?.presidentialCandidate?.get()?.addOnSuccessListener {
             for (player in players.value!!){

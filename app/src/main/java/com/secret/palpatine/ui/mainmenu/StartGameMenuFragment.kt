@@ -9,8 +9,10 @@ import android.view.ViewGroup
 
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.secret.palpatine.R
@@ -82,7 +84,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
         for (user in friendList) {
-            letterList.add(user.username.first())
+            letterList.add(user.username.decapitalize().first())
             userList.add(user)
         }
         val letterSet: Set<Char> = letterList.toSortedSet()
@@ -94,7 +96,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
                     ArrayList()
                 )
             for (user in userList) {
-                if (user.username.first() == letter) {
+                if (user.username.decapitalize().first() == letter) {
                     friendGroup.friendList.add(user)
                 }
             }
@@ -111,10 +113,9 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         when (v.id) {
             R.id.start_game_button -> {
                 viewModel.startGame().addOnSuccessListener {
-                    startActivity(Intent(context, GameActivity::class.java).apply {
-                        putExtra("gameId", it)
-                    })
-                    requireActivity().finish()
+                    val bundle = bundleOf(Pair("gameId", it))
+                    findNavController().navigate(R.id.action_startGameMenuFragment_to_gamePendingFragment,bundle)
+
                 }
             }
         }

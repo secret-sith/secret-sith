@@ -27,7 +27,7 @@ class MainMenuActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        setProgressBar(binding.progressOverlay.root)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 

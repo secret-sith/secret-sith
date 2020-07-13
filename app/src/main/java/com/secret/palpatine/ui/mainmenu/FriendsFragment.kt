@@ -1,15 +1,14 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
@@ -69,6 +68,18 @@ class FriendsFragment : Fragment() {
             }
         })
         viewModel.getUserFriendRequestCount()
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_mainmenu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add) {
+            findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {

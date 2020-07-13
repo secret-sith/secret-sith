@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="100dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -18,9 +17,8 @@
             android:id="@+id/friendsmenu_group_letter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:gravity="center"
             android:text="A"
+            android:layout_marginStart="10dp"
             android:textAllCaps="true"
             android:textSize="24sp"
             android:textStyle="bold" />

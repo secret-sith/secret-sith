@@ -1,9 +1,7 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -18,8 +17,6 @@ import com.secret.palpatine.R
 import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestsListAdapter
-import com.secret.palpatine.databinding.FragmentFriendsmenuBinding
-import com.secret.palpatine.databinding.FragmentFriendsrequestmenuBinding
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
@@ -90,7 +87,18 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
             adapter = FriendRequestsListAdapter(requests, context,this@FriendRequestsFragment)
         }
     }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_mainmenu, menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add) {
+            findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onStart() {
         super.onStart()

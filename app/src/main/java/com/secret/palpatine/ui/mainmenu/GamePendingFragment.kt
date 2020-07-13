@@ -1,15 +1,20 @@
 package com.secret.palpatine.ui.mainmenu
 
+
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,9 +28,12 @@ import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameState
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerListAdapter
+import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.ui.game.GameActivity
+import com.secret.palpatine.ui.game.GameFinishedActivity
 import com.secret.palpatine.ui.game.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game_pending.*
+
 
 /**
  * Fragment to show a game which is still pending with the invited players
@@ -51,11 +59,14 @@ class GamePendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val myClipboard: ClipboardManager =
+            activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         list = view.findViewById(R.id.players_list_overlay)
         startButton = view.findViewById(R.id.btnStart)
 
-        progress_overlay.rootView.visibility= View.VISIBLE
+        (activity as BaseActivity).supportActionBar!!.hide()
+        (activity as BaseActivity).showProgressBar()
         startButton.setOnClickListener {
             if (true) { // TODO
                 viewModel.start()
@@ -81,17 +92,37 @@ class GamePendingFragment : Fragment() {
 
         viewModel.game.observe(viewLifecycleOwner, Observer {
             init(it)
-            progress_overlay.rootView.visibility= View.INVISIBLE
+            (activity as BaseActivity).hideProgressBar()
         })
 
         viewModel.getCurrentUsersGameId().addOnSuccessListener {
+            val argGameId = arguments?.getString("gameId");
             if (it != null) {
-                viewModel.loadGameAndPlayersForPendingState(it)
-                gameId = it
-            }else {
+                loadGame(it)
+            } else if (argGameId != null) {
+                loadGame(argGameId)
+
+            } else {
                 findNavController().navigate(R.id.action_gamePendingFragment_to_mainMenuFragment)
+                (activity as BaseActivity).hideProgressBar()
             }
 
+        }.addOnFailureListener {
+            Log.e("Load user error", it.message)
+            (activity as BaseActivity).hideProgressBar()
+            Toast.makeText(
+                context,
+                "Error while loading your Profile - please try again",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+        txtInviteUrl.setOnClickListener {
+
+            val textToCopy = txtInviteUrl.text
+            val clip = ClipData.newPlainText("RANDOM UUID", textToCopy)
+            myClipboard.setPrimaryClip(clip)
+            Toast.makeText(context, R.string.copy_succcess, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -116,15 +147,29 @@ class GamePendingFragment : Fragment() {
 
     }
 
+    private fun loadGame(gameId: String) {
+        viewModel.loadGameAndPlayersForPendingState(gameId)
+        this.gameId = gameId
+        txtInviteUrl.text = getString(R.string.invite_url_template, gameId)
+    }
+
     private fun init(game: Game) {
         if (game.host != auth.currentUser?.uid) {
             startButton.visibility = View.INVISIBLE
         }
 
-        if(game.state == GameState.started){
+        if (game.state == GameState.started) {
             val intent = Intent(context, GameActivity::class.java).apply {
-                putExtra("gameId", gameId)
-                putExtra("userId", viewModel.userId)
+                putExtra("gameId", game.id)
+                putExtra("userId", auth.currentUser?.uid)
+            }
+            startActivity(intent)
+            activity?.finish()
+        } else if (game.state == GameState.finished) {
+            val intent = Intent(context, GameFinishedActivity::class.java).apply {
+                putExtra("gameId", game.id)
+                putExtra("userId", auth.currentUser?.uid)
+                putExtra("winner", game.winner)
             }
             startActivity(intent)
             activity?.finish()

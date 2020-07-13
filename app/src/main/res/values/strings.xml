@@ -72,6 +72,9 @@
     <string name="select_chancellor_desc">Select a chancellor</string>
     <string name="select_president_header">Presidential Power</string>
     <string name="select_president_desc">Special Election - Select a new president</string>
+    <string name="kill_player_header">Presidential Special Power was activated!</string>
+    <string name="kill_player_desc">Select a Player to kill!</string>
+
     <string name="policy_peek_desc">Policy Peek\nThese are the 3 Policies the next Government will get</string>
     <string name="players_count">"Players accepted: >%1$s"</string>
     <string name="player_name">%1$s</string>
@@ -80,5 +83,31 @@
     <string name="join_game_id">Game Id: %1$s!</string>
     <string name="winner">"And the winners are ... "</string>
     <string name="player_membership">"is a "</string>
+    <string name="invite_url_template">https://www.secret-sith.com/join-game?game_id=%1$s</string>
+    <string name="join_url_text">Invite Link</string>
+    <string name="copy_succcess">Copied the Link to the Clipboard</string>
+    <string name="end_game">End game</string>
+    <string name="mainmenu_manual_button">How to play</string>
+    <string name="credits">Credits</string>
+    <string name="credits_fragment_label">Show Credits</string>
+    <string name="submenu_credits_toolbar_title">Credits &amp; License</string>
+    <string name="license_depiction">License Depiction</string>
+    <string name="sh_creator">Secret Sith was created by Mike Boxleiter, Tommy Maranges, Max Temkin, and Mac Schubert.</string>
+    <string name="starwars_1">All Star Wars art is added onto the base art of the Secret H. PnP. Two pieces of artwork were modified and accredited below. All other artwork/clip art are stock movie photos or created by Tom Reuhl.</string>
+    <string name="artwork_header">ARTWORK:</string>
+    <string name="artwork_content">Jar Jar Binks - The New Essential Guide to Characters - Original Designer / Artist: Michael Sutfin\nEmperor Palpatine - Star Wars Galaxies Trading Card Game - The Nighsister’s Revenge Original Designer / Artist: Kieran Yanner</string>
+    <string name="license">Secret Sith is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</string>
+    <string name="rights_header">YOU ARE FREE TO:</string>
+    <string name="rights_content">- Share: copy and redistribute the game in any medium or format\n- Adapt: remix, transform, and build upon the game.</string>
+    <string name="terms_header">UNDER THE FOLLOWING TERMS:</string>
+    <string name="terms_content">- Attribution: If you make something using the game, you need to give us credit and link back to us, and you need to explain what you changed.\n- Non-Commercial: You can’t use the game to make money.\n- Share Alike: If you remix, transform, or build upon the game, you have to release your work under the same Creative Commons license that we use (BY-NC-SA 4.0).\n- No additional restrictions: You can’t apply legal terms or technological measures to your work that legally restrict others from doing anything the license allows. That means you can’t submit anything using the game to any app store without the approval.</string>
+    <string name="text_failed_governments">Failed Governments</string>
+    <string name="players">"Players in this Game: "</string>
+    <string name="vote_state">Vote</string>
+    <string name="playerholder">...</string>
+    <string name="select_chancellor">Make %1$s your Chancellor!</string>
+    <string name="kill_player">Kill %1$s!</string>
+    <string name="add_friends_empty">"Type in a name to search for new people to play with :) "</string>
+    <string name="add_friends_button">Add as Friends</string>
 
 </resources>

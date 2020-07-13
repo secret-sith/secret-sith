@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryColor">#212121</color>
-    <color name="overlayBackground">#CC292525</color>
+    <color name="overlayBackground">#E62F3135</color>
     <color name="primaryLightColor">#000000</color>
     <color name="primaryDarkColor">#c29d6f</color>
     <color name="secondaryColor">#FF9800</color>
@@ -9,5 +9,12 @@
     <color name="secondaryDarkColor">#c5893b</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#fff</color>
+    <color name="errorColor">#ff0033</color>
+    <color name="successColor">#28a745</color>
+    <color name="itemDividerColor">#28a745</color>
+
+    <color name="backgroundColor">#363835</color>
+    <color name="evilColor">#e66444</color>
+    <color name="goodColor">#61c8d9</color>
 
 </resources>

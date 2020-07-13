@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.data.model.friends.friend.FriendListResult
@@ -55,6 +56,8 @@ class MainMenuViewModel : ViewModel() {
 
     var userId: String? = auth.currentUser!!.uid
 
+    private val _friendsSearchResult = MutableLiveData<FriendListResult>()
+    val friendsSearchResult: LiveData<FriendListResult> = _friendsSearchResult
 
     fun refreshUserFriends() {
         friendRepository.getUserFriends(auth.currentUser!!).addOnSuccessListener { documents ->
@@ -87,6 +90,36 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    fun searchForFriends(userNameQuery: String?) {
+
+        if (userNameQuery.isNullOrBlank()) {
+            return
+        }
+
+        friendRepository.searchForFriends(userNameQuery).addOnSuccessListener { documents ->
+            var friendList: MutableList<User> = mutableListOf()
+
+            for (document in documents) {
+                var user = document.toObject(User::class.java)
+                friendList.add(user)
+            }
+
+            Log.d("friends", friendList.toString())
+
+            friendList =
+                friendList.filter { user ->
+                    !user.friends.contains(
+                        Firebase.firestore.collection("users").document(auth.currentUser!!.uid)
+                    ) && user.id != auth.currentUser!!.uid
+                }.toMutableList()
+
+            _friendsSearchResult.value = FriendListResult(success = friendList)
+        }.addOnFailureListener {
+            Log.e("search", it.message)
+            _friendsSearchResult.value = FriendListResult(error = 1)
+
+        }
+    }
 
     fun updateUserToStartGameList(user: User) {
         Log.d("User to add", user.toString())
@@ -107,8 +140,6 @@ class MainMenuViewModel : ViewModel() {
             auth.currentUser!!.displayName!!
         )
     }
-
-
 
 
     fun getUserFriendRequests() {

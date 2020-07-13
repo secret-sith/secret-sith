@@ -8,15 +8,18 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
+import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
 
-class NominateChancellorFragment : Fragment() {
+class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
     private lateinit var binding: GameNominateChancellorFragmentBinding
     private lateinit var viewModel: GameViewModel
-
+    private lateinit var playerListAdapter: SelectPlayerListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -35,21 +38,28 @@ class NominateChancellorFragment : Fragment() {
             val game = viewModel.game.value
             if (game != null) updatePlayers(players, game)
         })
-        binding.players.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, _ ->
-            binding.confirm.isEnabled = binding.players.checkedItemCount > 0
-        }
+
+        playerListAdapter =
+            SelectPlayerListAdapter(listOf(), requireContext(), this@NominateChancellorFragment, SelectedPlayerMode.CHANCELLOR)
+
+
         binding.confirm.setOnClickListener {
-            val pos = binding.players.checkedItemPosition
-            val player = binding.players.getItemAtPosition(pos) as Player
-            viewModel.setChancellorCandidate(player)
-            requireActivity().finish()
+            //val pos = binding.players.adapter.
+            //    val player = binding.players.getItemAtPosition(pos) as Player
+            if (playerListAdapter.getSelectedPlayer() != null) {
+                viewModel.setChancellorCandidate(playerListAdapter.getSelectedPlayer()!!)
+                requireActivity().finish()
+            }
         }
     }
 
     private fun updatePlayers(players: List<Player>, game: Game) {
         val eligiblePlayers = getEligiblePlayers(game, players)
+        playerListAdapter.list = eligiblePlayers
         binding.players.apply {
-            adapter = SelectPlayerListAdapter(eligiblePlayers, context)
+            layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            adapter = playerListAdapter
+
         }
     }
 
@@ -58,11 +68,22 @@ class NominateChancellorFragment : Fragment() {
             if (player.id == game.presidentialCandidate?.id) return@filter false
             if (player.id == game.chancellor?.id) return@filter false
             if (player.id == game.president?.id && players.size > 5) return@filter false
+            if (player.killed != null && player.killed!!) return@filter false
+
             return@filter true
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onSelectPlayer(player: Player) {
+
+        binding.confirm.isEnabled = true
+        binding.confirm.text =getString(R.string.select_chancellor, player.userName)
+
+        for (p in playerListAdapter.list) {
+            p.resetSelection()
+        }
+        player.selectPlayer()
+
+        playerListAdapter.notifyDataSetChanged()
     }
 }

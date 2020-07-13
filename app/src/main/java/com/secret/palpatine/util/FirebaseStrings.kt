@@ -28,10 +28,15 @@ const val ISHOST = "isHost"
 const val USER = "user"
 const val USERNAME = "userName"
 const val VOTE = "vote"
+const val KILLED = "killed"
 
 /**
  *   DRAWPILE
  */
-const val TYPE = "type"
 const val IMPERIALIST = "imperialist"
 const val LOYALIST = "loyalist"
+
+/**
+ *   POLICY VALUES
+ */
+const val TYPE = "type"
