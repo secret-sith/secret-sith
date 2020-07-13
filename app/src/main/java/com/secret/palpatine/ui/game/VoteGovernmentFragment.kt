@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
 import com.secret.palpatine.util.VOTE
@@ -20,33 +19,29 @@ class VoteGovernmentFragment : Fragment() {
     private var presidentialCandidateName: String? = null
     private var chancellorCandidateName: String? = null
 
-
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
     }
 
-
-
-
     override fun onResume() {
         super.onResume()
-        presidentialCandidateName = viewModel.getPlayerForReference(viewModel.game.value?.presidentialCandidate!!)?.userName
-        chancellorCandidateName = viewModel.getPlayerForReference(viewModel.game.value?.chancellorCandidate!!)?.userName
-        requireView().findViewById<TextView>(R.id.government_election_desc).text = getString( R.string.government_election_desc, presidentialCandidateName, chancellorCandidateName)
+        presidentialCandidateName =
+            viewModel.getPlayerForReference(viewModel.game.value?.presidentialCandidate!!)?.userName
+        chancellorCandidateName =
+            viewModel.getPlayerForReference(viewModel.game.value?.chancellorCandidate!!)?.userName
+        requireView().findViewById<TextView>(R.id.vote_title).text = getString(
+            R.string.government_election_desc,
+            presidentialCandidateName,
+            chancellorCandidateName
+        )
     }
 
-
-
-
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
-        return inflater.inflate(R.layout.fragment_vote_chancellor, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.game_vote_fragment, container, false)
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +50,6 @@ class VoteGovernmentFragment : Fragment() {
             submitVote(didAcceptGovernment = true) {
                 (activity as AppCompatActivity).actionOverlay.visibility = View.INVISIBLE
             }
-
         }
 
         view.findViewById<ImageButton>(R.id.button_vote_no).setOnClickListener {
@@ -64,9 +58,6 @@ class VoteGovernmentFragment : Fragment() {
             }
         }
     }
-
-
-
 
     private fun submitVote(didAcceptGovernment: Boolean, callback: () -> Unit) {
         // search for yourself
@@ -98,5 +89,4 @@ class VoteGovernmentFragment : Fragment() {
         // close the overlay activity
         callback.invoke()
     }
-
 }

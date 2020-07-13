@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +19,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
     private lateinit var binding: GameNominateChancellorFragmentBinding
     private lateinit var viewModel: GameViewModel
     private lateinit var playerListAdapter: SelectPlayerListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,10 +40,14 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
         })
 
         playerListAdapter =
-            SelectPlayerListAdapter(listOf(), requireContext(), this@NominateChancellorFragment, SelectedPlayerMode.CHANCELLOR)
+            SelectPlayerListAdapter(
+                listOf(),
+                requireContext(),
+                this@NominateChancellorFragment,
+                SelectedPlayerMode.CHANCELLOR
+            )
 
-
-        binding.confirm.setOnClickListener {
+        binding.nominateChancellorConfirm.setOnClickListener {
             //val pos = binding.players.adapter.
             //    val player = binding.players.getItemAtPosition(pos) as Player
             if (playerListAdapter.getSelectedPlayer() != null) {
@@ -51,8 +55,6 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
                 requireActivity().finish()
             }
         }
-
-        binding.confirm.text = getString(R.string.select_chancellor_default)
     }
 
     private fun updatePlayers(players: List<Player>, game: Game) {
@@ -77,10 +79,8 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
     }
 
     override fun onSelectPlayer(player: Player) {
-
-        binding.confirm.isEnabled = true
-        binding.confirm.text = getString(R.string.select_chancellor, player.userName)
-
+        binding.nominateChancellorConfirm.isEnabled = true
+        
         for (p in playerListAdapter.list) {
             p.resetSelection()
         }
