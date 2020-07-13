@@ -8,18 +8,17 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.secret.palpatine.data.model.PoliticType
 import com.secret.palpatine.data.model.game.*
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
 import com.secret.palpatine.util.*
+import kotlin.reflect.typeOf
 
 /**
  * Created by Florian Fuchs on 19.06.2020.
@@ -39,7 +38,10 @@ class GameViewModel : ViewModel() {
     init {
         val _gamePhase = MutableLiveData<GamePhase>()
         game.observeForever {
-            _gamePhase.value = it.phase
+            updateRoleOwners {
+                _gamePhase.value = it.phase
+            }
+
         }
         gamePhase = _gamePhase
     }
@@ -47,6 +49,10 @@ class GameViewModel : ViewModel() {
     var userId: String? = null
     var userName: String? = null
     var thisPlayer: Player? = null
+    var presidentialCandidate: Player? = null
+    var chancellorCandidate: Player? = null
+    var chancellor: Player? = null
+    var president: Player? = null
 
     private lateinit var playersRef: Query
     private var playersReg: ListenerRegistration? = null
@@ -59,18 +65,32 @@ class GameViewModel : ViewModel() {
     private val _currentHand = MutableLiveData<List<Policy>>()
     val currentHand: LiveData<List<Policy>> = _currentHand
 
+    private lateinit var drawpileRef: Query
+    private var drawpileReg: ListenerRegistration? = null
+    private val _drawpile = MutableLiveData<List<Policy>>()
+    val drawpile: LiveData<List<Policy>> = _drawpile
+
     private val _endGameResult = MutableLiveData<EndGameResult>()
     val endGameResult: LiveData<EndGameResult> = _endGameResult
+
+
 
     fun setGameId(gameId: String) {
         gameRef = Firebase.firestore.collection(GAMES).document(gameId)
         gameReg?.remove()
         gameReg = gameRef.addSnapshotListener { snapshot, exception ->
             val game = snapshot?.toObject(Game::class.java)
-            _game.value = game
+            updateRoleOwners(){
+                _game.value = game
+                Log.v("ROLES", "presidentialCandidate: " + presidentialCandidate?.userName)
+                Log.v("ROLES", "chancellorCandidate: " + chancellorCandidate?.userName)
+                Log.v("ROLES", "chancellor: " + chancellor?.userName)
+                Log.v("ROLES", "president: " + president?.userName)
+            }
             if (exception != null) Log.e(null, null, exception)
         }
-        playersRef = gameRef.collection(PLAYERS).orderBy(ORDER)
+
+        playersRef = gameRef.collection(PLAYERS)//.orderBy(ORDER)
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             if (snapshot != null) {
@@ -91,6 +111,16 @@ class GameViewModel : ViewModel() {
             }
             if (exception != null) Log.e(null, null, exception)
         }
+
+        drawpileRef = gameRef.collection(DRAWPILE).orderBy(ORDER)
+        drawpileReg?.remove()
+        drawpileReg = drawpileRef.addSnapshotListener { snapshot, exception ->
+            if(snapshot != null){
+                _drawpile.value = snapshot.toObjects(Policy::class.java)
+            }
+            if (exception != null) Log.e(null,null, exception)
+        }
+
     }
 
     fun setChancellorCandidate(player: Player): Task<Void> {
@@ -164,21 +194,16 @@ class GameViewModel : ViewModel() {
     }
 
     fun handleElectionResult() {
-
         // check the election result
-        var yesVotes = 0
-        var noVotes = 0
+        var yesVotes = 0; var noVotes = 0
+
         for (player in players.value!!) {
-            if (player.vote!!) {
-                yesVotes++
-            } else {
-                noVotes++
-            }
+            if (player.vote!!) { yesVotes++ }
+            else { noVotes++ }
         }
 
         // case election was successful
         if (yesVotes > noVotes) {
-
             // save the new elects and advance the game phase
             gameRef.update(
                 mapOf(
@@ -194,7 +219,6 @@ class GameViewModel : ViewModel() {
 
         // case election failed
         if (yesVotes <= noVotes) {
-
             // update the counter for failed governments and set the new presidential candidate
             gameRef.update(
                 mapOf(
@@ -204,23 +228,12 @@ class GameViewModel : ViewModel() {
                     PHASE to GamePhase.nominate_chancellor
                 )
 
-            )
-                .addOnSuccessListener {
+            ).addOnSuccessListener {
                     // check if country is thrown into chaos
                     if (game.value!!.failedGovernments == 3) {
-                        // play the next politic from the pile but ignore executive powers that would take place
-                        // shuffle the discard pile into the draw pile in case there are only two cards left
-                        // TODO play next politic from pile + check if not enough cards
-                        gameRef.update(
-                            mapOf(
-                                CHANCELLOR to null,
-                                FAILEDGOVERNMENTS to 0
-                            )
-                        )
+                        handleFailedGovernment()
                     }
-
                 }
-
         }
         for (player in players.value!!) {
             getPlayerRef(player.id).update(VOTE, null)
@@ -318,5 +331,70 @@ class GameViewModel : ViewModel() {
         } else {
             gameRef.update(IMPERIALPOLITICS, FieldValue.increment(1))
         }
+    }
+
+
+
+    fun handleFailedGovernment(){
+        var minOrder = Int.MAX_VALUE
+        var nextCard: QueryDocumentSnapshot? = null
+
+
+        drawpileRef.get().addOnSuccessListener { drawpile ->
+            for (element in drawpile){
+                if((element[ORDER].toString().toInt()) < minOrder){
+                    minOrder = element[ORDER].toString().toInt()
+                    nextCard = element
+                }
+            }
+            val politic = nextCard?.get(TYPE).toString()
+            val policy = if (politic == LOYALIST) Policy("", PolicyType.loyalist) else Policy("", PolicyType.imperialist)
+            enactPolicy(policy)
+            gameRef.collection(DRAWPILE).document(nextCard!!.id).delete()
+            }
+
+        gameRef.update(
+            mapOf(
+                FAILEDGOVERNMENTS to 0
+            )
+        )
+    }
+
+
+    fun updateRoleOwners(callback: () -> Unit){
+        val taskList: ArrayList<Task<DocumentSnapshot>?> = arrayListOf()
+        taskList.add(game.value?.presidentialCandidate?.get()?.addOnSuccessListener {
+            for (player in players.value!!){
+                if (it[USER] == player.user){
+                    presidentialCandidate = player
+                    break
+                }
+            }
+        })
+        taskList.add(game.value?.chancellorCandidate?.get()?.addOnSuccessListener {
+            for (player in players.value!!){
+                if(it[USER] == player.user){
+                    chancellorCandidate = player
+                    break
+                }
+            }
+        })
+        taskList.add(game.value?.president?.get()?.addOnSuccessListener {
+            for (player in players.value!!){
+                if(it[USER] == player.user){
+                    president = player
+                    break
+                }
+            }
+        })
+        taskList.add(game.value?.chancellor?.get()?.addOnSuccessListener {
+            for (player in players.value!!){
+                if(it[USER] == player.user){
+                    chancellor = player
+                    break
+                }
+            }
+        })
+        Tasks.whenAll(taskList.filterNotNull()).continueWith { callback() }
     }
 }

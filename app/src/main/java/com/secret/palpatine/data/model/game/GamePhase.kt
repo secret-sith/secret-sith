@@ -8,10 +8,8 @@ enum class GamePhase {
     vote,
     president_discard_policy,
     chancellor_discard_policy,
-    investigate_loyality_choose_player,
-    investigate_loyality_return_card,
-    call_special_election,
-    policy_peek
+    policy_peek,
+    kill
 }
 
 

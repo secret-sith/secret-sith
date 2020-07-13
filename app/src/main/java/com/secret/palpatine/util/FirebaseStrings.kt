@@ -1,6 +1,7 @@
 package com.secret.palpatine.util
 
 const val GAMES = "games"
+const val ORDER = "order"
 
 /**
  *   GAME VALUES
@@ -27,4 +28,10 @@ const val ISHOST = "isHost"
 const val USER = "user"
 const val USERNAME = "userName"
 const val VOTE = "vote"
-const val ORDER = "order"
+
+/**
+ *   DRAWPILE
+ */
+const val TYPE = "type"
+const val IMPERIALIST = "imperialist"
+const val LOYALIST = "loyalist"

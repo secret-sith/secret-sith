@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,8 @@ import com.secret.palpatine.data.model.player.PlayerListAdapter
 import com.secret.palpatine.databinding.ActivityGameBinding
 import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.util.pushFragment
+import kotlinx.android.synthetic.main.activity_game.*
+import java.lang.NullPointerException
 
 class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityGameBinding
@@ -38,15 +41,17 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameId = intent.extras!!.getString("gameId")!!
-        val userId = intent.extras?.getString("userId")
+        val userId = auth.currentUser?.uid
 
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         viewModel.setGameId(gameId)
+        viewModel.userId = userId
 
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.showLayover.setOnClickListener(this)
+
         binding.showPlayers.setOnClickListener(this)
         setProgressBar(binding.progressOverlay.root)
 
@@ -61,19 +66,19 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         viewModel.gamePhase.observe(this, Observer { phase ->
             when (phase) {
                 GamePhase.nominate_chancellor -> {
-                    pushFragment(NominateChancellorFragment(), R.id.actionOverlay)
+                    if (thisPlayerNeeded()) pushFragment(NominateChancellorFragment(), R.id.actionOverlay)
                 }
                 GamePhase.vote -> {
-                    pushFragment(VoteChancellorFragment(), R.id.actionOverlay)
+                    if (thisPlayerNeeded()) pushFragment(VoteChancellorFragment(), R.id.actionOverlay)
                 }
                 GamePhase.president_discard_policy -> {
-                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
+                    if (thisPlayerNeeded()) pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
                 }
                 GamePhase.chancellor_discard_policy -> {
-                    pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
+                    if (thisPlayerNeeded()) pushFragment(DiscardPolicyFragment(), R.id.actionOverlay)
                 }
                 GamePhase.policy_peek -> {
-                    pushFragment(PolicyPeekFragment(), R.id.actionOverlay)
+                    if (thisPlayerNeeded()) pushFragment(PolicyPeekFragment(), R.id.actionOverlay)
                 }
             }
         })
@@ -82,13 +87,29 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             populatePlayerList(it)
         })
 
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE or
+        window.decorView.systemUiVisibility =
+               (View.SYSTEM_UI_FLAG_IMMERSIVE or
                 View.SYSTEM_UI_FLAG_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
-    private fun initGame(game: Game) {
 
+    private fun thisPlayerNeeded(): Boolean{
+        return try {
+            when (viewModel.gamePhase.value!!) {
+                GamePhase.vote -> true
+                GamePhase.nominate_chancellor -> viewModel.presidentialCandidate!!.user == auth.currentUser!!.uid
+                GamePhase.president_discard_policy -> viewModel.president!!.user == auth.currentUser!!.uid
+                GamePhase.chancellor_discard_policy -> viewModel.chancellor!!.user == auth.currentUser!!.uid
+                GamePhase.policy_peek -> viewModel.president!!.user == auth.currentUser!!.uid
+                GamePhase.kill -> viewModel.president!!.user == auth.currentUser!!.uid
+            }
+        } catch (e: NullPointerException) {
+            false
+        }
+    }
+
+    private fun initGame(game: Game) {
         when (game.state) {
 
             GameState.finished -> {
@@ -150,6 +171,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun toggleOverlay() {
+        if (!thisPlayerNeeded()) return
         val oldVisibility = binding.actionOverlay.visibility
         binding.actionOverlay.visibility =
             if (oldVisibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
