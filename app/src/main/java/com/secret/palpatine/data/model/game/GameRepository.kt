@@ -10,6 +10,7 @@ import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
+import com.secret.palpatine.util.*
 
 /**
  * Created by Florian Fuchs on 19.06.2020.
@@ -70,21 +71,20 @@ class GameRepository {
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<String> {
 
 
-        val game: HashMap<String, Any> = hashMapOf(
+        val game: HashMap<String, Any?> = hashMapOf(
             "loyalistPolitics" to 0,
             "imperialPolitics" to 0,
             "failedGovernments" to 0,
             "state" to "pending",
             "phase" to "nominate_chancellor",
             "host" to userId,
-            "numberPlayers" to playerList.size + 1
+            "numberPlayers" to playerList.size + 1,
+            "president" to null,
+            "chancellor" to null,
+            "chancellorCandidate" to null,
+            "presidentialCandidate" to null
         )
 
-        val election = hashMapOf(
-            "votes_left" to playerList.size + 1,
-            "counter" to 0
-        )
-        game["election"] = election
 
         val host = hashMapOf(
             "user" to userId,
@@ -111,6 +111,7 @@ class GameRepository {
                         "createdAt" to FieldValue.serverTimestamp(),
                         "state" to PlayerState.pending,
                         "userName" to player.username,
+                        "vote" to null,
                         "order" to 0
                     )
                     plist.add(
@@ -120,6 +121,24 @@ class GameRepository {
                 plist.add(
                     db.collection("games").document(id).collection("players").add(host)
                 )
+
+                var drawpile = mutableListOf<HashMap<String,Any>>()
+                for (i in 0..17){
+                    drawpile.add(
+                        hashMapOf(
+                            ORDER to 0,
+                            TYPE to if (i < 6) LOYALIST else IMPERIALIST
+                        )
+                    )
+                }
+                drawpile.shuffle(); drawpile.shuffle(); drawpile.shuffle()
+                for (i in 0..drawpile.size-2){
+                    drawpile[i][ORDER] = i
+                    plist.add(db.collection(GAMES).document(id).collection(DRAWPILE).add(drawpile[i]))
+                }
+
+
+
                 Tasks.whenAll(plist).continueWith { id }
             }
         }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/overlayBackground"
     android:orientation="vertical"
-    tools:context=".ui.game.VoteChancellorFragment">
+    tools:context=".ui.game.VoteGovernmentFragment">
 
     <TextView
         android:id="@+id/government_election_header"
