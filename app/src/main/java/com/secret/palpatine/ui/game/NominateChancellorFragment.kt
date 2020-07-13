@@ -51,6 +51,8 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
                 requireActivity().finish()
             }
         }
+
+        binding.confirm.text = getString(R.string.select_chancellor_default)
     }
 
     private fun updatePlayers(players: List<Player>, game: Game) {
@@ -77,7 +79,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
     override fun onSelectPlayer(player: Player) {
 
         binding.confirm.isEnabled = true
-        binding.confirm.text =getString(R.string.select_chancellor, player.userName)
+        binding.confirm.text = getString(R.string.select_chancellor, player.userName)
 
         for (p in playerListAdapter.list) {
             p.resetSelection()
