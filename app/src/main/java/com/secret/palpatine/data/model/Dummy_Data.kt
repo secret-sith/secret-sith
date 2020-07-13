@@ -1,5 +1,6 @@
 package com.secret.palpatine.data.model
 
+import com.google.firebase.firestore.DocumentReference
 import com.secret.palpatine.data.model.friends.friend.Friend
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GamePhase
@@ -56,7 +57,9 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000001",
         UUID.randomUUID(),
-        "dummy_game"
+        "dummy_game",
+        false,
+        listOf<DocumentReference>()
     ),
     User(
         "2",
@@ -64,7 +67,9 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000010",
         UUID.randomUUID(),
-        "dummy_game"
+        "dummy_game",
+        false,
+        listOf<DocumentReference>()
     ),
     User(
         "3",
@@ -72,7 +77,9 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        "dummy_game"
+        "dummy_game",
+        false,
+        listOf<DocumentReference>()
     ),
     User(
         "4",
@@ -80,7 +87,9 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        "dummy_game"
+        "dummy_game",
+        false,
+        listOf<DocumentReference>()
     ),
     User(
         "5",
@@ -88,6 +97,8 @@ public val dummy_users = listOf(
         "05-06-2020",
         "00000011",
         UUID.randomUUID(),
-        "dummy_game"
+        "dummy_game",
+        false,
+        listOf<DocumentReference>()
     )
 )

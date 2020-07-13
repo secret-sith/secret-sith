@@ -41,10 +41,14 @@ class MainMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.mainmenu_invitesbutton).setOnClickListener {
+            MainMenuActivity.isInSelectionMode = false
+
             findNavController().navigate(R.id.action_mainMenuFragment_to_inviteMenuFragment)
         }
 
         view.findViewById<Button>(R.id.mainmenu_friendsbutton).setOnClickListener {
+            MainMenuActivity.isInSelectionMode = false
+
             findNavController().navigate(R.id.action_mainMenuFragment_to_friendsMenuFragment)
         }
 

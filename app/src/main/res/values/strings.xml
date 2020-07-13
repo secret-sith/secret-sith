@@ -107,5 +107,7 @@
     <string name="playerholder">...</string>
     <string name="select_chancellor">Make %1$s your Chancellor!</string>
     <string name="kill_player">Kill %1$s!</string>
+    <string name="add_friends_empty">"Type in a name to search for new people to play with :) "</string>
+    <string name="add_friends_button">Add as Friends</string>
 
 </resources>

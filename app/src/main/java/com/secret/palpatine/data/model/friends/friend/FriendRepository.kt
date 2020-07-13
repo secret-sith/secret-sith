@@ -40,4 +40,12 @@ class FriendRepository {
 
     }
 
+
+    fun searchForFriends(query: String): Task<QuerySnapshot> {
+
+        return db.collection("users").whereGreaterThanOrEqualTo("username", query).get()
+
+    }
+
+
 }

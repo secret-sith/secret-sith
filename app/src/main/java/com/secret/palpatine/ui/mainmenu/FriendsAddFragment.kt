@@ -1,27 +1,38 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.dummy_users
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
-import kotlinx.android.synthetic.main.fragment_friendsmenu.*
+import kotlinx.android.synthetic.main.fragment_add_friends.*
+import kotlinx.android.synthetic.main.fragment_add_friends.progress_overlay
 
-class FriendsAddFragment: Fragment(),FriendsListAdapter.FriendListAdapterListener, SearchView.OnQueryTextListener {
+class FriendsAddFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener,
+    SearchView.OnQueryTextListener {
 
-    private lateinit var adapter: FriendsListAdapter
+    private lateinit var searchListAdapter: FriendsListAdapter
+    private lateinit var viewModel: MainMenuViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MainMenuActivity.isInSelectionMode = true
+
+        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         retainInstance = true
-        adapter = FriendsListAdapter(dummy_users, this)
+        searchListAdapter = FriendsListAdapter(listOf(), this)
     }
 
     override fun onCreateView(
@@ -34,23 +45,64 @@ class FriendsAddFragment: Fragment(),FriendsListAdapter.FriendListAdapterListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         friends_recyclerview.apply {
-            layoutManager=LinearLayoutManager(activity)
-            adapter=adapter
+            layoutManager = GridLayoutManager(activity, 2)
+            adapter = searchListAdapter
+        }
+
+        search.setOnQueryTextListener(this)
+
+        viewModel.friendsSearchResult.observe(viewLifecycleOwner, Observer {
+            Log.d("Players", it.toString())
+            if (it.success != null) {
+                populateList(it.success)
+            }
+            if (it.error != null) {
+                Toast.makeText(context, "Error while search for new people...", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            progress_overlay.visibility = View.GONE
+        })
+
+    }
+
+    private fun populateList(users: List<User>?) {
+
+        if (users != null) {
+            if (users.isEmpty()) {
+                txt_empty.visibility = View.VISIBLE
+                btn_add_friends.visibility = View.GONE
+                txt_empty.text = "No users found ..."
+                searchListAdapter.setItems(listOf())
+                searchListAdapter.notifyDataSetChanged()
+
+            } else {
+                btn_add_friends.visibility = View.VISIBLE
+                txt_empty.visibility = View.GONE
+
+                searchListAdapter.setItems(users)
+                searchListAdapter.notifyDataSetChanged()
+            }
+
         }
     }
 
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(
-            R.string.submenu_friends_toolbar_title)
+        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
+            .setText(
+                R.string.submenu_friends_toolbar_title
+            )
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title).setText(
-            R.string.submenu_friends_toolbar_title)
+        (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
+            .setText(
+                R.string.submenu_friends_toolbar_title
+            )
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -58,9 +110,18 @@ class FriendsAddFragment: Fragment(),FriendsListAdapter.FriendListAdapterListene
         fun newInstance(): FriendsAddFragment = FriendsAddFragment()
     }
 
+    override fun onDestroyView() {
+        MainMenuActivity.isInSelectionMode = false
+        super.onDestroyView()
+    }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
 
+        viewModel.searchForFriends(query);
+        progress_overlay.visibility = View.VISIBLE
+        txt_empty.visibility = View.GONE
+        btn_add_friends.visibility = View.GONE
+        searchListAdapter.setItems(listOf())
         return false
     }
 
@@ -69,6 +130,6 @@ class FriendsAddFragment: Fragment(),FriendsListAdapter.FriendListAdapterListene
     }
 
     override fun onSelect(data: User) {
-        TODO("Not yet implemented")
+
     }
 }

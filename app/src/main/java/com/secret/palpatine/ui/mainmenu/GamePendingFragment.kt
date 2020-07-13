@@ -28,6 +28,7 @@ import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GameState
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerListAdapter
+import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.ui.game.GameActivity
 import com.secret.palpatine.ui.game.GameFinishedActivity
 import com.secret.palpatine.ui.game.GameViewModel
@@ -64,8 +65,8 @@ class GamePendingFragment : Fragment() {
         list = view.findViewById(R.id.players_list_overlay)
         startButton = view.findViewById(R.id.btnStart)
 
-        (activity as AppCompatActivity).supportActionBar!!.hide()
-        progress_overlay.visibility = View.VISIBLE
+        (activity as BaseActivity).supportActionBar!!.hide()
+        (activity as BaseActivity).showProgressBar()
         startButton.setOnClickListener {
             if (true) { // TODO
                 viewModel.start()
@@ -91,7 +92,7 @@ class GamePendingFragment : Fragment() {
 
         viewModel.game.observe(viewLifecycleOwner, Observer {
             init(it)
-            progress_overlay.visibility = View.GONE
+            (activity as BaseActivity).hideProgressBar()
         })
 
         viewModel.getCurrentUsersGameId().addOnSuccessListener {
@@ -103,8 +104,18 @@ class GamePendingFragment : Fragment() {
 
             } else {
                 findNavController().navigate(R.id.action_gamePendingFragment_to_mainMenuFragment)
+                (activity as BaseActivity).hideProgressBar()
             }
 
+        }.addOnFailureListener {
+            Log.e("Load user error", it.message)
+            (activity as BaseActivity).hideProgressBar()
+            Toast.makeText(
+                context,
+                "Error while loading your Profile - please try again",
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
         txtInviteUrl.setOnClickListener {
 
