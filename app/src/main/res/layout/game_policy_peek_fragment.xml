@@ -35,7 +35,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:src="@drawable/loyalist_card" />
+            android:src="@drawable/policy_good" />
 
         <ImageView
             android:id="@+id/policy_peek_policy_1"
@@ -44,7 +44,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:src="@drawable/loyalist_card" />
+            android:src="@drawable/policy_good" />
 
         <ImageView
             android:id="@+id/policy_peek_policy_2"
@@ -53,7 +53,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:src="@drawable/loyalist_card" />
+            android:src="@drawable/policy_good" />
     </LinearLayout>
 
     <Button

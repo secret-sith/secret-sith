@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.data.model.game.GameState
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerGameListAdapter
-import com.secret.palpatine.data.model.player.PlayerListAdapter
 import com.secret.palpatine.databinding.ActivityGameBinding
 import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.util.pushFragment
@@ -30,10 +28,12 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var viewModel: GameViewModel
 
     private var auth: FirebaseAuth = Firebase.auth
-    private var imperialistPolitics: HashMap<Int, ImageView> = hashMapOf()
-    private var loyalistPolitics: HashMap<Int, ImageView> = hashMapOf()
-    private var failedGovernments: HashMap<Int, ImageButton> = hashMapOf()
-private lateinit var playerListAdapter: PlayerGameListAdapter
+
+    private lateinit var evilPolicies: List<ImageView>
+    private lateinit var goodPolicies: List<ImageView>
+    private lateinit var electionTracker: List<ImageView>
+
+    private lateinit var playerListAdapter: PlayerGameListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameId = intent.extras!!.getString("gameId")!!
@@ -49,9 +49,10 @@ private lateinit var playerListAdapter: PlayerGameListAdapter
         binding.showPlayers.setOnClickListener(this)
         setProgressBar(binding.progressOverlay.root)
 
-        playerListAdapter = PlayerGameListAdapter(listOf(),context = this,currentUserId = auth.currentUser!!.uid)
+        playerListAdapter =
+            PlayerGameListAdapter(listOf(), context = this, currentUserId = auth.currentUser!!.uid)
 
-        initPoliticLists()
+        initLists()
 
 
         showProgressBar()
@@ -91,6 +92,30 @@ private lateinit var playerListAdapter: PlayerGameListAdapter
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
+    private fun initLists() {
+        evilPolicies = listOf(
+            binding.evilPolicy0,
+            binding.evilPolicy1,
+            binding.evilPolicy2,
+            binding.evilPolicy3,
+            binding.evilPolicy4,
+            binding.evilPolicy5
+        )
+        goodPolicies = listOf(
+            binding.goodPolicy0,
+            binding.goodPolicy1,
+            binding.goodPolicy2,
+            binding.goodPolicy3,
+            binding.goodPolicy4
+        )
+        electionTracker = listOf(
+            binding.electionTracker0,
+            binding.electionTracker1,
+            binding.electionTracker2,
+            binding.electionTracker3
+        )
+    }
+
     private fun initGame(game: Game) {
 
         playerListAdapter.game = game
@@ -114,57 +139,40 @@ private lateinit var playerListAdapter: PlayerGameListAdapter
 
     private fun initGameField(game: Game) {
         for (i in 0 until game.imperialPolitics) {
-            imperialistPolitics[i + 1]?.setImageResource(R.drawable.imperialist_card)
+            evilPolicies[i].setImageResource(R.drawable.policy_evil)
         }
         for (i in 0 until game.loyalistPolitics) {
-            loyalistPolitics[i + 1]?.setImageResource(R.drawable.loyalist_card)
+            goodPolicies[i].setImageResource(R.drawable.policy_good)
         }
-
         setFailedGovernments(game.failedGovernments)
-
     }
 
-    private fun setFailedGovernments(failedGovernments: Int){
-
-
-        for (i in 0 until failedGovernments) {
-            this.failedGovernments[i + 1]?.setColorFilter(getColor(R.color.secondaryColor))
+    private fun setFailedGovernments(failedGovernments: Int) {
+        for (i in electionTracker.indices) {
+            electionTracker[i].visibility =
+                if (i == failedGovernments) View.VISIBLE else View.INVISIBLE
         }
-
-
     }
 
     private fun populatePlayerList(players: List<Player>) {
         playerListAdapter.setItems(players)
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
-            adapter =playerListAdapter
+            adapter = playerListAdapter
         }
 
-        updateSecretRole(players.findLast { it.user == auth.currentUser!!.uid })
+        updateRole(players.findLast { it.user == auth.currentUser!!.uid })
     }
 
-    private fun updateSecretRole(userPlayer: Player?) {
-
+    private fun updateRole(userPlayer: Player?) {
         if (userPlayer != null) {
-
-            when (userPlayer.role) {
-
-                PlayerRole.imperialist -> {
-                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_imperialist))
-
+            binding.role.setImageResource(
+                when (userPlayer.role) {
+                    PlayerRole.imperialist -> R.drawable.role_evil_2
+                    PlayerRole.loyalist -> R.drawable.role_good_3
+                    PlayerRole.sith -> R.drawable.role_evil_leader
                 }
-
-                PlayerRole.loyalist -> {
-                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_loyalist))
-
-                }
-
-                PlayerRole.sith -> {
-                    binding.yourSecretRole.setImageDrawable(getDrawable(R.drawable.secret_role_sith))
-
-                }
-            }
+            )
         }
     }
 
@@ -180,43 +188,12 @@ private lateinit var playerListAdapter: PlayerGameListAdapter
                 toggleOverlay()
             }
             R.id.showPlayers -> {
-                if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)
-                ) {
+                if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     binding.drawerLayout.closeDrawer(Gravity.LEFT)
                 } else {
                     binding.drawerLayout.openDrawer(Gravity.LEFT)
-
                 }
-
-
             }
-
         }
     }
-
-
-    private fun initPoliticLists() {
-        imperialistPolitics = hashMapOf(
-            1 to binding.imperialistPolitic1,
-            2 to binding.imperialistPolitic2,
-            3 to binding.imperialistPolitic3,
-            4 to binding.imperialistPolitic4,
-            5 to binding.imperialistPolitic5,
-            6 to binding.imperialistPolitic6
-        )
-        loyalistPolitics = hashMapOf(
-            1 to binding.loyalistPolitic1,
-            2 to binding.loyalistPolitic2,
-            3 to binding.loyalistPolitic3,
-            4 to binding.loyalistPolitic4,
-            5 to binding.loyalistPolitic5
-
-        )
-        failedGovernments = hashMapOf(
-            1 to binding.btnFirstFailedGovernment,
-            2 to binding.btnSecondFailedGovernment,
-            3 to binding.btnThirdFailedGovernment
-        )
-    }
-
 }

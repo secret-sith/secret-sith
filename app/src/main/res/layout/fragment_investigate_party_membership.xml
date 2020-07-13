@@ -40,6 +40,6 @@
             android:id="@+id/investigate_party_membership_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/membership_imperialist" />
+            app:srcCompat="@drawable/membership_good" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,18 +62,12 @@ class PlayerListViewHolder(
 
         if(showMembership){
             membershipLayout?.visibility = View.VISIBLE
+            membershipImageView?.setImageResource(
             when(player.role){
-
-                PlayerRole.imperialist ->{
-                    membershipImageView?.setImageDrawable(context.getDrawable(R.drawable.membership_imperialist))
-                }
-                PlayerRole.loyalist ->{
-                    membershipImageView?.setImageDrawable(context.getDrawable(R.drawable.membership_loyalist))
-                }
-                PlayerRole.sith ->{
-                    membershipImageView?.setImageDrawable(context.getDrawable(R.drawable.secret_role_sith))
-                }
-            }
+                PlayerRole.imperialist ->R.drawable.membership_evil
+                PlayerRole.loyalist ->R.drawable.membership_good
+                PlayerRole.sith ->R.drawable.membership_evil
+            })
         }else {
             membershipLayout?.visibility = View.GONE
 

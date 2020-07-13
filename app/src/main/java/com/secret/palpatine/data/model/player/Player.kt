@@ -8,7 +8,7 @@ import java.io.Serializable
 
 data class Player(
     @DocumentId val id: String,
-    var role: PlayerRole?,
+    var role: PlayerRole,
     val user: String,
     val userName: String?,
     val state: PlayerState,
