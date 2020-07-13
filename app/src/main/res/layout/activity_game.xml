@@ -14,22 +14,27 @@
         android:background="@color/backgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sidebar"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="4dp"
             android:background="@drawable/border_rounded"
-            android:padding="4dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/evilPlayfield"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <ImageView
                 android:id="@+id/role"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
+                android:padding="4dp"
+                android:scaleType="fitStart"
+                app:layout_constraintBottom_toTopOf="@id/showLayover"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +44,7 @@
                 android:id="@+id/showLayover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:clickable="true"
                 android:elevation="@dimen/fab_margin"
                 app:backgroundTint="@color/goodColor"
@@ -52,6 +58,7 @@
                 android:id="@+id/showPlayers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:clickable="true"
                 android:elevation="@dimen/fab_margin"
                 app:backgroundTint="@color/goodColor"
@@ -60,15 +67,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/showLayover"
                 app:srcCompat="@drawable/ic_group_white_24dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/evilPlayfield"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:padding="4dp"
             app:layout_constraintBottom_toTopOf="@id/goodPlayfield"
+            app:layout_constraintEnd_toStartOf="@id/sidebar"
+            app:layout_constraintHorizontal_weight="5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/playfield_evil_5_6" />
@@ -162,7 +172,7 @@
 
         <ImageView
             android:id="@+id/goodPlayfield"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:padding="4dp"
