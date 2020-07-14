@@ -10,9 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
 import com.secret.palpatine.databinding.GameVoteFragmentBinding
 import com.secret.palpatine.util.VOTE
-import kotlinx.android.synthetic.main.activity_game.*
 
-class VoteGovernmentFragment : Fragment() {
+class VoteFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameVoteFragmentBinding
 
@@ -95,6 +94,7 @@ class VoteGovernmentFragment : Fragment() {
                 }
             }
             // case election is now completed
+            viewModel.activeGamePhase.value = null
             viewModel.handleElectionResult()
         }.addOnFailureListener {
             Log.v("VOTE", "vote update failed. -> " + it.stackTrace)
