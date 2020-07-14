@@ -107,8 +107,8 @@
     <string name="kill_player">Kill %1$s!</string>
     <string name="add_friends_empty">"Type in a name to search for new people to play with :) "</string>
     <string name="add_friends_button">Add as Friends</string>
-    <string name="presidential_power_veto">Chancellor %1$s vetoed the current policies. Do you accept this decision?</string>
-    <string name="discard_policy_veto_title">Place your veto!</string>
+    <string name="veto_consent_title">Chancellor %1$s wishes to veto this agenda. Do you consent?</string>
+    <string name="discard_policy_veto_button">I wish to veto this agenda.</string>
     <string name="yes">YES</string>
     <string name="no">No</string>
 

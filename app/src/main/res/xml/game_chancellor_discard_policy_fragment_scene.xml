@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/discard_policy_veto_button"
-            android:visibility="gone"
-            app:visibilityMode="ignore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/overlay_header_background"
-            android:padding="16dp"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"/>
         <Constraint
             android:id="@+id/discard_policy_0"
             android:layout_width="0dp"
@@ -57,9 +44,13 @@
                 motion:customFloatValue="1" />
         </Constraint>
         <Constraint
-            android:layout_height="wrap_content"
+            android:id="@+id/discard_policy_veto_button"
             android:layout_width="wrap_content"
-            android:id="@+id/discard_policy_veto_button" />
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:visibilityMode="ignore" />
     </ConstraintSet>
 
     <Transition
@@ -90,6 +81,14 @@
                 motion:attributeName="scaleY"
                 motion:customFloatValue="0.25" />
         </Constraint>
+        <Constraint
+            android:id="@+id/discard_policy_veto_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:visibilityMode="ignore" />
     </ConstraintSet>
 
     <Transition
@@ -120,6 +119,14 @@
                 motion:attributeName="scaleY"
                 motion:customFloatValue="0.25" />
         </Constraint>
+        <Constraint
+            android:id="@+id/discard_policy_veto_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:visibilityMode="ignore" />
     </ConstraintSet>
 
 </MotionScene>

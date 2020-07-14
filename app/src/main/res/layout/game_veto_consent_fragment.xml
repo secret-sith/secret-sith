@@ -10,16 +10,16 @@
     app:layoutDescription="@xml/game_vote_fragment_scene"
     app:layout_constraintEnd_toEndOf="@+id/button_vote_yes_veto"
     app:layout_constraintStart_toEndOf="@+id/button_vote_yes_veto"
-    tools:context=".ui.game.AcceptVetoFragment">
+    tools:context=".ui.game.VetoConsentFragment">
 
     <TextView
-        android:id="@+id/vote_title"
+        android:id="@+id/veto_consent_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/overlay_header_background"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/presidential_power_veto"
+        android:text="@string/veto_consent_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_vote_no_veto"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vote_title"
+        app:layout_constraintTop_toBottomOf="@id/veto_consent_title"
         app:layout_constraintVertical_bias="1" />
 
     <Button
@@ -49,8 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_vote_yes_veto"
-        app:layout_constraintTop_toBottomOf="@id/vote_title"
+        app:layout_constraintTop_toBottomOf="@id/veto_consent_title"
         app:layout_constraintVertical_bias="1" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
