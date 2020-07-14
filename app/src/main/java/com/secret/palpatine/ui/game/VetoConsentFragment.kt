@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.GamePhase
-import com.secret.palpatine.databinding.FragmentAcceptVetoBinding
+import com.secret.palpatine.databinding.GameVetoConsentFragmentBinding
 
-class AcceptVetoFragment : Fragment() {
+class VetoConsentFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
-    private lateinit var binding: FragmentAcceptVetoBinding
+    private lateinit var binding: GameVetoConsentFragmentBinding
 
     private var chancellor: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAcceptVetoBinding.inflate(inflater, container, false)
+        binding = GameVetoConsentFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,15 +40,14 @@ class AcceptVetoFragment : Fragment() {
         super.onResume()
         chancellor =
             viewModel.getPlayerForReference(viewModel.game.value?.chancellor!!)?.userName
-        binding.voteTitle.text = getString(R.string.presidential_power_veto, chancellor)
+        binding.vetoConsentTitle.text = getString(R.string.veto_consent_title, chancellor)
     }
 
     private fun submitVote(didAcceptVeto: Boolean) {
-    if (didAcceptVeto) {
-        viewModel.setGamePhase(GamePhase.nominate_chancellor)
-    } else{
-        viewModel.setGamePhase(GamePhase.chancellor_discard_policy)
-    }
-
+        if (didAcceptVeto) {
+            viewModel.setGamePhase(GamePhase.nominate_chancellor)
+        } else {
+            viewModel.setGamePhase(GamePhase.chancellor_discard_policy)
+        }
     }
 }
