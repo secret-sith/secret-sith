@@ -29,39 +29,10 @@ class AcceptVetoFragment : Fragment() {
 
         binding.buttonVoteYesVeto.setOnClickListener {
             submitVote(true)
-            with(binding.motionLayout) {
-                when (currentState) {
-
-                    startState -> {
-                        setTransition(R.id.start, R.id.end0)
-                    }
-
-                    else -> {
-                        setTransition(R.id.end1, R.id.end0)
-
-                    }
-                }
-                transitionToEnd()
-            }
         }
 
         binding.buttonVoteNoVeto.setOnClickListener {
             submitVote(false)
-            with(binding.motionLayout) {
-                when (currentState) {
-
-                    startState -> {
-                        setTransition(R.id.start, R.id.end1)
-                    }
-
-                    else -> {
-                        setTransition(R.id.end0, R.id.end1)
-
-                    }
-                }
-                transitionToEnd()
-            }
-
         }
     }
 
