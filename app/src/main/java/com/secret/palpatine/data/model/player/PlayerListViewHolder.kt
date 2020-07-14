@@ -71,7 +71,7 @@ class PlayerListViewHolder(
 
                 }
                 PlayerRole.loyalist -> {
-                    membershipImageView?.setImageResource(R.drawable.role_good_1)
+                    membershipImageView?.setImageResource(R.drawable.role_good_3)
                     stateTextView?.setTextColor(context.getColor(R.color.goodColor))
 
                 }
