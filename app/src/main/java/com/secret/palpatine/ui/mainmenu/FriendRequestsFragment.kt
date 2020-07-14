@@ -8,13 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
 import com.secret.palpatine.data.model.friends.friend.request.FriendRequestsListAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
@@ -70,7 +66,6 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
             }
             if (loginResult.success) {
                 Toast.makeText(context, R.string.success_accept_friend, Toast.LENGTH_SHORT)
-                viewModel.getUserFriendRequests()
             }
         })
 
@@ -84,9 +79,10 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
 
         friends_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = FriendRequestsListAdapter(requests, context,this@FriendRequestsFragment)
+            adapter = FriendRequestsListAdapter(requests, context, this@FriendRequestsFragment)
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_mainmenu, menu)
     }
