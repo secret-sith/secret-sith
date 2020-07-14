@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
@@ -32,10 +33,39 @@ class VoteGovernmentFragment : Fragment() {
 
         binding.buttonVoteYes.setOnClickListener {
             submitVote(true)
+            with(binding.motionLayout) {
+                when (currentState) {
+
+                    startState -> {
+                        setTransition(R.id.start, R.id.end0)
+                    }
+
+                    else -> {
+                        setTransition(R.id.end1, R.id.end0)
+
+                    }
+                }
+                transitionToEnd()
+            }
         }
 
         binding.buttonVoteNo.setOnClickListener {
             submitVote(false)
+            with(binding.motionLayout) {
+                when (currentState) {
+
+                    startState -> {
+                        setTransition(R.id.start, R.id.end1)
+                    }
+
+                    else -> {
+                        setTransition(R.id.end0, R.id.end1)
+
+                    }
+                }
+                transitionToEnd()
+            }
+
         }
     }
 
@@ -52,8 +82,15 @@ class VoteGovernmentFragment : Fragment() {
         )
     }
 
+    fun start(v: View) {
+
+//Animate to the end ConstraintSet//
+
+        binding.motionLayout.transitionToEnd()
+    }
+
     private fun submitVote(didAcceptGovernment: Boolean) {
-        requireActivity().actionOverlay.visibility = View.GONE
+        //requireActivity().actionOverlay.visibility = View.GONE
 
         // search for yourself
         for (player in viewModel.players.value!!) {
