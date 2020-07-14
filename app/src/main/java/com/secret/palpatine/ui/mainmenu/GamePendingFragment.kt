@@ -1,6 +1,5 @@
 package com.secret.palpatine.ui.mainmenu
 
-
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -12,8 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,7 +30,6 @@ import com.secret.palpatine.ui.game.GameActivity
 import com.secret.palpatine.ui.game.GameFinishedActivity
 import com.secret.palpatine.ui.game.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game_pending.*
-
 
 /**
  * Fragment to show a game which is still pending with the invited players
@@ -72,7 +68,6 @@ class GamePendingFragment : Fragment() {
                 viewModel.start()
                 val intent = Intent(context, GameActivity::class.java).apply {
                     putExtra("gameId", gameId)
-                    putExtra("userId", viewModel.userId)
                 }
                 startActivity(intent)
                 activity?.finish()

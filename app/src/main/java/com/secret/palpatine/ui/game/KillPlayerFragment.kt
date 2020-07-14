@@ -14,7 +14,6 @@ import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GameKillPlayerFragmentBinding
-import kotlinx.android.synthetic.main.activity_game.*
 
 class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
     private lateinit var binding: GameKillPlayerFragmentBinding
@@ -51,7 +50,7 @@ class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedL
             //val pos = binding.players.adapter.
             //    val player = binding.players.getItemAtPosition(pos) as Player
             if (playerListAdapter.getSelectedPlayer() != null) {
-                requireActivity().actionOverlay.visibility = View.GONE
+                viewModel.activeGamePhase.value = null
                 viewModel.killPlayer(playerListAdapter.getSelectedPlayer()!!)
             }
         }

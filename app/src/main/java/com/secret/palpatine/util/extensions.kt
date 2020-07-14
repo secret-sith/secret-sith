@@ -9,11 +9,18 @@ inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Fragmen
     beginTransaction().func().commit()
 }
 
-fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
+fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransaction { add(frameId, fragment) }
 }
 
 
 fun AppCompatActivity.pushFragment(fragment: Fragment, frameId: Int) {
-    supportFragmentManager.inTransaction{replace(frameId, fragment)}
+    supportFragmentManager.inTransaction { replace(frameId, fragment) }
+}
+
+fun AppCompatActivity.removeFragment(frameId: Int) {
+    val fragment = supportFragmentManager.findFragmentById(frameId)
+    if (fragment != null) {
+        supportFragmentManager.inTransaction { remove(fragment) }
+    }
 }

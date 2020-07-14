@@ -13,7 +13,6 @@ import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
-import kotlinx.android.synthetic.main.activity_game.*
 
 class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
     private lateinit var binding: GameNominateChancellorFragmentBinding
@@ -51,7 +50,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
             //val pos = binding.players.adapter.
             //    val player = binding.players.getItemAtPosition(pos) as Player
             if (playerListAdapter.getSelectedPlayer() != null) {
-                requireActivity().actionOverlay.visibility = View.GONE
+                viewModel.activeGamePhase.value = null
                 viewModel.setChancellorCandidate(playerListAdapter.getSelectedPlayer()!!)
             }
         }
