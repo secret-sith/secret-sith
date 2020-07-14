@@ -82,7 +82,6 @@ class VoteGovernmentFragment : Fragment() {
     }
 
     private fun submitVote(didAcceptGovernment: Boolean) {
-        viewModel.activeGamePhase.value = null
 
         val player = viewModel.player.value!!
         // update your vote
