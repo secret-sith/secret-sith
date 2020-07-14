@@ -35,14 +35,12 @@ class SignupViewModel(
                         displayName = name
                     }
                     user!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            userRepository.updateUserAfterSignup(user.uid, name)
-                                .addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        _signupResult.value =
-                                            SignupResult(success = user)
-                                    }
-                                }
+                    userRepository.updateUserAfterSignup(user.uid, name)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                _signupResult.value =
+                                    SignupResult(success = user)
+                            }
                         }
 
 

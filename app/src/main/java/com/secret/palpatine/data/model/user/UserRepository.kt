@@ -19,7 +19,7 @@ class UserRepository {
 
         val userMap = hashMapOf(
             "name" to userName,
-            "userName" to userName
+            "username" to userName
         )
 
         return db.collection("users").document(userId).set(userMap, SetOptions.merge())

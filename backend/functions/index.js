@@ -28,6 +28,8 @@ exports.createUserInDatabase = functions.auth.user().onCreate((user) => {
       username: name,
       email,
       createdAt: new Date().toISOString(),
+    }, {
+      merge: true,
     })
     .then((writeResult) => {
       console.log("created user");
