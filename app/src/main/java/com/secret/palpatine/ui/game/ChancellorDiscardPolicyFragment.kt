@@ -1,11 +1,9 @@
 package com.secret.palpatine.ui.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.view.GestureDetectorCompat
@@ -56,13 +54,13 @@ class ChancellorDiscardPolicyFragment : Fragment() {
             }
         })
 
-        val playedImpPolitics = viewModel.game.value?.imperialPolitics ?: 0
-        if (playedImpPolitics >= 5) {
-            binding.discardPolicyVetoButton.visibility = View.VISIBLE
-        }
-        binding.discardPolicyVetoButton.visibility = View.GONE
+        viewModel.game.observe(viewLifecycleOwner, Observer { game ->
+            binding.discardPolicyVetoButton.visibility =
+                if (game.imperialPolitics >= 5) View.VISIBLE else View.INVISIBLE
+            binding.motionLayout.rebuildScene()
+        })
 
-        binding.discardPolicyVetoButton.setOnClickListener{
+        binding.discardPolicyVetoButton.setOnClickListener {
             viewModel.setGamePhase(GamePhase.president_accept_veto)
         }
     }

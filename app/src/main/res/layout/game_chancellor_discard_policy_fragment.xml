@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/overlayBackground"
-    android:paddingHorizontal="64dp"
+    android:paddingHorizontal="128dp"
     app:layoutDescription="@xml/game_chancellor_discard_policy_fragment_scene"
-    tools:context=".ui.game.PresidentDiscardPolicyFragment">
+    tools:context=".ui.game.ChancellorDiscardPolicyFragment">
 
     <ImageView
         android:id="@+id/discard_policy_0"
@@ -52,15 +52,11 @@
 
     <Button
         android:id="@+id/discard_policy_veto_button"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/overlay_header_background"
-        android:padding="16dp"
         android:text="@string/discard_policy_veto_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/discard_policy_title" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
