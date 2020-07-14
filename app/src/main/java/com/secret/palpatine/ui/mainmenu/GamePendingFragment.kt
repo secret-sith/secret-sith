@@ -91,7 +91,9 @@ class GamePendingFragment : Fragment() {
         })
 
         viewModel.game.observe(viewLifecycleOwner, Observer {
-            init(it)
+            if(it != null){
+                init(it)
+            }
             (activity as BaseActivity).hideProgressBar()
         })
 

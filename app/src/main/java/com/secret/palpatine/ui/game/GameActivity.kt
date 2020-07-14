@@ -156,6 +156,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     private fun initGame(game: Game) {
 
         playerListAdapter.game = game
+        playerListAdapter.notifyDataSetChanged()
         when (game.state) {
 
             GameState.finished -> {

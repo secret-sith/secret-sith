@@ -223,7 +223,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/goodStartSpace"
                 app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-                app:srcCompat="@drawable/policy_good" />
+                />
 
             <ImageView
                 android:id="@+id/goodPolicy1"
@@ -235,7 +235,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/goodPolicy0"
                 app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-                app:srcCompat="@drawable/policy_good" />
+               />
 
             <ImageView
                 android:id="@+id/goodPolicy2"
@@ -247,7 +247,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/goodPolicy1"
                 app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-                app:srcCompat="@drawable/policy_good" />
+              />
 
             <ImageView
                 android:id="@+id/goodPolicy3"
@@ -259,7 +259,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/goodPolicy2"
                 app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-                app:srcCompat="@drawable/policy_good" />
+             />
 
             <ImageView
                 android:id="@+id/goodPolicy4"
@@ -271,7 +271,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/goodPolicy3"
                 app:layout_constraintTop_toTopOf="@id/goodPlayfield"
-                app:srcCompat="@drawable/policy_good" />
+                 />
 
             <Space
                 android:id="@+id/goodEndSpace"

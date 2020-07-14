@@ -43,12 +43,17 @@ class PlayerGameListViewHolder(
             nameTextView?.text = context.getString(R.string.player_name, player.userName)
 
         }
-
+        Log.d(
+            "GamePhase", game?.phase
+                .toString()
+        )
         when (game?.phase) {
 
             GamePhase.vote -> {
 
-                voteWrapper?.visibility = View.GONE
+                if (player.user != currentUserId) {
+                    voteWrapper?.visibility = View.GONE
+                }
             }
             else -> {
                 voteWrapper?.visibility = View.VISIBLE
