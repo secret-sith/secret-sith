@@ -10,7 +10,7 @@
     app:layoutDescription="@xml/game_vote_fragment_scene"
     app:layout_constraintEnd_toEndOf="@+id/button_vote_yes"
     app:layout_constraintStart_toEndOf="@+id/button_vote_yes"
-    tools:context=".ui.game.VoteGovernmentFragment">
+    tools:context=".ui.game.VoteFragment">
 
     <TextView
         android:id="@+id/vote_title"

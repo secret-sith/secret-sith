@@ -63,7 +63,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         viewModel.activeGamePhase.observe(this, Observer { phase ->
             val fragment = when (phase) {
                 GamePhase.nominate_chancellor -> NominateChancellorFragment()
-                GamePhase.vote -> VoteGovernmentFragment()
+                GamePhase.vote -> VoteFragment()
                 GamePhase.president_discard_policy -> PresidentDiscardPolicyFragment()
                 GamePhase.chancellor_discard_policy -> ChancellorDiscardPolicyFragment()
                 GamePhase.policy_peek -> PolicyPeekFragment()

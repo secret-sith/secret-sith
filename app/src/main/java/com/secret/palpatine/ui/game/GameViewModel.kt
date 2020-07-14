@@ -242,10 +242,7 @@ class GameViewModel : ViewModel() {
             gameRef.update(
                 mapOf(
                     PRESIDENT to game.presidentialCandidate,
-                    CHANCELLOR to game.chancellorCandidate,
-                    PRESIDENTIALCANDIDATE to null,
-                    CHANCELLORCANDIDATE to null,
-                    FAILEDGOVERNMENTS to 0
+                    CHANCELLOR to game.chancellorCandidate
                 )
             ).onSuccessTask {
                 setGamePhase(GamePhase.president_discard_policy)
@@ -325,25 +322,29 @@ class GameViewModel : ViewModel() {
 
     private fun enactPolicy(policy: Policy): Task<Void> {
         val game = game.value!!
-        return if (policy.type == PolicyType.loyalist) {
-            gameRef.update(LOYALISTPOLITICS, FieldValue.increment(1)).onSuccessTask {
-                refreshDrawpileIfNeccessary()
-            }.onSuccessTask {
-                setGamePhase(GamePhase.nominate_chancellor)
+
+        val policyField =
+            if (policy.type == PolicyType.imperialist) IMPERIALPOLITICS else LOYALISTPOLITICS
+        val updateGameTask = gameRef.update(
+            mapOf(
+                policyField to FieldValue.increment(1),
+                FAILEDGOVERNMENTS to 0
+            )
+        )
+
+        val refreshDrawpileTask = refreshDrawpileIfNeccessary()
+
+        var nextPhase = GamePhase.nominate_chancellor
+        if (policy.type == PolicyType.imperialist) {
+            when (game.imperialPolitics + 1) {
+                3 -> nextPhase = GamePhase.policy_peek
+                4 -> nextPhase = GamePhase.kill
+                5 -> nextPhase = GamePhase.kill
             }
-        } else {
-            val imperialPolitics = game.imperialPolitics + 1
-            val phase = when (imperialPolitics) {
-                3 -> GamePhase.policy_peek
-                4 -> GamePhase.kill
-                5 -> GamePhase.kill
-                else -> GamePhase.nominate_chancellor
-            }
-            gameRef.update(IMPERIALPOLITICS, imperialPolitics).onSuccessTask {
-                refreshDrawpileIfNeccessary()
-            }.onSuccessTask {
-                setGamePhase(phase)
-            }
+        }
+
+        return Tasks.whenAll(updateGameTask, refreshDrawpileTask).onSuccessTask {
+            setGamePhase(nextPhase)
         }
     }
 
