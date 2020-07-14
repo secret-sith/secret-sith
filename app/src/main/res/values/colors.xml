@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryColor">#212121</color>
-    <color name="overlayBackground">#E62F3135</color>
+    <color name="overlayBackground">#40363835</color>
     <color name="primaryLightColor">#000000</color>
     <color name="primaryDarkColor">#c29d6f</color>
     <color name="secondaryColor">#FF9800</color>
@@ -16,5 +16,6 @@
     <color name="backgroundColor">#363835</color>
     <color name="evilColor">#e66444</color>
     <color name="goodColor">#61c8d9</color>
+    <color name="goodColorLight">#a7d1cf</color>
 
 </resources>

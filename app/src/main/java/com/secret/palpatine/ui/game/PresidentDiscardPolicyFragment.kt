@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.R
 import com.secret.palpatine.databinding.GamePresidentDiscardPolicyFragmentBinding
+import kotlinx.android.synthetic.main.activity_game.*
 
 class PresidentDiscardPolicyFragment : Fragment() {
     private lateinit var binding: GamePresidentDiscardPolicyFragmentBinding
@@ -42,6 +43,7 @@ class PresidentDiscardPolicyFragment : Fragment() {
         })
         binding.motionLayout.setTransitionListener(object : TransitionAdapter() {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                requireActivity().actionOverlay.visibility = View.GONE
                 when (currentId) {
                     R.id.end0 -> viewModel.presidentDiscardPolicy(0)
                     R.id.end1 -> viewModel.presidentDiscardPolicy(1)

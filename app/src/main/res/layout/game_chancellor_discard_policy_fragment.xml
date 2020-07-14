@@ -5,21 +5,10 @@
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="bottom"
+    android:background="@color/overlayBackground"
+    android:paddingHorizontal="64dp"
     app:layoutDescription="@xml/game_chancellor_discard_policy_fragment_scene"
     tools:context=".ui.game.PresidentDiscardPolicyFragment">
-
-    <TextView
-        android:id="@+id/discard_laws_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/overlayBackground"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/discard_laws_header"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/discard_policy_0"
@@ -27,12 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/law_desc"
+        android:contentDescription="@string/discard_policy_description"
         android:src="@drawable/policy_good"
-        app:layout_constraintBottom_toTopOf="@id/discard_laws_header"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/discard_policy_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/discard_policy_title"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
@@ -41,12 +30,24 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/law_desc"
+        android:contentDescription="@string/discard_policy_description"
         android:src="@drawable/policy_good"
-        app:layout_constraintBottom_toTopOf="@id/discard_laws_header"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/discard_policy_0"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/discard_policy_title"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/discard_policy_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/overlay_header_background"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/discard_policy_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

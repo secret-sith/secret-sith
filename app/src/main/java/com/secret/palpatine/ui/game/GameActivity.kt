@@ -22,7 +22,6 @@ import com.secret.palpatine.data.model.player.PlayerGameListAdapter
 import com.secret.palpatine.databinding.ActivityGameBinding
 import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.util.pushFragment
-import java.lang.NullPointerException
 
 class GameActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityGameBinding
@@ -108,9 +107,9 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         })
 
         window.decorView.systemUiVisibility =
-               (View.SYSTEM_UI_FLAG_IMMERSIVE or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+            (View.SYSTEM_UI_FLAG_IMMERSIVE or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
     private fun initLists() {
@@ -138,7 +137,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    private fun thisPlayerNeeded(): Boolean{
+    private fun thisPlayerNeeded(): Boolean {
         return try {
             when (viewModel.gamePhase.value!!) {
                 GamePhase.vote -> true
@@ -176,11 +175,11 @@ class GameActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initGameField(game: Game) {
-        for (i in 0 until game.imperialPolitics) {
-            evilPolicies[i].setImageResource(R.drawable.policy_evil)
+        for (i in evilPolicies.indices) {
+            evilPolicies[i].setImageResource(if (i < game.imperialPolitics) R.drawable.policy_evil else 0)
         }
-        for (i in 0 until game.loyalistPolitics) {
-            goodPolicies[i].setImageResource(R.drawable.policy_good)
+        for (i in goodPolicies.indices) {
+            goodPolicies[i].setImageResource(if (i < game.loyalistPolitics) R.drawable.policy_good else 0)
         }
         setFailedGovernments(game.failedGovernments)
     }

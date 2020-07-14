@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.databinding.GamePolicyPeekFragmentBinding
+import kotlinx.android.synthetic.main.activity_game.*
 
 class PolicyPeekFragment : Fragment() {
     private lateinit var binding: GamePolicyPeekFragmentBinding
@@ -30,8 +31,8 @@ class PolicyPeekFragment : Fragment() {
             binding.policyPeekPolicy2.setImageResource(currentHand[2].type.drawableResource)
         })
         binding.close.setOnClickListener {
+            requireActivity().actionOverlay.visibility = View.GONE
             viewModel.setGamePhase(GamePhase.nominate_chancellor)
-            requireActivity().finish()
         }
     }
 

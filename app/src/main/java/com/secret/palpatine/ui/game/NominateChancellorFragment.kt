@@ -4,22 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
+import kotlinx.android.synthetic.main.activity_game.*
 
 class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
     private lateinit var binding: GameNominateChancellorFragmentBinding
     private lateinit var viewModel: GameViewModel
     private lateinit var playerListAdapter: SelectPlayerListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,15 +40,19 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
         })
 
         playerListAdapter =
-            SelectPlayerListAdapter(listOf(), requireContext(), this@NominateChancellorFragment, SelectedPlayerMode.CHANCELLOR)
+            SelectPlayerListAdapter(
+                listOf(),
+                requireContext(),
+                this@NominateChancellorFragment,
+                SelectedPlayerMode.CHANCELLOR
+            )
 
-
-        binding.confirm.setOnClickListener {
+        binding.nominateChancellorConfirm.setOnClickListener {
             //val pos = binding.players.adapter.
             //    val player = binding.players.getItemAtPosition(pos) as Player
             if (playerListAdapter.getSelectedPlayer() != null) {
+                requireActivity().actionOverlay.visibility = View.GONE
                 viewModel.setChancellorCandidate(playerListAdapter.getSelectedPlayer()!!)
-                requireActivity().finish()
             }
         }
     }
@@ -75,9 +79,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
     }
 
     override fun onSelectPlayer(player: Player) {
-
-        binding.confirm.isEnabled = true
-        binding.confirm.text =getString(R.string.select_chancellor, player.userName)
+        binding.nominateChancellorConfirm.isEnabled = true
 
         for (p in playerListAdapter.list) {
             p.resetSelection()

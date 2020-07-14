@@ -3,58 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
+    android:layout_height="match_parent"
+    android:background="@color/overlayBackground"
+    android:paddingHorizontal="64dp"
     tools:context=".ui.game.PolicyPeekFragment">
 
     <TextView
-        android:id="@+id/policy_peek_desc"
+        android:id="@+id/policy_peek_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/overlayBackground"
+        android:background="@drawable/overlay_header_background"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="16dp"
         android:text="@string/policy_peek_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/policy_peek_policy_0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/close"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/policy_good"
+        app:layout_constraintBottom_toTopOf="@id/close"
+        app:layout_constraintEnd_toStartOf="@+id/policy_peek_policy_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/policy_peek_desc">
+        app:layout_constraintTop_toBottomOf="@id/policy_peek_title"
+        app:layout_constraintVertical_bias="1" />
 
-        <ImageView
-            android:id="@+id/policy_peek_policy_0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:src="@drawable/policy_good" />
+    <ImageView
+        android:id="@+id/policy_peek_policy_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/policy_good"
+        app:layout_constraintBottom_toTopOf="@id/close"
+        app:layout_constraintEnd_toStartOf="@+id/policy_peek_policy_2"
+        app:layout_constraintStart_toEndOf="@+id/policy_peek_policy_0"
+        app:layout_constraintTop_toBottomOf="@id/policy_peek_title"
+        app:layout_constraintVertical_bias="1" />
 
-        <ImageView
-            android:id="@+id/policy_peek_policy_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:src="@drawable/policy_good" />
-
-        <ImageView
-            android:id="@+id/policy_peek_policy_2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:src="@drawable/policy_good" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/policy_peek_policy_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/policy_good"
+        app:layout_constraintBottom_toTopOf="@id/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/policy_peek_policy_1"
+        app:layout_constraintTop_toBottomOf="@id/policy_peek_title"
+        app:layout_constraintVertical_bias="1" />
 
     <Button
         android:id="@+id/close"

@@ -14,7 +14,7 @@ import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GameKillPlayerFragmentBinding
-import com.secret.palpatine.databinding.GameNominateChancellorFragmentBinding
+import kotlinx.android.synthetic.main.activity_game.*
 
 class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
     private lateinit var binding: GameKillPlayerFragmentBinding
@@ -40,15 +40,19 @@ class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedL
         })
 
         playerListAdapter =
-            SelectPlayerListAdapter(listOf(), requireContext(), this@KillPlayerFragment, SelectedPlayerMode.KILL)
-
+            SelectPlayerListAdapter(
+                listOf(),
+                requireContext(),
+                this@KillPlayerFragment,
+                SelectedPlayerMode.KILL
+            )
 
         binding.confirm.setOnClickListener {
             //val pos = binding.players.adapter.
             //    val player = binding.players.getItemAtPosition(pos) as Player
             if (playerListAdapter.getSelectedPlayer() != null) {
+                requireActivity().actionOverlay.visibility = View.GONE
                 viewModel.killPlayer(playerListAdapter.getSelectedPlayer()!!)
-                requireActivity().finish()
             }
         }
     }
@@ -74,9 +78,8 @@ class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedL
     }
 
     override fun onSelectPlayer(player: Player) {
-
         binding.confirm.isEnabled = true
-        binding.confirm.text =getString(R.string.kill_player, player.userName)
+        binding.confirm.text = getString(R.string.kill_player, player.userName)
         for (p in playerListAdapter.list) {
             p.resetSelection()
         }
