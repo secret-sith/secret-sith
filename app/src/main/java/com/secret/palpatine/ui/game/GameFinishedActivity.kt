@@ -70,6 +70,12 @@ class GameFinishedActivity : BaseActivity(), View.OnClickListener {
         binding.endGameButton.setOnClickListener(this)
 
         binding.winnerTeam.text = winner
+
+        when(winner){
+            "LOYALISTS" -> binding.winnerTeam.setTextColor(getColor(R.color.goodColor))
+            "IMPERIALISTS" -> binding.winnerTeam.setTextColor(getColor(R.color.evilColor))
+
+        }
     }
 
     override fun onClick(view: View) {

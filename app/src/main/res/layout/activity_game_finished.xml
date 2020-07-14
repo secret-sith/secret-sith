@@ -9,60 +9,57 @@
         android:id="@+id/progress_overlay"
         layout="@layout/spinner_overlay" />
 
-    <LinearLayout
-        android:id="@+id/winnerTeamLayout"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/endGameButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/end_game"
+        app:layout_constraintBottom_toTopOf="@+id/gameEndPlayerList"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/winnerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="@string/winner"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toStartOf="@+id/endGameButton"
+        app:layout_constraintHorizontal_bias="0.66"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/winnerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_weight="1"
-            android:text="@string/winner"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/winnerTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/winnerTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_horizontal"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        app:layout_constraintEnd_toStartOf="@+id/endGameButton"
+        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winnerText"
+        tools:text="asdfasdfa" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gameEndPlayerList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/winnerTeamLayout"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/winnerTeam"
         app:spanCount="2"
         tools:listitem="@layout/object_row_player" />
 
-
-    <Button
-        android:id="@+id/endGameButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/end_game"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameEndPlayerList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

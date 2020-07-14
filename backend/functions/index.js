@@ -4,8 +4,8 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-const IMPERIALISTS = "imperalists";
-const LOYALISTS = "loyalists";
+const IMPERIALISTS = "IMPERIALISTS";
+const LOYALISTS = "LOYALISTS";
 
 const setGameFinished = (gameId, optional = {}) => {
   const attributesToUpdate = Object.assign({}, { state: "finished" }, optional);
@@ -145,8 +145,8 @@ exports.checkIfGameEndsGame = functions.firestore
     const newValue = change.after.data();
     const gameId = context.params.gamesId;
 
-    const { imperialPolitics, loylistPolitics, chancellor } = newValue;
-    if (imperialPolitics > 5 || loylistPolitics > 4) {
+    const { imperialPolitics, loyalistPolitics, chancellor } = newValue;
+    if (imperialPolitics > 5 || loyalistPolitics > 4) {
       return setGameFinished(gameId, {
         winner: imperialPolitics > 5 ? IMPERIALISTS : LOYALISTS,
       });

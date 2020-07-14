@@ -23,10 +23,14 @@ class GameRepository {
 
     fun startGame(gameId: String, players: List<Player>): Task<Void> {
 
-
         val gameRef = db.collection("games").document(gameId)
         Log.d("Players", players.size.toString())
-        var roleListPlayers: List<Player> = generatePlayerRolesAndOrder(players)
+        var groupedPlayersList: Map<PlayerState, List<Player>> = players.groupBy { it.state }
+        groupedPlayersList
+        var roleListPlayers: List<Player> =
+            generatePlayerRolesAndOrder(
+                groupedPlayersList[PlayerState.accepted] ?: error("No players available")
+            )
 
         val batch = db.batch()
 
@@ -47,6 +51,14 @@ class GameRepository {
             batch.set(playerRef, playerData, SetOptions.merge())
             counter++;
 
+        }
+//Join other states and remove players from game
+        var playersToRemove: MutableList<Player> =
+            (groupedPlayersList[PlayerState.declined] ?: emptyList()).toMutableList()
+        playersToRemove.addAll((groupedPlayersList[PlayerState.pending] ?: emptyList()))
+        for (player in playersToRemove) {
+            playerRef = buildPlayerRef(gameId, player.id)
+            batch.delete(playerRef)
         }
 
         val gameData = hashMapOf(
@@ -122,8 +134,8 @@ class GameRepository {
                     db.collection("games").document(id).collection("players").add(host)
                 )
 
-                var drawpile = mutableListOf<HashMap<String,Any>>()
-                for (i in 0..17){
+                var drawpile = mutableListOf<HashMap<String, Any>>()
+                for (i in 0..17) {
                     drawpile.add(
                         hashMapOf(
                             ORDER to 0,
@@ -132,9 +144,11 @@ class GameRepository {
                     )
                 }
                 drawpile.shuffle(); drawpile.shuffle(); drawpile.shuffle()
-                for (i in 0..drawpile.size-2){
+                for (i in 0..drawpile.size - 2) {
                     drawpile[i][ORDER] = i
-                    plist.add(db.collection(GAMES).document(id).collection(DRAWPILE).add(drawpile[i]))
+                    plist.add(
+                        db.collection(GAMES).document(id).collection(DRAWPILE).add(drawpile[i])
+                    )
                 }
 
 
