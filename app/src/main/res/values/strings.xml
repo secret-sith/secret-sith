@@ -64,6 +64,8 @@
     <string name="government_election_desc">Do you want %1$s to be your president and %2$s to be your chancellor?</string>
     <string name="yes_option_for_chancellor_vote">Yes option for chancellor vote</string>
     <string name="no_option_for_chancellor_vote">No option for chancellor vote</string>
+    <string name="yes_option_for_veto_vote">Yes option for veto vote</string>
+    <string name="no_option_for_veto_vote">No option for veto vote</string>
     <string name="discard_policy_title">Discard one Policy</string>
     <string name="discard_policy_description">Policy to be discarded</string>
     <string name="team_secret_role_header">You are a Loyalist!</string>
@@ -105,5 +107,7 @@
     <string name="kill_player">Kill %1$s!</string>
     <string name="add_friends_empty">"Type in a name to search for new people to play with :) "</string>
     <string name="add_friends_button">Add as Friends</string>
+    <string name="presidential_power_veto">Chancellor %1$s vetoed the current policies. Do you accept this decision?</string>
+    <string name="discard_policy_veto_title">Place your veto!</string>
 
 </resources>

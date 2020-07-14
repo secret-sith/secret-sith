@@ -68,6 +68,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 GamePhase.chancellor_discard_policy -> ChancellorDiscardPolicyFragment()
                 GamePhase.policy_peek -> PolicyPeekFragment()
                 GamePhase.kill -> KillPlayerFragment()
+                GamePhase.president_accept_veto -> AcceptVetoFragment()
                 null -> null
             }
             if (fragment != null) {
