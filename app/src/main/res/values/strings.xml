@@ -109,5 +109,7 @@
     <string name="add_friends_button">Add as Friends</string>
     <string name="presidential_power_veto">Chancellor %1$s vetoed the current policies. Do you accept this decision?</string>
     <string name="discard_policy_veto_title">Place your veto!</string>
+    <string name="yes">YES</string>
+    <string name="no">No</string>
 
 </resources>
