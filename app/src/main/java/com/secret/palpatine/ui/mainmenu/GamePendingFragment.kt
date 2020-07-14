@@ -41,6 +41,8 @@ class GamePendingFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private lateinit var startButton: Button
     private var gameId: String? = null
+    private var canStartGame: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +66,7 @@ class GamePendingFragment : Fragment() {
         (activity as BaseActivity).supportActionBar!!.hide()
         (activity as BaseActivity).showProgressBar()
         startButton.setOnClickListener {
-            if (true) { // TODO
+            if (canStartGame) { // TODO
                 viewModel.start()
                 val intent = Intent(context, GameActivity::class.java).apply {
                     putExtra("gameId", gameId)
@@ -75,7 +77,7 @@ class GamePendingFragment : Fragment() {
             } else {
                 Toast.makeText(
                     context,
-                    "At least 2 Players have to accept to start a game",
+                    "Exactly 5 Players have to accept to start a game",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -90,6 +92,11 @@ class GamePendingFragment : Fragment() {
                 init(it)
             }
             (activity as BaseActivity).hideProgressBar()
+        })
+        viewModel.canStartGame.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+
+            canStartGame = result
         })
 
         viewModel.getCurrentUsersGameId().addOnSuccessListener {

@@ -60,6 +60,8 @@ class GameViewModel : ViewModel() {
     private val _endGameResult = MutableLiveData<EndGameResult>()
     val endGameResult: LiveData<EndGameResult> = _endGameResult
 
+    private val _canStartGame = MutableLiveData<Boolean>()
+    val canStartGame: LiveData<Boolean> = _canStartGame
 
     fun setGameId(gameId: String) {
         gameRef = Firebase.firestore.collection(GAMES).document(gameId)
@@ -80,6 +82,8 @@ class GameViewModel : ViewModel() {
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             _players.value = snapshot?.toObjects(Player::class.java)
+            _canStartGame.value = checkCanStartGame(_players.value!!)
+
             if (exception != null) Log.e(null, null, exception)
         }
 
@@ -290,7 +294,7 @@ class GameViewModel : ViewModel() {
     }
 
     private fun checkCanStartGame(players: List<Player>): Boolean {
-        if (players.size < 2) {
+        if (players.size != 5) {
             return false
         } else {
             for (player in players) {
