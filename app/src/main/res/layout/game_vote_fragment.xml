@@ -13,7 +13,7 @@
     tools:context=".ui.game.VoteGovernmentFragment">
 
     <TextView
-        android:id="@+id/veto_consent_title"
+        android:id="@+id/vote_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/overlay_header_background"
