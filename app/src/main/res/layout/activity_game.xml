@@ -372,6 +372,7 @@
             android:id="@+id/actionOverlay"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="#AA000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/evilPlayfieldLayout"
             app:layout_constraintStart_toStartOf="@id/evilPlayfieldLayout"
