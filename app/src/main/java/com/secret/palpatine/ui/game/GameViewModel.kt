@@ -192,12 +192,11 @@ class GameViewModel : ViewModel() {
     }
 
     private fun getNextPresidentialCandidate(game: Game, players: List<Player>): DocumentReference {
-        val oldPresidentialCandidateRef = game.presidentialCandidate
-        val oldIndex =
-            if (oldPresidentialCandidateRef != null) players.indexOfFirst { it -> it.id == oldPresidentialCandidateRef.id }
-            else -1
-        val newIndex = (oldIndex + 1) % players.size
-        val newPresidentialCandidate = players[newIndex]
+        val playersAlive = players.filter { it.killed != true }
+        val oldRef = game.presidentialCandidate
+        val oldIndex = playersAlive.indexOfFirst { it.id == oldRef?.id }
+        val newIndex = (oldIndex + 1) % playersAlive.size
+        val newPresidentialCandidate = playersAlive[newIndex]
         return getPlayerRef(newPresidentialCandidate.id)
     }
 
