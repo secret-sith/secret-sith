@@ -88,8 +88,8 @@ class VoteFragment : Fragment() {
         playerRef.update(VOTE, didAcceptGovernment).addOnSuccessListener {
             // check if your vote was the last one missing
             // return if its not the case
-            for (player_ in viewModel.players.value!!) {
-                if (player_.vote == null) {
+            for (otherPlayer in viewModel.players.value!!) {
+                if (otherPlayer.killed != true && otherPlayer.vote == null) {
                     return@addOnSuccessListener
                 }
             }

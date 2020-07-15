@@ -106,34 +106,34 @@ class GameViewModel : ViewModel() {
     init {
         var oldGamePhase: GamePhase? = null
         game.observeForever { game ->
-            val playerId = player.value?.id
-            oldGamePhase = updateActiveGamePhase(game, playerId, oldGamePhase)
+            val player = player.value
+            oldGamePhase = updateActiveGamePhase(game, player, oldGamePhase)
         }
         player.observeForever { player ->
             val game = game.value
-            oldGamePhase = updateActiveGamePhase(game, player.id, oldGamePhase)
+            oldGamePhase = updateActiveGamePhase(game, player, oldGamePhase)
         }
     }
 
     private fun updateActiveGamePhase(
-        game: Game?, playerId: String?, oldGamePhase: GamePhase?
+        game: Game?, player: Player?, oldGamePhase: GamePhase?
     ): GamePhase? {
-        val newGamePhase = getActiveGamePhase(game, playerId)
+        val newGamePhase = getActiveGamePhase(game, player)
         if (newGamePhase != oldGamePhase) activeGamePhase.value = newGamePhase
         return newGamePhase
     }
 
-    private fun getActiveGamePhase(game: Game?, playerId: String?): GamePhase? {
+    private fun getActiveGamePhase(game: Game?, player: Player?): GamePhase? {
         if (game == null) return null
-        if (playerId == null) return null
+        if (player == null) return null
         val currentPlayerParticipates = when (game.phase) {
-            GamePhase.vote -> true
-            GamePhase.nominate_chancellor -> game.presidentialCandidate?.id == playerId
-            GamePhase.president_discard_policy -> game.president?.id == playerId
-            GamePhase.chancellor_discard_policy -> game.chancellor?.id == playerId
-            GamePhase.policy_peek -> game.president?.id == playerId
-            GamePhase.kill -> game.president?.id == playerId
-            GamePhase.president_accept_veto -> game.president?.id == playerId
+            GamePhase.vote -> player.killed != true
+            GamePhase.nominate_chancellor -> game.presidentialCandidate?.id == player.id
+            GamePhase.president_discard_policy -> game.president?.id == player.id
+            GamePhase.chancellor_discard_policy -> game.chancellor?.id == player.id
+            GamePhase.policy_peek -> game.president?.id == player.id
+            GamePhase.kill -> game.president?.id == player.id
+            GamePhase.president_accept_veto -> game.president?.id == player.id
         }
         if (!currentPlayerParticipates) return null
         return game.phase
@@ -222,7 +222,8 @@ class GameViewModel : ViewModel() {
         var noVotes = 0
 
         val players = players.value!!
-        for (player in players) {
+        val playersAlive = players.filter { it.killed != true }
+        for (player in playersAlive) {
             if (player.vote!!) {
                 yesVotes++
             } else {
@@ -245,7 +246,7 @@ class GameViewModel : ViewModel() {
         } else { // case election failed
             onGovernmentFailed()
         }
-        for (player in players) {
+        for (player in playersAlive) {
             getPlayerRef(player.id).update(VOTE, null)
         }
     }
