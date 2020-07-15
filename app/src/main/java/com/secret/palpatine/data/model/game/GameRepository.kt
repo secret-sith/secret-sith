@@ -135,7 +135,7 @@ class GameRepository {
                 )
 
                 var drawpile = mutableListOf<HashMap<String, Any>>()
-                for (i in 0..17) {
+                for (i in 0..16) {
                     drawpile.add(
                         hashMapOf(
                             ORDER to 0,
@@ -144,7 +144,7 @@ class GameRepository {
                     )
                 }
                 drawpile.shuffle(); drawpile.shuffle(); drawpile.shuffle()
-                for (i in 0..drawpile.size - 2) {
+                for (i in 0..16) {
                     drawpile[i][ORDER] = i
                     plist.add(
                         db.collection(GAMES).document(id).collection(DRAWPILE).add(drawpile[i])
