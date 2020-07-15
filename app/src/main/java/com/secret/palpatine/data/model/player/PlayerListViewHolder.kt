@@ -19,7 +19,8 @@ class PlayerListViewHolder(
     parent: ViewGroup,
     var context: Context,
     private var currentUserId: String,
-    private var showMembership: Boolean = false
+    private var showMembership: Boolean = false,
+    private var showState: Boolean = false
 
 ) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.object_row_player, parent, false)) {
@@ -45,6 +46,10 @@ class PlayerListViewHolder(
         } else {
             nameTextView?.text = context.getString(R.string.player_name, player.userName)
 
+        }
+
+        if (!showState) {
+            playerStateIcon?.visibility = View.GONE
         }
 
         when (player.state) {

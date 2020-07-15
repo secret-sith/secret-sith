@@ -44,7 +44,8 @@ class GameFinishedActivity : BaseActivity(), View.OnClickListener {
                         it,
                         context,
                         userId!!,
-                        showMembership = true
+                        showMembership = true,
+                        showSate = false
                     )
                 }
         })

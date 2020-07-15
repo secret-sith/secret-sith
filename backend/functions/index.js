@@ -23,14 +23,17 @@ exports.createUserInDatabase = functions.auth.user().onCreate((user) => {
   return db
     .collection("users")
     .doc(uuid)
-    .set({
-      name,
-      username: name,
-      email,
-      createdAt: new Date().toISOString(),
-    }, {
-      merge: true,
-    })
+    .set(
+      {
+        name,
+        username: name,
+        email,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        merge: true,
+      }
+    )
     .then((writeResult) => {
       console.log("created user");
       return writeResult;
@@ -147,12 +150,16 @@ exports.checkIfGameEndsGame = functions.firestore
     const newValue = change.after.data();
     const gameId = context.params.gamesId;
 
-    const { imperialPolitics, loyalistPolitics, chancellor } = newValue;
+    const { imperialPolitics, loyalistPolitics, chancellor, phase } = newValue;
     if (imperialPolitics > 5 || loyalistPolitics > 4) {
       return setGameFinished(gameId, {
         winner: imperialPolitics > 5 ? IMPERIALISTS : LOYALISTS,
       });
-    } else if (imperialPolitics > 2 && chancellor) {
+    } else if (
+      imperialPolitics > 2 &&
+      chancellor &&
+      !["nominate_chancellor", "vote"].includes(phase)
+    ) {
       return chancellor.get().then((doc) => {
         const { role } = doc.data();
 

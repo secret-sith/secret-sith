@@ -134,7 +134,10 @@ class GameViewModel : ViewModel() {
             GamePhase.policy_peek -> game.president?.id == player.id
             GamePhase.kill -> game.president?.id == player.id
             GamePhase.president_accept_veto -> game.president?.id == player.id
+            else -> false
+
         }
+        if (player.killed != null && player.killed!!) return GamePhase.killed
         if (!currentPlayerParticipates) return null
         return game.phase
     }

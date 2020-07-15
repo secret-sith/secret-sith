@@ -69,8 +69,12 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 GamePhase.policy_peek -> PolicyPeekFragment()
                 GamePhase.kill -> ExecutePlayerFragment()
                 GamePhase.president_accept_veto -> VetoConsentFragment()
+                GamePhase.killed -> PlayerKilledFragment()
                 null -> null
             }
+
+
+
             if (fragment != null) {
                 pushFragment(fragment, R.id.actionOverlay)
                 binding.actionOverlay.visibility = View.VISIBLE

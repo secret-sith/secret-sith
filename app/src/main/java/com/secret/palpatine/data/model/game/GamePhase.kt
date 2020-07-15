@@ -10,7 +10,8 @@ enum class GamePhase {
     chancellor_discard_policy,
     policy_peek,
     kill,
-    president_accept_veto
+    president_accept_veto,
+    killed
 }
 
 

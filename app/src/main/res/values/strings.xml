@@ -113,5 +113,7 @@
     <string name="discard_policy_veto_button">I wish to veto this agenda.</string>
     <string name="yes">YES</string>
     <string name="no">No</string>
+    <string name="player_killed">You got executed...</string>
+    <string name="killed_other_players_header">"Take a peek at the other players: "</string>
 
 </resources>
