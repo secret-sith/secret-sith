@@ -13,12 +13,13 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/playerIcon"
         android:layout_width="@dimen/userIconSize"
         android:layout_height="@dimen/userIconSize"
         android:background="@drawable/rounded_image"
-        android:backgroundTint="@color/goodColorLight"
+        android:backgroundTint="@color/primaryTextColor"
         android:scaleType="centerCrop"
+        android:tint="@color/material_on_surface_emphasis_high_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/playerIcon"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -41,7 +42,7 @@
             android:id="@+id/playerUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="playername"
+            android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +60,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/playerUserName"
-            tools:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/vote"

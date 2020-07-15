@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.game.Game
@@ -27,12 +29,13 @@ class PlayerGameListViewHolder(
     private var nameTextView: TextView? = null
     private var voteWrapper: LinearLayout? = null
     private var currentVote: ImageButton? = null
-
+    private var playerIcon: ImageView? = null
 
     init {
         nameTextView = itemView.findViewById(R.id.playerUserName)
         voteWrapper = itemView.findViewById(R.id.voteWrapper)
         currentVote = itemView.findViewById(R.id.currentPlayerVoteBtn)
+        playerIcon = itemView.findViewById(R.id.playerIcon)
     }
 
     fun bind(player: Player, game: Game?) {
@@ -43,21 +46,22 @@ class PlayerGameListViewHolder(
             nameTextView?.text = context.getString(R.string.player_name, player.userName)
 
         }
-        Log.d(
-            "GamePhase", game?.phase
-                .toString()
-        )
+
+
+
         when (game?.phase) {
 
             GamePhase.vote -> {
 
                 if (player.user != currentUserId) {
-                    voteWrapper?.visibility = View.GONE
+                    playerIcon?.imageTintList =
+                        ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_high_type)
+                    return
+                } else {
+                    if (player.killed != null && player.killed!!) {
+                        return
+                    }
                 }
-            }
-            else -> {
-                voteWrapper?.visibility = View.VISIBLE
-
             }
         }
 
@@ -65,18 +69,20 @@ class PlayerGameListViewHolder(
 
             true -> {
 
-                currentVote?.setImageDrawable(context.getDrawable(R.drawable.ic_check_black_24dp))
-                currentVote?.setColorFilter(context.getColor(R.color.successColor))
+                playerIcon?.imageTintList =
+                    ContextCompat.getColorStateList(context, R.color.successColor)
             }
 
             false -> {
-                currentVote?.setImageDrawable(context.getDrawable(R.drawable.ic_close_black_24dp))
-                currentVote?.setColorFilter(context.getColor(R.color.errorColor))
+                playerIcon?.imageTintList =
+                    ContextCompat.getColorStateList(context, R.color.errorColor)
+
             }
 
             null -> {
-                currentVote?.setImageDrawable(context.getDrawable(R.drawable.ic_help_black_24dp))
-                currentVote?.setColorFilter(context.getColor(R.color.primaryTextColor))
+                playerIcon?.imageTintList =
+                    ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_high_type)
+
             }
         }
 
