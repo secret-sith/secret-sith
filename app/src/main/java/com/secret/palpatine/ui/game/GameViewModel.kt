@@ -169,7 +169,8 @@ class GameViewModel : ViewModel() {
             }
             GamePhase.president_discard_policy -> {
                 val currentHand = currentHand.value!!
-                drawCards(3L - currentHand.size)
+                if (currentHand.isEmpty()) drawCards(3)
+                else Tasks.forResult(Unit)
             }
             GamePhase.policy_peek -> drawCards(3)
             else -> Tasks.forResult(Unit)
@@ -332,9 +333,9 @@ class GameViewModel : ViewModel() {
 
     private fun refreshDrawpileIfNeccessary(): Task<Void> {
         return gameRef.collection(DRAWPILE).get().onSuccessTask { drawpile ->
-            if (drawpile == null || drawpile.size() >= 3) return@onSuccessTask Tasks.forResult<Void>(
-                null
-            )
+            if (drawpile == null || drawpile.size() >= 3) {
+                return@onSuccessTask Tasks.forResult<Void>(null)
+            }
             Tasks.whenAll(drawpile.documents.map { it.reference.delete() }).onSuccessTask {
                 gameRef.get()
             }.onSuccessTask {
