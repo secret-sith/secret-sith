@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -177,6 +178,13 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                     PlayerRole.sith -> R.drawable.role_evil_leader
                 }
             )
+
+            if (userPlayer.role == PlayerRole.imperialist || userPlayer.role == PlayerRole.sith){
+                binding.showLayover.backgroundTintList =
+                    ContextCompat.getColorStateList(applicationContext, R.color.evilColor)
+                binding.showPlayers.backgroundTintList =
+                    ContextCompat.getColorStateList(applicationContext, R.color.evilColor)
+            }
         }
     }
 
