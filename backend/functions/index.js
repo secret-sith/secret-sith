@@ -147,9 +147,10 @@ exports.userAcceptOrDeclineInvite = functions.firestore
 exports.checkIfGameEndsGame = functions.firestore
   .document("games/{gamesId}")
   .onUpdate((change, context) => {
+    const oldValues = change.before.data();
     const newValue = change.after.data();
     const gameId = context.params.gamesId;
-
+    const {phase: oldPhase} = oldValues
     const { imperialPolitics, loyalistPolitics, chancellor, phase } = newValue;
     if (imperialPolitics > 5 || loyalistPolitics > 4) {
       return setGameFinished(gameId, {
@@ -158,7 +159,7 @@ exports.checkIfGameEndsGame = functions.firestore
     } else if (
       imperialPolitics > 2 &&
       chancellor &&
-      !["nominate_chancellor", "vote"].includes(phase)
+     ( oldPhase === "vote" && phase === "president_discard_policy")
     ) {
       return chancellor.get().then((doc) => {
         const { role } = doc.data();
