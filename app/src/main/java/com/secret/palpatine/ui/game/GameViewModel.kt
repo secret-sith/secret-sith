@@ -324,8 +324,6 @@ class GameViewModel : ViewModel() {
             )
         )
 
-        val refreshDrawpileTask = refreshDrawpileIfNeccessary()
-
         var nextPhase = GamePhase.nominate_chancellor
         if (policy.type == PolicyType.imperialist) {
             when (game.imperialPolitics + 1) {
@@ -335,7 +333,9 @@ class GameViewModel : ViewModel() {
             }
         }
 
-        return Tasks.whenAll(updateGameTask, refreshDrawpileTask).onSuccessTask {
+        return updateGameTask.onSuccessTask {
+            refreshDrawpileIfNeccessary()
+        }.onSuccessTask {
             setGamePhase(nextPhase)
         }
     }
