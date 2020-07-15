@@ -60,9 +60,6 @@ class GameViewModel : ViewModel() {
     private val _endGameResult = MutableLiveData<EndGameResult>()
     val endGameResult: LiveData<EndGameResult> = _endGameResult
 
-    private val _canStartGame = MutableLiveData<Boolean>()
-    val canStartGame: LiveData<Boolean> = _canStartGame
-
     fun setGameId(gameId: String) {
         gameRef = Firebase.firestore.collection(GAMES).document(gameId)
         gameReg?.remove()
@@ -82,8 +79,6 @@ class GameViewModel : ViewModel() {
         playersReg?.remove()
         playersReg = playersRef.addSnapshotListener { snapshot, exception ->
             _players.value = snapshot?.toObjects(Player::class.java)
-            _canStartGame.value = checkCanStartGame(_players.value!!)
-
             if (exception != null) Log.e(null, null, exception)
         }
 
@@ -290,19 +285,6 @@ class GameViewModel : ViewModel() {
         return gameRef.collection("players").document(playerId)
     }
 
-    private fun checkCanStartGame(players: List<Player>): Boolean {
-        if (players.size != 5) {
-            return false
-        } else {
-            for (player in players) {
-                if (player.state != PlayerState.accepted) {
-                    return false
-                }
-            }
-        }
-        return true
-    }
-
     fun presidentDiscardPolicy(i: Int): Task<Void> {
         val currentHand = currentHand.value!!
         val discardedPolicy = currentHand[i]
@@ -387,6 +369,16 @@ class GameViewModel : ViewModel() {
             }
             if (exception != null) Log.e(null, null, exception)
         }
+    }
+
+    fun canStartGame(): Boolean {
+        val players = players.value
+        if (players == null) return false
+        if (players.size != 5) return false
+        for (player in players) {
+            if (player.state != PlayerState.accepted) return false
+        }
+        return true
     }
 
     fun getCurrentUsersGameId(): Task<String?> {

@@ -41,7 +41,6 @@ class GamePendingFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private lateinit var startButton: Button
     private var gameId: String? = null
-    private var canStartGame: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +65,7 @@ class GamePendingFragment : Fragment() {
         (activity as BaseActivity).supportActionBar!!.hide()
         (activity as BaseActivity).showProgressBar()
         startButton.setOnClickListener {
-            if (canStartGame) { // TODO
+            if (viewModel.canStartGame()) {
                 viewModel.start()
                 val intent = Intent(context, GameActivity::class.java).apply {
                     putExtra("gameId", gameId)
@@ -88,15 +87,10 @@ class GamePendingFragment : Fragment() {
         })
 
         viewModel.game.observe(viewLifecycleOwner, Observer {
-            if(it != null){
+            if (it != null) {
                 init(it)
             }
             (activity as BaseActivity).hideProgressBar()
-        })
-        viewModel.canStartGame.observe(viewLifecycleOwner, Observer {
-            val result = it ?: return@Observer
-
-            canStartGame = result
         })
 
         viewModel.getCurrentUsersGameId().addOnSuccessListener {
