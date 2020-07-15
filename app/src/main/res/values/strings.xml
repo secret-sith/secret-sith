@@ -66,13 +66,16 @@
     <string name="no_option_for_chancellor_vote">No option for chancellor vote</string>
     <string name="yes_option_for_veto_vote">Yes option for veto vote</string>
     <string name="no_option_for_veto_vote">No option for veto vote</string>
-    <string name="discard_policy_title">Discard one Policy</string>
+    <string name="president_discard_policy_title">You are the President!\nDiscard one Policy.</string>
+    <string name="chancellor_discard_policy_title">You are the Chancellor!\nDiscard one Policy.</string>
     <string name="discard_policy_description">Policy to be discarded</string>
     <string name="team_secret_role_header">You are a Loyalist!</string>
     <string name="team_desc">Your team:</string>
-    <string name="nominate_chancellor_title">Nominate a Chancellor</string>
+    <string name="nominate_chancellor_title">You run for President.\nNominate your Chancellor.</string>
     <string name="nominate_chancellor_confirm">Nominate Chancellor</string>
-    <string name="kill_player_title">Select a Player to kill</string>
+    <string name="execute_player_title">Presidential Power: Execution\nExecute a Player!</string>
+    <string name="execute_player">Execute %1$s</string>
+    <string name="execute_player_default">Select a Player to execute</string>
 
     <string name="policy_peek_desc">These are the 3 Policies available to the next Government</string>
     <string name="players_count">"Players accepted: >%1$s"</string>
@@ -104,7 +107,6 @@
     <string name="players">"Players in this Game: "</string>
     <string name="vote_state">Vote</string>
     <string name="playerholder">...</string>
-    <string name="kill_player">Kill %1$s!</string>
     <string name="add_friends_empty">"Type in a name to search for new people to play with :) "</string>
     <string name="add_friends_button">Add as Friends</string>
     <string name="veto_consent_title">Chancellor %1$s wishes to veto this agenda. Do you consent?</string>

@@ -21,7 +21,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/discard_policy_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+        app:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
@@ -35,17 +35,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/discard_policy_0"
-        app:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+        app:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/discard_policy_title"
+        android:id="@+id/chancellor_discard_policy_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/overlay_header_background"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/discard_policy_title"
+        android:text="@string/chancellor_discard_policy_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,6 +57,6 @@
         android:text="@string/discard_policy_veto_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/discard_policy_title" />
+        app:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

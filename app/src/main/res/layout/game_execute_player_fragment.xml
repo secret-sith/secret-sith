@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/overlayBackground"
     android:paddingHorizontal="64dp"
-    tools:context=".ui.game.NominateChancellorFragment">
+    tools:context=".ui.game.ExecutePlayerFragment">
 
     <TextView
-        android:id="@+id/kill_player_title"
+        android:id="@+id/execute_player_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/overlay_header_background"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/kill_player_title"
+        android:text="@string/execute_player_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@id/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kill_player_title"
+        app:layout_constraintTop_toBottomOf="@+id/execute_player_title"
         tools:listitem="@layout/select_player" />
 
     <Button
@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="@string/nominate_chancellor_confirm"
+        android:text="@string/execute_player_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

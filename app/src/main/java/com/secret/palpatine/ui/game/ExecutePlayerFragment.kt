@@ -13,16 +13,16 @@ import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
 import com.secret.palpatine.data.model.player.SelectedPlayerMode
-import com.secret.palpatine.databinding.GameKillPlayerFragmentBinding
+import com.secret.palpatine.databinding.GameExecutePlayerFragmentBinding
 
-class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
-    private lateinit var binding: GameKillPlayerFragmentBinding
+class ExecutePlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedListener {
+    private lateinit var binding: GameExecutePlayerFragmentBinding
     private lateinit var viewModel: GameViewModel
     private lateinit var playerListAdapter: SelectPlayerListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = GameKillPlayerFragmentBinding.inflate(inflater, container, false)
+        binding = GameExecutePlayerFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +42,7 @@ class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedL
             SelectPlayerListAdapter(
                 listOf(),
                 requireContext(),
-                this@KillPlayerFragment,
+                this@ExecutePlayerFragment,
                 SelectedPlayerMode.KILL
             )
 
@@ -78,7 +78,7 @@ class KillPlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelectedL
 
     override fun onSelectPlayer(player: Player) {
         binding.confirm.isEnabled = true
-        binding.confirm.text = getString(R.string.kill_player, player.userName)
+        binding.confirm.text = getString(R.string.execute_player, player.userName)
         for (p in playerListAdapter.list) {
             p.resetSelection()
         }

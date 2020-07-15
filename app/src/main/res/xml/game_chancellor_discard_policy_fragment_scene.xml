@@ -14,7 +14,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toStartOf="@+id/discard_policy_1"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
             motion:layout_constraintVertical_bias="1.0">
             <CustomAttribute
                 motion:attributeName="scaleX"
@@ -34,7 +34,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toEndOf="@+id/discard_policy_0"
-            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
             motion:layout_constraintVertical_bias="1.0">
             <CustomAttribute
                 motion:attributeName="scaleX"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
             motion:visibilityMode="ignore" />
     </ConstraintSet>
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
             motion:visibilityMode="ignore" />
     </ConstraintSet>
 
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/discard_policy_title"
+            motion:layout_constraintTop_toBottomOf="@id/chancellor_discard_policy_title"
             motion:visibilityMode="ignore" />
     </ConstraintSet>
 
