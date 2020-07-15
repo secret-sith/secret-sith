@@ -221,7 +221,6 @@ class GameViewModel : ViewModel() {
         var yesVotes = 0
         var noVotes = 0
 
-        val game = game.value!!
         val players = players.value!!
         for (player in players) {
             if (player.vote!!) {
@@ -233,6 +232,7 @@ class GameViewModel : ViewModel() {
 
         // case election was successful
         if (yesVotes > noVotes) {
+            val game = game.value!!
             // save the new elects and advance the game phase
             gameRef.update(
                 mapOf(
@@ -243,20 +243,29 @@ class GameViewModel : ViewModel() {
                 setGamePhase(GamePhase.president_discard_policy)
             }
         } else { // case election failed
-            // update the counter for failed governments and set the new presidential candidate
-            gameRef.update(FAILEDGOVERNMENTS, FieldValue.increment(1)).onSuccessTask {
-                // check if country is thrown into chaos
-                if (game.failedGovernments == 2) {
-                    handleChaos()
-                } else {
-                    Tasks.forResult<Void>(null)
-                }
-            }.onSuccessTask {
-                setGamePhase(GamePhase.nominate_chancellor)
-            }
+            onGovernmentFailed()
         }
         for (player in players) {
             getPlayerRef(player.id).update(VOTE, null)
+        }
+    }
+
+    fun veto() {
+        onGovernmentFailed()
+    }
+
+    private fun onGovernmentFailed(): Task<Void> {
+        return gameRef.update(FAILEDGOVERNMENTS, FieldValue.increment(1)).onSuccessTask {
+            gameRef.get()
+        }.onSuccessTask {
+            val game = it!!.toObject(Game::class.java)!!
+            if (game.failedGovernments == 3) {
+                handleChaos()
+            } else {
+                Tasks.forResult<Void>(null)
+            }
+        }.onSuccessTask {
+            setGamePhase(GamePhase.nominate_chancellor)
         }
     }
 

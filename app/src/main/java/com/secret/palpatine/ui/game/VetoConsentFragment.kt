@@ -46,7 +46,7 @@ class VetoConsentFragment : Fragment() {
     private fun submitVote(didAcceptVeto: Boolean) {
         viewModel.activeGamePhase.value = null
         if (didAcceptVeto) {
-            viewModel.setGamePhase(GamePhase.nominate_chancellor)
+            viewModel.veto()
         } else {
             viewModel.setGamePhase(GamePhase.chancellor_discard_policy)
         }
