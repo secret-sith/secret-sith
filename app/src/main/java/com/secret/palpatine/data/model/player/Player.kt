@@ -14,10 +14,21 @@ data class Player(
     val state: PlayerState,
     var vote: Boolean? = null,
     var killed: Boolean? = null,
-    var isHost: Boolean =false,
+    var isHost: Boolean = false,
+    var order: Int? = null,
     private var selected: Boolean = false
 ) : Serializable {
-    constructor() : this("", PlayerRole.imperialist, "", "", PlayerState.pending, null, null, false)
+    constructor() : this(
+        "",
+        PlayerRole.imperialist,
+        "",
+        "",
+        PlayerState.pending,
+        null,
+        null,
+        false,
+        null
+    )
 
 
     fun selectPlayer() {

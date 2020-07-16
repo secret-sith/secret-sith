@@ -421,11 +421,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/players"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"

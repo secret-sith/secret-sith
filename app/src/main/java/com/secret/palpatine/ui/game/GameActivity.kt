@@ -159,6 +159,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
     private fun populatePlayerList(players: List<Player>) {
         playerListAdapter.setItems(players)
+        playerListAdapter.notifyDataSetChanged()
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
             adapter = playerListAdapter

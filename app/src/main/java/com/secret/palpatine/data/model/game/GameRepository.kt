@@ -34,22 +34,16 @@ class GameRepository {
 
         val batch = db.batch()
 
-        val randomNumbers = (0..4).shuffled();
-        var counter = 0;
-
-        // First Player in Ref
-        var playerRef = buildPlayerRef(gameId, roleListPlayers[0].id)
 
         for (player in roleListPlayers) {
             // Same for first player, then increment through for each
-            playerRef = buildPlayerRef(gameId, player.id)
+            var playerRef = buildPlayerRef(gameId, player.id)
             val playerData = hashMapOf(
                 "role" to player.role,
-                "order" to randomNumbers[counter]
+                "order" to player.order
             )
 
             batch.set(playerRef, playerData, SetOptions.merge())
-            counter++;
 
         }
 //Join other states and remove players from game
@@ -57,7 +51,7 @@ class GameRepository {
             (groupedPlayersList[PlayerState.declined] ?: emptyList()).toMutableList()
         playersToRemove.addAll((groupedPlayersList[PlayerState.pending] ?: emptyList()))
         for (player in playersToRemove) {
-            playerRef = buildPlayerRef(gameId, player.id)
+            var playerRef = buildPlayerRef(gameId, player.id)
             batch.delete(playerRef)
         }
 
@@ -65,7 +59,7 @@ class GameRepository {
             "state" to GameState.started,
             "presidentialCandidate" to buildPlayerRef(
                 gameId,
-                players[randomNumbers[0]].id
+                players.findLast { player -> player.order == 0 }!!.id
             )
         )
         batch.set(gameRef, gameData, SetOptions.merge())
@@ -188,22 +182,25 @@ class GameRepository {
     }
 
     private fun generatePlayerRolesAndOrder(players: List<Player>): List<Player> {
-        val playerRoleList: List<PlayerRole>
+        val playerRoleList: Map<Int, PlayerRole>
 
         if (players.size == 5) {
-            playerRoleList = listOf(
-                PlayerRole.loyalist,
-                PlayerRole.loyalist,
-                PlayerRole.loyalist,
-                PlayerRole.imperialist,
-                PlayerRole.sith
-            ).shuffled()
+            playerRoleList = mapOf(
+                4 to PlayerRole.loyalist,
+                2 to PlayerRole.loyalist,
+                1 to PlayerRole.loyalist,
+                3 to PlayerRole.imperialist,
+                0 to PlayerRole.sith
+            )
         } else {
             throw Exception("Number of players is not supported.")
         }
 
-        for (i in players.indices) {
-            players[i].role = playerRoleList[i]
+        val shuffledKeys = playerRoleList.keys.shuffled()
+        var players = players.shuffled()
+        for (key in shuffledKeys) {
+            players[key].role = playerRoleList[key] ?: error("")
+            players[key].order = key
         }
 
         return players
