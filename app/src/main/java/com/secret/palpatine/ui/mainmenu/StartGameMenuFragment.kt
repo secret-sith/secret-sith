@@ -90,7 +90,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         val letterSet: Set<Char> = letterList.toSortedSet()
         val friendGroupList: MutableList<FriendGroup> = ArrayList()
         for (letter in letterSet) {
-            val friendGroup: FriendGroup =
+            val friendGroup =
                 FriendGroup(
                     letter,
                     ArrayList()

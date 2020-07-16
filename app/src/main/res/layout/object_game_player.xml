@@ -71,7 +71,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/playerUserName"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/role_evil_3" />
+            app:srcCompat="@drawable/role_evil_2" />
 
         <LinearLayout
             android:id="@+id/voteWrapper"

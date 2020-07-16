@@ -59,7 +59,7 @@ class PlayerGameListViewHolder(
             playerRoleImage?.visibility = View.VISIBLE
             when (player.role) {
                 PlayerRole.loyalist -> playerRoleImage?.visibility = View.GONE
-                PlayerRole.imperialist -> playerRoleImage?.setImageDrawable(context.getDrawable(R.drawable.role_evil_3))
+                PlayerRole.imperialist -> playerRoleImage?.setImageDrawable(context.getDrawable(R.drawable.role_evil_2))
                 PlayerRole.sith -> playerRoleImage?.setImageDrawable(context.getDrawable(R.drawable.role_evil_leader))
             }
         }

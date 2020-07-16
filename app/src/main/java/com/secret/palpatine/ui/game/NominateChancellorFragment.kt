@@ -62,7 +62,6 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
         binding.players.apply {
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
             adapter = playerListAdapter
-
         }
     }
 
@@ -71,8 +70,7 @@ class NominateChancellorFragment : Fragment(), SelectPlayerListAdapter.OnPlayerS
             if (player.id == game.presidentialCandidate?.id) return@filter false
             if (player.id == game.chancellor?.id) return@filter false
             if (player.id == game.president?.id && players.size > 5) return@filter false
-            if (player.killed != null && player.killed!!) return@filter false
-
+            if (player.killed == true) return@filter false
             return@filter true
         }
     }

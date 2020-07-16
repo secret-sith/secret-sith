@@ -85,10 +85,17 @@ class JoinGameActivity : BaseActivity(), View.OnClickListener {
             // disable login button unless both username / password is valid
 
             if (joinGameResult.success) {
-
+                /*
                 val intent = Intent(this, GameActivity::class.java).apply {
                     putExtra("gameId", gameId)
                 }
+                */
+
+                val intent = Intent(this, MainMenuActivity::class.java).apply {
+                    putExtra("gameId", gameId)
+                    putExtra("comesByInviteLink", true)
+                }
+                Log.v("DEBUG", "4. " + intent.extras.toString())
                 startActivity(intent)
                 finish()
             }

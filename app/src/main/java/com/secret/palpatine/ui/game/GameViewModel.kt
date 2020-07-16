@@ -56,7 +56,6 @@ class GameViewModel : ViewModel() {
     private lateinit var drawpileRef: Query
     private var drawpileReg: ListenerRegistration? = null
     private val _drawpile = MutableLiveData<List<Policy>>()
-    val drawpile: LiveData<List<Policy>> = _drawpile
 
     private val _endGameResult = MutableLiveData<EndGameResult>()
     val endGameResult: LiveData<EndGameResult> = _endGameResult
@@ -171,6 +170,11 @@ class GameViewModel : ViewModel() {
                     )
                 )
             }
+            GamePhase.vote -> {
+                playersRef.get().onSuccessTask { snapshot ->
+                    Tasks.whenAll(snapshot!!.documents.map { it.reference.update(VOTE, null) })
+                }
+            }
             GamePhase.president_discard_policy -> {
                 val currentHand = currentHand.value!!
                 if (currentHand.isEmpty()) drawCards(3)
@@ -221,7 +225,6 @@ class GameViewModel : ViewModel() {
     }
 
     fun handleElectionResult() {
-        // check the election result
         var yesVotes = 0
         var noVotes = 0
 
@@ -235,10 +238,8 @@ class GameViewModel : ViewModel() {
             }
         }
 
-        // case election was successful
         if (yesVotes > noVotes) {
             val game = game.value!!
-            // save the new elects and advance the game phase
             gameRef.update(
                 mapOf(
                     PRESIDENT to game.presidentialCandidate,
@@ -247,16 +248,17 @@ class GameViewModel : ViewModel() {
             ).onSuccessTask {
                 setGamePhase(GamePhase.president_discard_policy)
             }
-        } else { // case election failed
+        } else {
             onGovernmentFailed()
-        }
-        for (player in playersAlive) {
-            getPlayerRef(player.id).update(VOTE, null)
         }
     }
 
     fun veto() {
-        onGovernmentFailed()
+        currentHandRef.get().onSuccessTask { snapshot ->
+            Tasks.whenAll(snapshot!!.documents.map { it.reference.delete() })
+        }.onSuccessTask {
+            onGovernmentFailed()
+        }
     }
 
     private fun onGovernmentFailed(): Task<Void> {
@@ -282,7 +284,13 @@ class GameViewModel : ViewModel() {
             val policyTask = enactPolicy(policy, isChaosPolicy = true)
             Tasks.whenAll(deleteTask, policyTask)
         }.onSuccessTask {
-            gameRef.update(FAILEDGOVERNMENTS, 0)
+            gameRef.update(
+                mapOf(
+                    CHANCELLOR to null,
+                    PRESIDENT to null,
+                    FAILEDGOVERNMENTS to 0
+                )
+            )
         }
     }
 
