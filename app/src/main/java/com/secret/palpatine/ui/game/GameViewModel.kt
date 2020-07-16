@@ -171,6 +171,11 @@ class GameViewModel : ViewModel() {
                     )
                 )
             }
+            GamePhase.vote -> {
+                playersRef.get().onSuccessTask { snapshot ->
+                    Tasks.whenAll(snapshot!!.documents.map { it.reference.update(VOTE, null) })
+                }
+            }
             GamePhase.president_discard_policy -> {
                 val currentHand = currentHand.value!!
                 if (currentHand.isEmpty()) drawCards(3)
@@ -248,9 +253,6 @@ class GameViewModel : ViewModel() {
             }
         } else {
             onGovernmentFailed()
-        }
-        for (player in playersAlive) {
-            getPlayerRef(player.id).update(VOTE, null)
         }
         votingSemaphore = true
     }
