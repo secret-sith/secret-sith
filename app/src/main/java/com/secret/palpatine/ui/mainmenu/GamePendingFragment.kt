@@ -49,7 +49,7 @@ class GamePendingFragment : Fragment() {
         auth = Firebase.auth
         // Inflate the layout for this fragment
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-
+        Log.v("DEBUG", "onCreateView GamePendingFragment")
         return inflater.inflate(R.layout.fragment_game_pending, container, false)
 
     }

@@ -29,7 +29,6 @@ class InviteViewHolder(
     fun bind(invite: Invite) {
         nameTextView?.text = invite.from
 
-        //dateTextView?.text = invite.date.toString()
         val text = getPassedTimeFormatted(invite.timestamp)
         dateTextView?.text = text
 

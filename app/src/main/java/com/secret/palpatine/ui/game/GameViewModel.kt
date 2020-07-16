@@ -34,6 +34,8 @@ class GameViewModel : ViewModel() {
     private val _game = MutableLiveData<Game>()
     val game: LiveData<Game> = _game
 
+    private var votingSemaphore = true
+
     /**
      * The Player of this client.
      */
@@ -55,7 +57,6 @@ class GameViewModel : ViewModel() {
     private lateinit var drawpileRef: Query
     private var drawpileReg: ListenerRegistration? = null
     private val _drawpile = MutableLiveData<List<Policy>>()
-    val drawpile: LiveData<List<Policy>> = _drawpile
 
     private val _endGameResult = MutableLiveData<EndGameResult>()
     val endGameResult: LiveData<EndGameResult> = _endGameResult
@@ -220,7 +221,8 @@ class GameViewModel : ViewModel() {
     }
 
     fun handleElectionResult() {
-        // check the election result
+        if (votingSemaphore == false) return
+        votingSemaphore = false
         var yesVotes = 0
         var noVotes = 0
 
@@ -234,10 +236,8 @@ class GameViewModel : ViewModel() {
             }
         }
 
-        // case election was successful
         if (yesVotes > noVotes) {
             val game = game.value!!
-            // save the new elects and advance the game phase
             gameRef.update(
                 mapOf(
                     PRESIDENT to game.presidentialCandidate,
@@ -246,12 +246,13 @@ class GameViewModel : ViewModel() {
             ).onSuccessTask {
                 setGamePhase(GamePhase.president_discard_policy)
             }
-        } else { // case election failed
+        } else {
             onGovernmentFailed()
         }
         for (player in playersAlive) {
             getPlayerRef(player.id).update(VOTE, null)
         }
+        votingSemaphore = true
     }
 
     fun veto() {
