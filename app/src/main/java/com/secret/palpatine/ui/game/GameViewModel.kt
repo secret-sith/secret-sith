@@ -282,7 +282,13 @@ class GameViewModel : ViewModel() {
             val policyTask = enactPolicy(policy, isChaosPolicy = true)
             Tasks.whenAll(deleteTask, policyTask)
         }.onSuccessTask {
-            gameRef.update(FAILEDGOVERNMENTS, 0)
+            gameRef.update(
+                mapOf(
+                    CHANCELLOR to null,
+                    PRESIDENT to null,
+                    FAILEDGOVERNMENTS to 0
+                )
+            )
         }
     }
 
