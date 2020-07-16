@@ -278,7 +278,7 @@ class GameViewModel : ViewModel() {
             val snapshot = it!!.documents[0]
             val deleteTask = snapshot.reference.delete()
             val policy = snapshot.toObject(Policy::class.java)!!
-            val policyTask = enactPolicy(policy)
+            val policyTask = enactPolicy(policy, isChaosPolicy = true)
             Tasks.whenAll(deleteTask, policyTask)
         }.onSuccessTask {
             gameRef.update(FAILEDGOVERNMENTS, 0)
@@ -315,7 +315,7 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    private fun enactPolicy(policy: Policy): Task<Void> {
+    private fun enactPolicy(policy: Policy, isChaosPolicy: Boolean = false): Task<Void> {
         val game = game.value!!
 
         val policyField =
@@ -328,7 +328,7 @@ class GameViewModel : ViewModel() {
         )
 
         var nextPhase = GamePhase.nominate_chancellor
-        if (policy.type == PolicyType.imperialist) {
+        if (policy.type == PolicyType.imperialist && !isChaosPolicy) {
             when (game.imperialPolitics + 1) {
                 3 -> nextPhase = GamePhase.policy_peek
                 4 -> nextPhase = GamePhase.kill
