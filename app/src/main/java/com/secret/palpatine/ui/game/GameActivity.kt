@@ -23,6 +23,7 @@ import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerGameListAdapter
 import com.secret.palpatine.databinding.ActivityGameBinding
 import com.secret.palpatine.ui.BaseActivity
+import com.secret.palpatine.util.USERNAME
 import com.secret.palpatine.util.pushFragment
 import com.secret.palpatine.util.removeFragment
 
@@ -56,12 +57,17 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
         initLists()
 
-
         showProgressBar()
+        var oldGamePhase: GamePhase? = null
         viewModel.game.observe(this@GameActivity, Observer {
             initGame(it)
             hideProgressBar()
+            if (oldGamePhase != it.phase) {
+                togglePhaseNotification(it, oldGamePhase)
+                oldGamePhase = it.phase
+            }
         })
+
         viewModel.activeGamePhase.observe(this, Observer { phase ->
             val fragment = when (phase) {
                 GamePhase.nominate_chancellor -> NominateChancellorFragment()
@@ -75,8 +81,6 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 null -> null
             }
 
-
-
             if (fragment != null) {
                 pushFragment(fragment, R.id.actionOverlay)
                 binding.actionOverlay.visibility = View.VISIBLE
@@ -85,6 +89,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 binding.actionOverlay.visibility = View.INVISIBLE
             }
         })
+
         viewModel.players.observe(this@GameActivity, Observer {
             Log.d("Players", it.toString())
             populatePlayerList(it)
@@ -180,7 +185,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                 }
             )
 
-            if (userPlayer.role == PlayerRole.imperialist || userPlayer.role == PlayerRole.sith){
+            if (userPlayer.role == PlayerRole.imperialist || userPlayer.role == PlayerRole.sith) {
                 binding.showLayover.backgroundTintList =
                     ContextCompat.getColorStateList(applicationContext, R.color.evilColor)
                 binding.showPlayers.backgroundTintList =
@@ -189,7 +194,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun toggleIdleNotification(){
+    private fun toggleIdleNotification() {
         val messages = listOf(
             "Nothing to do!",
             "Grab some coffee!",
@@ -198,7 +203,10 @@ class GameActivity : BaseActivity(), View.OnClickListener {
             "Han shot first!",
             "Beep Boop Beep - R2D2",
             "Gwwaaaaaaahhhh - Chewbacca",
-            "Recel scum!",
+            "Rebel scum!",
+            "Oh, hello there",
+            "General Kenobi!",
+            "I don't like sand.",
             "I find your lack of faith disturbing!",
             "It's a trap!",
             "Do. Or do not. There is no try!",
@@ -209,8 +217,34 @@ class GameActivity : BaseActivity(), View.OnClickListener {
         Toast.makeText(applicationContext, messages.random(), Toast.LENGTH_SHORT).show()
     }
 
+    private fun togglePhaseNotification(game: Game, oldGamePhase: GamePhase?) {
+        when (game.phase) {
+            GamePhase.president_discard_policy -> {
+                game.president?.get()?.addOnSuccessListener {
+                    val presidentName = it[USERNAME]
+                    game.chancellor?.get()?.addOnSuccessListener {
+                        val chancellorName = it[USERNAME]
+                        val message =
+                            "Voting finished!\nPresident: $presidentName\nChancellor: $chancellorName"
+                        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            GamePhase.nominate_chancellor -> {
+                if (oldGamePhase == GamePhase.vote) {
+                    val message = if (game.failedGovernments < 3) {
+                        "Government has failed!"
+                    } else {
+                        "Government has failed! The country is thrown into chaos"
+                    }
+                    Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     private fun toggleOverlay() {
-        if (viewModel.activeGamePhase.value == null){
+        if (viewModel.activeGamePhase.value == null) {
             toggleIdleNotification()
             return
         }
