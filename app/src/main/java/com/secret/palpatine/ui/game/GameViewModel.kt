@@ -253,7 +253,11 @@ class GameViewModel : ViewModel() {
     }
 
     fun veto() {
-        onGovernmentFailed()
+        currentHandRef.get().onSuccessTask { snapshot ->
+            Tasks.whenAll(snapshot!!.documents.map { it.reference.delete() })
+        }.onSuccessTask {
+            onGovernmentFailed()
+        }
     }
 
     private fun onGovernmentFailed(): Task<Void> {
