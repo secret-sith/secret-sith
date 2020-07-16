@@ -34,8 +34,6 @@ class GameViewModel : ViewModel() {
     private val _game = MutableLiveData<Game>()
     val game: LiveData<Game> = _game
 
-    private var votingSemaphore = true
-
     /**
      * The Player of this client.
      */
@@ -226,8 +224,6 @@ class GameViewModel : ViewModel() {
     }
 
     fun handleElectionResult() {
-        if (votingSemaphore == false) return
-        votingSemaphore = false
         var yesVotes = 0
         var noVotes = 0
 
@@ -254,7 +250,6 @@ class GameViewModel : ViewModel() {
         } else {
             onGovernmentFailed()
         }
-        votingSemaphore = true
     }
 
     fun veto() {
