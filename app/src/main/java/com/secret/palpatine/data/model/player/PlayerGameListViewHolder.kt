@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
+import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GamePhase
 
@@ -30,15 +31,22 @@ class PlayerGameListViewHolder(
     private var voteWrapper: LinearLayout? = null
     private var currentVote: ImageButton? = null
     private var playerIcon: ImageView? = null
+    private var playerRoleImage: ImageView? = null
+    private var txtPlayerOrder: TextView? = null
 
     init {
         nameTextView = itemView.findViewById(R.id.playerUserName)
         voteWrapper = itemView.findViewById(R.id.voteWrapper)
         currentVote = itemView.findViewById(R.id.currentPlayerVoteBtn)
         playerIcon = itemView.findViewById(R.id.playerIcon)
+        playerRoleImage = itemView.findViewById(R.id.player_role)
+        txtPlayerOrder = itemView.findViewById(R.id.txtPlayerOrder)
     }
 
-    fun bind(player: Player, game: Game?) {
+    fun bind(player: Player, game: Game?, isEvil: Boolean) {
+
+        txtPlayerOrder?.text = "${player.order}."
+
         if (currentUserId == player.user) {
             nameTextView?.text = "You"
 
@@ -46,6 +54,16 @@ class PlayerGameListViewHolder(
             nameTextView?.text = context.getString(R.string.player_name, player.userName)
 
         }
+
+        if (isEvil) {
+            playerRoleImage?.visibility = View.VISIBLE
+            when (player.role) {
+                PlayerRole.loyalist -> playerRoleImage?.visibility = View.GONE
+                PlayerRole.imperialist -> playerRoleImage?.setImageDrawable(context.getDrawable(R.drawable.role_evil_3))
+                PlayerRole.sith -> playerRoleImage?.setImageDrawable(context.getDrawable(R.drawable.role_evil_leader))
+            }
+        }
+
 
 
 
@@ -55,7 +73,10 @@ class PlayerGameListViewHolder(
 
                 if (player.user != currentUserId) {
                     playerIcon?.imageTintList =
-                        ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_high_type)
+                        ContextCompat.getColorStateList(
+                            context,
+                            R.color.material_on_surface_emphasis_high_type
+                        )
                     return
                 } else {
                     if (player.killed != null && player.killed!!) {
@@ -81,7 +102,10 @@ class PlayerGameListViewHolder(
 
             null -> {
                 playerIcon?.imageTintList =
-                    ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_high_type)
+                    ContextCompat.getColorStateList(
+                        context,
+                        R.color.material_on_surface_emphasis_high_type
+                    )
 
             }
         }

@@ -12,16 +12,28 @@
     android:layout_marginBottom="5dp"
     android:gravity="center">
 
+    <TextView
+        android:id="@+id/txtPlayerOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/playerIcon"
         android:layout_width="@dimen/userIconSize"
         android:layout_height="@dimen/userIconSize"
+        android:layout_marginStart="8dp"
         android:background="@drawable/rounded_image"
         android:backgroundTint="@color/primaryTextColor"
         android:scaleType="centerCrop"
         android:tint="@color/material_on_surface_emphasis_high_type"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtPlayerOrder"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
@@ -45,22 +57,32 @@
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/player_name" />
+
+        <ImageView
+            android:id="@+id/player_role"
+            android:layout_width="@dimen/userIconSize"
+            android:layout_height="@dimen/userIconSize"
+
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/playerUserName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/role_evil_3" />
 
         <LinearLayout
             android:id="@+id/voteWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playerUserName"
-            android:visibility="gone">
+            app:layout_constraintTop_toBottomOf="@+id/playerUserName">
 
             <TextView
                 android:id="@+id/vote"

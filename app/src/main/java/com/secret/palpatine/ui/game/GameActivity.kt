@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -159,6 +161,7 @@ class GameActivity : BaseActivity(), View.OnClickListener {
 
     private fun populatePlayerList(players: List<Player>) {
         playerListAdapter.setItems(players)
+        playerListAdapter.notifyDataSetChanged()
         binding.players.apply {
             layoutManager = LinearLayoutManager(this@GameActivity)
             adapter = playerListAdapter
@@ -176,11 +179,41 @@ class GameActivity : BaseActivity(), View.OnClickListener {
                     PlayerRole.sith -> R.drawable.role_evil_leader
                 }
             )
+
+            if (userPlayer.role == PlayerRole.imperialist || userPlayer.role == PlayerRole.sith){
+                binding.showLayover.backgroundTintList =
+                    ContextCompat.getColorStateList(applicationContext, R.color.evilColor)
+                binding.showPlayers.backgroundTintList =
+                    ContextCompat.getColorStateList(applicationContext, R.color.evilColor)
+            }
         }
     }
 
+    private fun toggleIdleNotification(){
+        val messages = listOf(
+            "Nothing to do!",
+            "Grab some coffee!",
+            "Wait for instructions!",
+            "These are not the droids you're looking for!",
+            "Han shot first!",
+            "Beep Boop Beep - R2D2",
+            "Gwwaaaaaaahhhh - Chewbacca",
+            "Recel scum!",
+            "I find your lack of faith disturbing!",
+            "It's a trap!",
+            "Do. Or do not. There is no try!",
+            "Mind tricks don’t work on me!",
+            "I have the high ground!"
+        )
+
+        Toast.makeText(applicationContext, messages.random(), Toast.LENGTH_SHORT).show()
+    }
+
     private fun toggleOverlay() {
-        if (viewModel.activeGamePhase.value == null) return
+        if (viewModel.activeGamePhase.value == null){
+            toggleIdleNotification()
+            return
+        }
         val oldVisibility = binding.actionOverlay.visibility
         binding.actionOverlay.visibility =
             if (oldVisibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
