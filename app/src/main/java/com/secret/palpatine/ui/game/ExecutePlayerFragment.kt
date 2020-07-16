@@ -57,21 +57,18 @@ class ExecutePlayerFragment : Fragment(), SelectPlayerListAdapter.OnPlayerSelect
     }
 
     private fun updatePlayers(players: List<Player>, game: Game) {
-        val eligiblePlayers = getEligiblePlayers(game, players)
-        playerListAdapter.list = eligiblePlayers
+        val killablePlayers = getKillablePlayers(game, players)
+        playerListAdapter.list = killablePlayers
         binding.players.apply {
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
             adapter = playerListAdapter
-
         }
     }
 
-    private fun getEligiblePlayers(game: Game, players: List<Player>): List<Player> {
+    private fun getKillablePlayers(game: Game, players: List<Player>): List<Player> {
         return players.filter { player ->
             if (player.id == game.presidentialCandidate?.id) return@filter false
-            if (player.id == game.chancellor?.id) return@filter false
-            if (player.id == game.president?.id && players.size > 5) return@filter false
-            if (player.killed != null && player.killed!!) return@filter false
+            if (player.killed == true) return@filter false
             return@filter true
         }
     }
