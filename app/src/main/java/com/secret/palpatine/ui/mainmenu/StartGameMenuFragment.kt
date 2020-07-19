@@ -135,6 +135,11 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+
+    override fun onDestroyView() {
+        viewModel.resetUsersToStartGame()
+        super.onDestroyView()
+    }
     override fun onSelect(data: User) {
         viewModel.updateUserToStartGameList(data)
     }

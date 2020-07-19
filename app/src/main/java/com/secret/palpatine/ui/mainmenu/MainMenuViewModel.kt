@@ -128,6 +128,12 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    fun resetUsersToStartGame(){
+
+        usersToStartGame.value = mutableListOf<User>()
+        usersToStartGame.value = _usersToStartGame
+
+    }
 
     fun updateUserToStartGameList(user: User) {
         Log.d("User to add", user.toString())
