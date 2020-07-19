@@ -18,7 +18,6 @@ import com.secret.palpatine.data.model.invitation.Invite
 import com.secret.palpatine.data.model.invitation.InviteListAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_invitemenu.*
-import com.secret.palpatine.data.model.invitation.InviteListAdapter
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
