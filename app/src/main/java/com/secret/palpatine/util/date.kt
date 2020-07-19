@@ -5,21 +5,6 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-fun getDaysSinceMoment(moment: LocalDateTime): String {
-    val now: LocalDateTime = LocalDateTime.now()
-    return Duration.between(moment, now).toDays().toString()
-}
-
-fun getHoursSinceMoment(moment: LocalDateTime): String {
-    val now: LocalDateTime = LocalDateTime.now()
-    return Duration.between(moment, now).toHours().toString()
-}
-
-fun getMinutesSinceMoment(moment: LocalDateTime): String {
-    val now: LocalDateTime = LocalDateTime.now()
-    return Duration.between(moment, now).toMinutes().toString()
-}
-
 fun getPassedTimeFormatted(timestamp: Timestamp): String {
     val moment = timestamp.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
     val now: LocalDateTime = LocalDateTime.now()

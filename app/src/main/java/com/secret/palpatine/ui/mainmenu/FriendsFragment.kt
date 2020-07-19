@@ -7,15 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.friends.friend.FriendRepository
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 
@@ -69,6 +65,7 @@ class FriendsFragment : Fragment() {
         })
         viewModel.getUserFriendRequestCount()
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_mainmenu, menu)
     }

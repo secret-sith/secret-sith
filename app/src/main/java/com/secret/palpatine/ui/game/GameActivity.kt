@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.PlayerRole
+import com.secret.palpatine.data.model.player.PlayerRole
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GamePhase
 import com.secret.palpatine.data.model.game.GameState

@@ -1,6 +1,5 @@
 package com.secret.palpatine.ui.game
 
-import android.graphics.Paint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,19 +57,21 @@ class JoinGameViewModel(
                     alreadyJoined = true
                 }
                 Log.v("DEBUG", "3. alreadyJoined => " + alreadyJoined)
-                if (alreadyJoined){
-                    val userUpdate = hashMapOf( "currentGame" to gameId )
-                    db.collection(USERS).document(userId).set(userUpdate, SetOptions.merge()).addOnSuccessListener {
-                        _joinGameResult.value = JoinGameResult(success = true)
-                    }
+                if (alreadyJoined) {
+                    val userUpdate = hashMapOf("currentGame" to gameId)
+                    db.collection(USERS).document(userId).set(userUpdate, SetOptions.merge())
+                        .addOnSuccessListener {
+                            _joinGameResult.value = JoinGameResult(success = true)
+                        }
                     return@addOnSuccessListener
                 }
-                gameRepository.joinGame(gameId, auth.currentUser!!.uid, username).addOnSuccessListener {
-                    _joinGameResult.value = JoinGameResult(success = true)
-                }.addOnFailureListener {
+                gameRepository.joinGame(gameId, auth.currentUser!!.uid, username)
+                    .addOnSuccessListener {
+                        _joinGameResult.value = JoinGameResult(success = true)
+                    }.addOnFailureListener {
                     _joinGameResult.value = JoinGameResult(success = false, error = 1)
                 }
-        }
+            }
     }
 
     fun getCurrentUser() {

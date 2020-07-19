@@ -1,7 +1,6 @@
 package com.secret.palpatine.ui.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.secret.palpatine.R
-import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerListAdapter
-import com.secret.palpatine.data.model.player.SelectPlayerListAdapter
-import com.secret.palpatine.data.model.player.SelectedPlayerMode
 import com.secret.palpatine.databinding.GamePlayerKilledFragmentBinding
-import com.secret.palpatine.databinding.GameVoteFragmentBinding
-import com.secret.palpatine.util.VOTE
 
 class PlayerKilledFragment : Fragment() {
     private lateinit var viewModel: GameViewModel

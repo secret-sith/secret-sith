@@ -1,26 +1,22 @@
 package com.secret.palpatine.ui.mainmenu
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
-import com.secret.palpatine.ui.game.GameActivity
+import com.secret.palpatine.data.model.user.User
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_start_game_menu.*
 
@@ -114,7 +110,10 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
             R.id.start_game_button -> {
                 viewModel.startGame().addOnSuccessListener {
                     val bundle = bundleOf(Pair("gameId", it))
-                    findNavController().navigate(R.id.action_startGameMenuFragment_to_gamePendingFragment,bundle)
+                    findNavController().navigate(
+                        R.id.action_startGameMenuFragment_to_gamePendingFragment,
+                        bundle
+                    )
 
                 }
             }

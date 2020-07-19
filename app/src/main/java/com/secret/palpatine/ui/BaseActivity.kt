@@ -1,19 +1,18 @@
 package com.secret.palpatine.ui
+
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by Florian Fuchs on 05.06.2020.
  */
-
 open class BaseActivity : AppCompatActivity() {
 
     private var progressBar: View? = null
-    private var errorText: TextView ? = null
+    private var errorText: TextView? = null
 
     fun setProgressBar(bar: View) {
         progressBar = bar

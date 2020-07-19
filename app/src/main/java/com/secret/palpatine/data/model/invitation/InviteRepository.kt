@@ -29,6 +29,6 @@ class InviteRepository {
         val data = hashMapOf(
             "state" to "accepted"
         )
-       return  db.collection("invites").document(invite.id).set(data, SetOptions.merge())
+        return db.collection("invites").document(invite.id).set(data, SetOptions.merge())
     }
 }

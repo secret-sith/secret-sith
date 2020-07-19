@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class FriendRequestsListAdapter(private val list: List<FriendRequest>, private val context: Context, private val listener: FriendRequestAcceptListener) :
+class FriendRequestsListAdapter(
+    private val list: List<FriendRequest>,
+    private val context: Context,
+    private val listener: FriendRequestAcceptListener
+) :
     RecyclerView.Adapter<FriendRequestViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendRequestViewHolder {

@@ -20,7 +20,14 @@ class PlayerListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return PlayerListViewHolder(inflater, parent, context, currentUserId, showMembership, showSate)
+        return PlayerListViewHolder(
+            inflater,
+            parent,
+            context,
+            currentUserId,
+            showMembership,
+            showSate
+        )
     }
 
     override fun onBindViewHolder(holder: PlayerListViewHolder, position: Int) {

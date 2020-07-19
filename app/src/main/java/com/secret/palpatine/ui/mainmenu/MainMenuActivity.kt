@@ -1,21 +1,11 @@
 package com.secret.palpatine.ui.mainmenu
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.secret.palpatine.R
 import com.secret.palpatine.databinding.ActivityMainMenuBinding
 import com.secret.palpatine.ui.BaseActivity
-import com.secret.palpatine.ui.game.GameActivity
-import com.secret.palpatine.util.pushFragment
-
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class MainMenuActivity : BaseActivity() {

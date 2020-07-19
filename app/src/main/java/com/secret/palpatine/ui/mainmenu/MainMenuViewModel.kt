@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -24,10 +23,8 @@ import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.invitation.Invite
 import com.secret.palpatine.data.model.invitation.InviteListResult
 import com.secret.palpatine.data.model.invitation.InviteRepository
-import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
-import com.secret.palpatine.util.USER
 import com.secret.palpatine.util.USERS
 
 /**

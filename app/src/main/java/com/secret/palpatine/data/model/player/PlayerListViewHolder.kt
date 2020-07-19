@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.PlayerRole
 
 /**
  * Created by Florian Fuchs on 19.06.2020.

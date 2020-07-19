@@ -37,8 +37,7 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toEndOf="@+id/button_vote_yes"
             motion:layout_constraintTop_toBottomOf="@id/vote_title"
-            motion:layout_constraintVertical_bias="1">
-        </Constraint>
+            motion:layout_constraintVertical_bias="1"></Constraint>
     </ConstraintSet>
 
 
@@ -59,7 +58,9 @@
             <CustomAttribute
                 motion:attributeName="scaleY"
                 motion:customFloatValue="1.1" />
-            <Transform android:translationY="-32dp" android:translationX="32dp" />
+            <Transform
+                android:translationY="-32dp"
+                android:translationX="32dp" />
 
         </Constraint>
         <Constraint
@@ -101,7 +102,9 @@
             <CustomAttribute
                 motion:attributeName="scaleY"
                 motion:customFloatValue="1.1" />
-            <Transform android:translationY="-32dp" android:translationX="-32dp" />
+            <Transform
+                android:translationY="-32dp"
+                android:translationX="-32dp" />
 
         </Constraint>
         <Constraint

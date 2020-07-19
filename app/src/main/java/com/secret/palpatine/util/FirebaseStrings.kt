@@ -2,7 +2,8 @@ package com.secret.palpatine.util
 
 const val GAMES = "games"
 
-const val USERS ="users"
+const val USERS = "users"
+
 /**
  *   GAME VALUES
  */
