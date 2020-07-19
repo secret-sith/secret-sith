@@ -1,7 +1,6 @@
 package com.secret.palpatine.data.model.player
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.game.Game
 import com.secret.palpatine.data.model.game.GamePhase
 
@@ -44,7 +42,6 @@ class PlayerGameListViewHolder(
     }
 
     fun bind(player: Player, game: Game?, isEvil: Boolean) {
-
         txtPlayerOrder?.text = "${player.order}."
 
         if (currentUserId == player.user) {

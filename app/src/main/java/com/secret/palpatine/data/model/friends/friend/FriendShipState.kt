@@ -1,7 +1,10 @@
 package com.secret.palpatine.data.model.friends.friend
 
 /**
- * Created by Florain Fuchs on 13.07.2020.
+ * Represents the possible states of friendships
+ *
+ * requested --> Awaits result of friend request
+ * friends --> Users are friends
  */
 enum class FriendShipState {
 

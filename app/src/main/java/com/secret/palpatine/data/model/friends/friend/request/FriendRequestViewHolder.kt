@@ -8,8 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.secret.palpatine.R
 
-class FriendRequestViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: Context, var acceptListener: FriendRequestsListAdapter.FriendRequestAcceptListener ):
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friendrequest,parent,false)) {
+class FriendRequestViewHolder(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    var context: Context,
+    var acceptListener: FriendRequestsListAdapter.FriendRequestAcceptListener
+) :
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.object_friendrequest, parent, false)) {
 
     private var nameTextView: TextView? = null
     private var acceptButton: Button? = null
@@ -28,7 +33,7 @@ class FriendRequestViewHolder(inflater: LayoutInflater, parent: ViewGroup, var c
         }
     }
 
-    private fun manageUserAccepts(request: FriendRequest){
+    private fun manageUserAccepts(request: FriendRequest) {
 
         acceptListener.onAccept(request)
 

@@ -1,7 +1,5 @@
 package com.secret.palpatine.ui.game
 
-import com.google.firebase.auth.FirebaseUser
-
 /**
  * Authentication result : success (user details) or error message.
  */

@@ -1,7 +1,6 @@
 package com.secret.palpatine.ui.mainmenu
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.invitation.Invite
+import com.secret.palpatine.data.model.invitation.InviteListAdapter
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_invitemenu.*
 import com.secret.palpatine.data.model.invitation.InviteListAdapter
@@ -67,7 +68,10 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
             if (inviteListResult.success != null) {
                 invites_recyclerview.apply {
                     layoutManager = LinearLayoutManager(activity)
-                    adapter = InviteListAdapter(sortInvites(inviteListResult.success), this@InviteMenuFragment)
+                    adapter = InviteListAdapter(
+                        sortInvites(inviteListResult.success),
+                        this@InviteMenuFragment
+                    )
                 }
             }
         })
@@ -119,7 +123,10 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
         viewModel.acceptInvite(data).addOnSuccessListener {
             invitesLoading.visibility = View.GONE
             val bundle = bundleOf(Pair("gameId", data.gameId))
-            findNavController().navigate(R.id.action_inviteMenuFragment_to_gamePendingFragment,bundle)
+            findNavController().navigate(
+                R.id.action_inviteMenuFragment_to_gamePendingFragment,
+                bundle
+            )
         }.addOnFailureListener {
             invitesLoading.visibility = View.GONE
             Toast.makeText(context, "Could not join Game!", Toast.LENGTH_SHORT).show()

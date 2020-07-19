@@ -1,10 +1,9 @@
 package com.secret.palpatine.data.model.user
 
-import com.secret.palpatine.data.model.friends.friend.request.FriendRequest
-
 /**
- * A generic class that holds a value with its loading status.
- * @param <T>
+ * Contains a user if underlying query was successful.
+ * @property user User object.
+ * @property error Corresponding errors
  */
 data class CurrentUserResult(
     val user: User? = null,

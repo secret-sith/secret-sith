@@ -3,7 +3,7 @@ package com.secret.palpatine.data.model.game
 import com.secret.palpatine.R
 
 /**
-  * Describes the available types of policies.
+ * Describes the available types of policies.
  *
  * loyalist --> Good Policies
  * imperialist --> Evil Policies

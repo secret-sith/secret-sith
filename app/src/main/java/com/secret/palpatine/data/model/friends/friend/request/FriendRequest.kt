@@ -6,7 +6,7 @@ import java.io.Serializable
 /**
  * Created by Florian Fuchs on 10.06.2020.
  */
-data class FriendRequest(val id: String, var user: User?): Serializable {
+data class FriendRequest(val id: String, var user: User?) : Serializable {
 
     constructor() : this("", null)
 

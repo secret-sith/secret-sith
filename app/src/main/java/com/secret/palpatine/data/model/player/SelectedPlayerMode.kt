@@ -1,7 +1,10 @@
 package com.secret.palpatine.data.model.player
 
 /**
- * Created by Florain Fuchs on 12.07.2020.
+ * Gives context to the selected attribute of the Player model.
+ *
+ * CHANCELLOR --> Selected to be nominated as chancellor
+ * KILL --> Selected to be killed.
  */
 enum class SelectedPlayerMode {
     CHANCELLOR, KILL

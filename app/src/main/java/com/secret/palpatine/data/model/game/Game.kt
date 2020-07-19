@@ -32,7 +32,9 @@ data class Game(
     val chancellorCandidate: DocumentReference?,
     val president: DocumentReference?,
     val chancellor: DocumentReference?
-) : Serializable{
-     constructor() : this("", 0, 0, 0, GamePhase.nominate_chancellor, GameState.pending,
-                       "", null, null, null, null, null)
+) : Serializable {
+    constructor() : this(
+        "", 0, 0, 0, GamePhase.nominate_chancellor, GameState.pending,
+        "", null, null, null, null, null
+    )
 }

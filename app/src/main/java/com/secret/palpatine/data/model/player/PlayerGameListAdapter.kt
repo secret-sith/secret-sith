@@ -1,11 +1,9 @@
 package com.secret.palpatine.data.model.player
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.secret.palpatine.data.model.PlayerRole
 import com.secret.palpatine.data.model.game.Game
 
 /**

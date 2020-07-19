@@ -10,4 +10,5 @@ package com.secret.palpatine.data.model.game
 enum class GameState {
     pending,
     started,
-    finished}
+    finished
+}

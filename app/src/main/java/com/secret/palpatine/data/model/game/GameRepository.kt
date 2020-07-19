@@ -3,10 +3,13 @@ package com.secret.palpatine.data.model.game
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.secret.palpatine.data.model.PlayerRole
+import com.secret.palpatine.data.model.player.PlayerRole
 import com.secret.palpatine.data.model.player.Player
 import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
@@ -32,7 +35,6 @@ class GameRepository {
         val gameRef = db.collection("games").document(gameId)
         Log.d("Players", players.size.toString())
         var groupedPlayersList: Map<PlayerState, List<Player>> = players.groupBy { it.state }
-        groupedPlayersList
         var roleListPlayers: List<Player> =
             generatePlayerRolesAndOrder(
                 groupedPlayersList[PlayerState.accepted] ?: error("No players available")

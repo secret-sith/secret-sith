@@ -15,7 +15,6 @@ import com.secret.palpatine.ui.BaseActivity
 import com.secret.palpatine.ui.login.afterTextChanged
 import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 import com.secret.palpatine.ui.signup.SignupActivity
-import kotlinx.android.synthetic.main.activity_join_game.view.*
 
 class JoinGameActivity : BaseActivity(), View.OnClickListener {
 

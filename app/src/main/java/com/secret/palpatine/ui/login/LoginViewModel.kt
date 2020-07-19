@@ -1,16 +1,13 @@
 package com.secret.palpatine.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
-import com.secret.palpatine.data.login.LoginRepository
-import com.secret.palpatine.data.login.Result
-
 import com.secret.palpatine.R
 
-class LoginViewModel(private val auth:FirebaseAuth) : ViewModel() {
+class LoginViewModel(private val auth: FirebaseAuth) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm

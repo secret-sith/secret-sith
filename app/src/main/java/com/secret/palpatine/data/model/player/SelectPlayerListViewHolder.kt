@@ -1,19 +1,12 @@
 package com.secret.palpatine.data.model.player
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.game.Game
-import com.secret.palpatine.data.model.game.GamePhase
 
 /**
  * Created by Florian Fuchs on 19.06.2020.

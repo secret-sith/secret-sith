@@ -3,17 +3,17 @@ package com.secret.palpatine.ui.mainmenu
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
-import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
+import com.secret.palpatine.data.model.user.User
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_friendsmenu.*
  * Use the [FriendsMenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener{
+class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener {
 
     /**
      * MainMenuViewModel object for communicating with firebase

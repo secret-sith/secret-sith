@@ -1,7 +1,11 @@
 package com.secret.palpatine.data.model.player
 
 /**
- * Created by Florian Fuchs on 19.06.2020.
+ * Describes the states which a player can have
+ *
+ * pending --> Player has not yet accepted the invite
+ * accepted --> Player accepted invite
+ * decline --> Player declined the invite
  */
 enum class PlayerState {
     pending, accepted, declined

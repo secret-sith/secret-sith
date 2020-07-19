@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/gamePendingFragment"
         android:name="com.secret.palpatine.ui.mainmenu.GamePendingFragment"
-        android:label="GamePendingFragment" >
+        android:label="GamePendingFragment">
         <action
             android:id="@+id/action_gamePendingFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
@@ -49,7 +49,7 @@
         android:id="@+id/friendsMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsFragment"
         android:label="@string/friends_menu_fragment_label"
-        tools:layout="@layout/fragment_friendtabs" >
+        tools:layout="@layout/fragment_friendtabs">
         <action
             android:id="@+id/action_friendsMenuFragment_to_addFriendsFragment"
             app:destination="@id/addFriendsFragment" />
@@ -59,7 +59,7 @@
         android:id="@+id/startGameMenuFragment"
         android:name="com.secret.palpatine.ui.mainmenu.StartGameMenuFragment"
         android:label="@string/start_game_menu_fragment_label"
-        tools:layout="@layout/fragment_start_game_menu" >
+        tools:layout="@layout/fragment_start_game_menu">
         <action
             android:id="@+id/action_startGameMenuFragment_to_gamePendingFragment"
             app:popUpTo="@id/gamePendingFragment"
@@ -70,7 +70,7 @@
         android:id="@+id/addFriendsFragment"
         android:name="com.secret.palpatine.ui.mainmenu.FriendsAddFragment"
         android:label="@string/add_friends_fragment_label"
-        tools:layout="@layout/fragment_add_friends" >
+        tools:layout="@layout/fragment_add_friends">
         <action
             android:id="@+id/action_addFriendsFragment_to_friendsMenuFragment"
             app:destination="@id/friendsMenuFragment" />

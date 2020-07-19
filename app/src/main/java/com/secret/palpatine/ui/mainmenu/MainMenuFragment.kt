@@ -69,7 +69,8 @@ class MainMenuFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.mainmenu_manualbutton).setOnClickListener {
-            val url = Uri.parse("https://docs.google.com/viewerng/viewer?url=https://tinyurl.com/ydbvvlrq")
+            val url =
+                Uri.parse("https://docs.google.com/viewerng/viewer?url=https://tinyurl.com/ydbvvlrq")
             val intent = Intent(Intent.ACTION_VIEW, url)
             startActivity(intent)
         }

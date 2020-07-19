@@ -2,29 +2,25 @@ package com.secret.palpatine.ui.login
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.secret.palpatine.ui.mainmenu.MainMenuActivity
-
 import com.secret.palpatine.R
 import com.secret.palpatine.databinding.ActivityLoginBinding
 import com.secret.palpatine.ui.BaseActivity
+import com.secret.palpatine.ui.mainmenu.MainMenuActivity
 import com.secret.palpatine.ui.signup.SignupActivity
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
