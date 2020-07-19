@@ -1,7 +1,11 @@
 package com.secret.palpatine.data.model.game
 
 /**
- * Created by Florian Fuchs on 19.06.2020.
+ * Class describing all possible game states
+ *
+ * pending --> Game waits until host starts the game
+ * started --> Game is currently running
+ * finished --> Game is finished
  */
 enum class GameState {
     pending,
