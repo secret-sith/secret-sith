@@ -141,6 +141,12 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    fun resetUsersToStartGame(){
+
+        usersToStartGame.value = mutableListOf<User>()
+        usersToStartGame.value = _usersToStartGame
+
+    }
 
     /**
      * Adds a user to the list of players to start a game with

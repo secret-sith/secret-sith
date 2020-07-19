@@ -4,7 +4,7 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-const IMPERIALISTS = "IMPERIALISTS";
+const IMPERIALISTS = "SEPARATISTS";
 const LOYALISTS = "LOYALISTS";
 
 const setGameFinished = (gameId, optional = {}) => {

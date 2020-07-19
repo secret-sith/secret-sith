@@ -13,16 +13,22 @@ import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.util.*
 
 /**
- * Created by Florian Fuchs on 19.06.2020.
+ * This class handles the communication from the local gamestate with the globale database.
+ *
+ * @property db Connection to the chosen database, which are Firebase services in this case
  */
-
 class GameRepository {
 
     val db = Firebase.firestore
 
-
+    /**
+     * Updates the participating players in the game and sets global Gamestate to started.
+     * Further the player roles and order are generated.
+     *
+     * @param gameId Unique ID of the game
+     * @param players List of invited Players
+     */
     fun startGame(gameId: String, players: List<Player>): Task<Void> {
-
         val gameRef = db.collection("games").document(gameId)
         Log.d("Players", players.size.toString())
         var groupedPlayersList: Map<PlayerState, List<Player>> = players.groupBy { it.state }
@@ -46,7 +52,7 @@ class GameRepository {
             batch.set(playerRef, playerData, SetOptions.merge())
 
         }
-//Join other states and remove players from game
+        //Join other states and remove players from game
         var playersToRemove: MutableList<Player> =
             (groupedPlayersList[PlayerState.declined] ?: emptyList()).toMutableList()
         playersToRemove.addAll((groupedPlayersList[PlayerState.pending] ?: emptyList()))
@@ -67,16 +73,18 @@ class GameRepository {
 
     }
 
+    /**
+     * Given a unique [gameId] returns a list of all participating players.
+     */
     fun getPlayers(gameId: String): CollectionReference {
-
         return db.collection("games").document(gameId).collection("players")
-
-
     }
 
+    /**
+     * Provided a [playerList] with invited users a Game is created in the database where the
+     * [userId] combined with [userName] serves as identification of the host.
+     */
     fun createGame(playerList: List<User>, userId: String, userName: String): Task<String> {
-
-
         val game: HashMap<String, Any?> = hashMapOf(
             "loyalistPolitics" to 0,
             "imperialPolitics" to 0,
@@ -91,7 +99,6 @@ class GameRepository {
             "presidentialCandidate" to null
         )
 
-
         val host = hashMapOf(
             "user" to userId,
             "createdAt" to FieldValue.serverTimestamp(),
@@ -99,7 +106,6 @@ class GameRepository {
             "userName" to userName,
             "isHost" to true
         )
-
 
         return db.collection("games").add(game).continueWithTask {
             if (it.exception != null) {
@@ -145,20 +151,22 @@ class GameRepository {
                     )
                 }
 
-
-
                 Tasks.whenAll(plist).continueWith { id }
             }
         }
     }
 
-
+    /**
+     * Given a [gameId] the matching game will be returned from the database.
+     */
     fun getGame(gameId: String): DocumentReference {
 
         return db.collection("games").document(gameId)
     }
 
-
+    /**
+     * Adds an user with its [userId] and [userName ]to an existing game via a provided [gameId].
+     */
     fun joinGame(gameId: String, userId: String, userName: String): Task<Void> {
 
         val data = hashMapOf(
@@ -181,6 +189,9 @@ class GameRepository {
             }
     }
 
+    /**
+     * For a list of [players] the necessary roles (loyalist, imperialist, sith) for the game are distributed.
+     */
     private fun generatePlayerRolesAndOrder(players: List<Player>): List<Player> {
         val playerRoleList: Map<Int, PlayerRole>
 
@@ -206,9 +217,10 @@ class GameRepository {
         return players
     }
 
-
+    /**
+     * Returns a fitting reference for a player in a game identified by [gameId] and [playerId] only-
+     */
     private fun buildPlayerRef(gameId: String, playerId: String): DocumentReference {
         return db.collection("games").document(gameId).collection("players").document(playerId)
-
     }
 }
