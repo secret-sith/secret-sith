@@ -21,14 +21,23 @@ import kotlinx.android.synthetic.main.fragment_friendsmenu.*
  */
 class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendRequestAcceptListener {
 
+    /**
+     * MainMenuViewModel object for communicating with firebase
+     */
     private lateinit var viewModel: MainMenuViewModel
 
+    /**
+     * Override of onCreate. Inital set of the MainMenuViewModel
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         retainInstance = true
     }
 
+    /**
+     * Override of onCreateView. Inflates the fragment with the correct layout
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +51,9 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
         viewModel.acceptFriendRequest(data.id)
     }
 
+    /**
+     * Override of onViewCreated. Observes the open friend requests and populates the recyclerview
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,6 +86,11 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
     }
 
 
+    /**
+     * Function to populate the recyclerview with a given list of requests
+     *
+     * @param requests: list of requests to display
+     */
     private fun populateList(requests: List<FriendRequest>) {
         val context = (activity as AppCompatActivity).applicationContext
 
@@ -87,6 +104,12 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
         inflater.inflate(R.menu.menu_mainmenu, menu)
     }
 
+    /**
+     * Override of onOptionsItemSelected. Navigates to the addFriendsFragment in case the "add"
+     * menu-item was clicked
+     *
+     * @param item: the clicked menu item
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add) {
             findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
@@ -96,6 +119,10 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Override of onStart. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -103,6 +130,10 @@ class FriendRequestsFragment : Fragment(), FriendRequestsListAdapter.FriendReque
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Override of onResume. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)

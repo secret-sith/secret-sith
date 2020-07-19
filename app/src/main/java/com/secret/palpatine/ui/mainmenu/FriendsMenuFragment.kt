@@ -9,8 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-
 import com.secret.palpatine.R
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
@@ -27,9 +25,15 @@ import kotlinx.android.synthetic.main.fragment_friendsmenu.*
  */
 class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener{
 
+    /**
+     * MainMenuViewModel object for communicating with firebase
+     */
     private lateinit var viewModel: MainMenuViewModel
 
 
+    /**
+     * Override of onCreate. Initial set of the MainMenuViewModel.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
@@ -37,6 +41,9 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         retainInstance = true
     }
 
+    /**
+     * Override of onCreateView. Inflates the fragment with the correct layout
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +52,10 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         return inflater.inflate(R.layout.fragment_friendsmenu, container, false)
     }
 
+    /**
+     * Override of onViewCreated. Observes this user's friendlist and populates the RecyclerView with
+     * the result.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +66,7 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
 
             if (loginResult.error != null) {
                 loading.visibility = View.GONE
-                showErrorLoading(loginResult.error)
+                showErrorLoading()
             }
             if (loginResult.success != null) {
                 loading.visibility = View.GONE
@@ -75,7 +86,10 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
 
     }
 
-    private fun showErrorLoading(error: Int) {
+    /**
+     * Shows an error text in case the loading of the friends failed
+     */
+    private fun showErrorLoading() {
 
         errorText.text = "Error while loading your friends..."
 
@@ -83,6 +97,12 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         friends_recyclerview.visibility = View.GONE
     }
 
+    /**
+     * Takes a list of users and creates according FriendGroup objects that can be consumed
+     * by the recyclerview. Applies the adapter and layoutmanager to the recyclerview
+     *
+     * @param friendList: unsorted list of User objects. to be turned in FriendGroup objects.
+     */
     private fun generateLetteredList(friendList: List<User>) {
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
@@ -112,10 +132,19 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         }
     }
 
+    /**
+     * Override of onCreateOptionsMenu. Inflates the menu
+     */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_mainmenu, menu)
     }
 
+    /**
+     * Override of onOptionsItemSelected. Navigates the the addFriendsFragment in case the user
+     * wants to add a friend
+     *
+     * @param item: the MenuItem clicked
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add) {
             findNavController().navigate(R.id.action_friendsMenuFragment_to_addFriendsFragment)
@@ -125,6 +154,10 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Override of onStart. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -132,6 +165,10 @@ class FriendsMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterList
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Override of onResume. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)

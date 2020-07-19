@@ -3,30 +3,32 @@ package com.secret.palpatine.ui.mainmenu
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.SyncStateContract
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.secret.palpatine.R
-import com.secret.palpatine.databinding.FragmentMainmenuBinding
 import com.secret.palpatine.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_main_menu.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class MainMenuFragment : Fragment() {
 
+    /**
+     * Authentication object for communicating with firebase
+     */
     private lateinit var auth: FirebaseAuth
 
+    /**
+     * Override of onCreateView. Inflates the correct layout
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         auth = Firebase.auth
         // Inflate the layout for this fragment
@@ -35,6 +37,10 @@ class MainMenuFragment : Fragment() {
 
     }
 
+    /**
+     * Override of onViewCreated. Sets the onClickListeners for the buttons to navigate to
+     * various submenus and the logout button.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,21 +80,33 @@ class MainMenuFragment : Fragment() {
         }
     }
 
+    /**
+     * Override of onStart. Hides the supportActionBar
+     */
     override fun onStart() {
         super.onStart()
         reset()
     }
 
+    /**
+     * Override of onResume. Hides the supportActionBar
+     */
     override fun onResume() {
         super.onResume()
         reset()
     }
 
+    /**
+     * Hides the supportActionBar
+     */
     private fun reset(){
         MainMenuActivity.isInSelectionMode = false
         (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
+    /**
+     * Override of onStop. Un-hides the supportActionBar
+     */
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secret.palpatine.R
@@ -19,23 +18,30 @@ import com.secret.palpatine.data.model.invitation.Invite
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_invitemenu.*
 import com.secret.palpatine.data.model.invitation.InviteListAdapter
-import kotlinx.android.synthetic.main.fragment_friendsmenu.*
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
 
-    // private val temp_Invites = dummy_Invites
+    /**
+     * MainMenuViewModel object that holds this player's invites
+     */
     private lateinit var viewModel: MainMenuViewModel
 
 
+    /**
+     * Override of onCreate. Initial set of the MainMenuViewModel
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         retainInstance = true
     }
 
+    /**
+     * Override of onCreateView. Sets the correct fragment layout
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +50,10 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
         return inflater.inflate(R.layout.fragment_invitemenu, container, false)
     }
 
+    /**
+     * Override of onViewCreated. Observes the current user's invites and pushes the available
+     * invites to the Recyclerview
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         invitesLoading.visibility = View.VISIBLE
@@ -66,11 +76,20 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
     }
 
 
-    fun sortInvites(invites: List<Invite>): List<Invite> {
+    /**
+     * Sorts a list of invites by their timestamp
+     *
+     * @param invites: the list of invites to be sorted
+     */
+    private fun sortInvites(invites: List<Invite>): List<Invite> {
         return invites.sortedWith(compareByDescending<Invite> { it.timestamp }.thenBy { it.name })
     }
 
 
+    /**
+     * Override of onStart. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -78,6 +97,10 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Override of onResume. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -85,6 +108,11 @@ class InviteMenuFragment : Fragment(), InviteListAdapter.AcceptInviteListener {
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Accepts an invite and switches to the game-pending screen on success.
+     *
+     * @param data: the invite to accept
+     */
     override fun onAccept(data: Invite) {
         invitesLoading.visibility = View.VISIBLE
 

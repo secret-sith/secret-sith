@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -24,10 +23,8 @@ import com.secret.palpatine.data.model.game.GameRepository
 import com.secret.palpatine.data.model.invitation.Invite
 import com.secret.palpatine.data.model.invitation.InviteListResult
 import com.secret.palpatine.data.model.invitation.InviteRepository
-import com.secret.palpatine.data.model.player.PlayerState
 import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.user.UserRepository
-import com.secret.palpatine.util.USER
 import com.secret.palpatine.util.USERS
 
 /**
@@ -66,6 +63,9 @@ class MainMenuViewModel : ViewModel() {
     private val _friendsSearchResult = MutableLiveData<FriendListResult>()
     val friendsSearchResult: LiveData<FriendListResult> = _friendsSearchResult
 
+    /**
+     * Function to update the friendList object in case there are changes
+     */
     fun refreshUserFriends() {
         friendRepository.getUserFriends(auth.currentUser!!).addOnSuccessListener { documents ->
             var friendList: MutableList<User> = mutableListOf()
@@ -81,12 +81,20 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Function to get the amount of pending friend requests for this user.
+     */
     fun getUserFriendRequestCount() {
         friendRepository.getFriendRequests(auth.currentUser!!).addOnSuccessListener { documents ->
             _friendsRequestCountResult.value = FriendRequestCountResult(success = documents.size())
         }
     }
 
+    /**
+     * Function to accept a friend request of a user
+     *
+     * @param id: the UUID of the firebase document of the user
+     */
     fun acceptFriendRequest(id: String) {
 
         friendRepository.acceptAsFriend(id).addOnSuccessListener {
@@ -97,6 +105,11 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Function to search this users friendlist for matches to a query.
+     *
+     * @param userNameQuery: query text to find suggestions to
+     */
     fun searchForFriends(userNameQuery: String?) {
 
         if (userNameQuery.isNullOrBlank()) {
@@ -129,6 +142,10 @@ class MainMenuViewModel : ViewModel() {
     }
 
 
+    /**
+     * Adds a user to the list of players to start a game with
+     * @param user: the User to be added
+     */
     fun updateUserToStartGameList(user: User) {
         Log.d("User to add", user.toString())
         if (user.isSelected) {
@@ -141,6 +158,9 @@ class MainMenuViewModel : ViewModel() {
         usersToStartGame.value = _usersToStartGame
     }
 
+    /**
+     * Function to start the game
+     */
     fun startGame(): Task<String> {
         return gameRepository.createGame(
             _usersToStartGame,
@@ -149,6 +169,9 @@ class MainMenuViewModel : ViewModel() {
         )
     }
 
+    /**
+     * Updates the selection list in case of a change
+     */
     fun updateFriendsToAddList(user: User) {
         if (user.isSelected) {
             _friendsToAdd.add(user)
@@ -158,6 +181,9 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Function to send a friend request to each user in the friends-to-add list
+     */
     fun sendFriendRequests(): Task<Void> {
 
         val db = Firebase.firestore
@@ -179,6 +205,9 @@ class MainMenuViewModel : ViewModel() {
         return Tasks.whenAll(plist)
     }
 
+    /**
+     * Function to get the pending friend requests for this user sent by other users
+     */
     fun getUserFriendRequests() {
 
         friendRepository.getFriendRequests(auth.currentUser!!).addOnSuccessListener { documents ->
@@ -213,6 +242,9 @@ class MainMenuViewModel : ViewModel() {
 
     }
 
+    /**
+     * Function to get the pending invites for this user by other users
+     */
     fun getInvites() {
 
         inviteRepository.getInvites(auth.currentUser!!.uid).addSnapshotListener { snapshot, e ->
@@ -232,6 +264,11 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Function to accept an invite
+     *
+     * @param invite: the invite to accept
+     */
     fun acceptInvite(invite: Invite): Task<Void> {
         return inviteRepository.acceptInvite(invite)
     }

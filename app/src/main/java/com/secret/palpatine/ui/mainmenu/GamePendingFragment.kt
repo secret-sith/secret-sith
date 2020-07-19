@@ -36,12 +36,34 @@ import kotlinx.android.synthetic.main.fragment_game_pending.*
  */
 class GamePendingFragment : Fragment() {
 
+    /**
+     * Firebase Authentication object
+     */
     private lateinit var auth: FirebaseAuth
+
+    /**
+     * Recyclerview holding the invited players and their status
+     */
     private lateinit var list: RecyclerView
+
+    /**
+     * GameViewModel object used to observe the game status
+     */
     private lateinit var viewModel: GameViewModel
+
+    /**
+     * Button to start the game
+     */
     private lateinit var startButton: Button
+
+    /**
+     * UUID of the game document in firebase
+     */
     private var gameId: String? = null
 
+    /**
+     * Override of onCreateView. Sets the firebase connection and the correct layout fragment
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,11 +71,18 @@ class GamePendingFragment : Fragment() {
         auth = Firebase.auth
         // Inflate the layout for this fragment
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-        Log.v("DEBUG", "onCreateView GamePendingFragment")
         return inflater.inflate(R.layout.fragment_game_pending, container, false)
 
     }
 
+    /**
+     * Override of onViewCreated. Enables copy-by-click on the invite link and attaches various
+     * observers
+     *
+     * Sets the click listener for the start game button.
+     * Observers the player list of the firebase game document
+     * Observes the current game of the logged-in user and sets the GameViewModel accordingly
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myClipboard: ClipboardManager =
@@ -124,19 +153,12 @@ class GamePendingFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        reset()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        reset()
-    }
-
-    private fun reset() {
-    }
-
+    /**
+     * Applies the list of players to the displaying Recyclerview
+     *
+     * @param players: the current list of players for this game
+     */
     private fun populatePlayerList(players: List<Player>) {
         list.apply {
             layoutManager = LinearLayoutManager(context)
@@ -145,12 +167,23 @@ class GamePendingFragment : Fragment() {
 
     }
 
+    /**
+     * Loads the game object into the GameViewModel. Creates an invite link
+     *
+     * @param gameId: UUID of the firebase game document to be loaded
+     */
     private fun loadGame(gameId: String) {
         viewModel.loadGameAndPlayersForPendingState(gameId)
         this.gameId = gameId
         txtInviteUrl.text = getString(R.string.invite_url_template, gameId)
     }
 
+    /**
+     * Checks the status of the game and starts the according activies for the case of the game
+     * being started or being finished
+     *
+     * @param game: Game object of the game
+     */
     private fun init(game: Game) {
         if (game.host != auth.currentUser?.uid) {
             startButton.visibility = View.INVISIBLE

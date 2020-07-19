@@ -1,6 +1,5 @@
 package com.secret.palpatine.ui.mainmenu
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,22 +19,39 @@ import com.secret.palpatine.data.model.user.User
 import com.secret.palpatine.data.model.friends.friend.FriendsListAdapter
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroup
 import com.secret.palpatine.data.model.friends.friendgroup.FriendGroupAdapter
-import com.secret.palpatine.ui.game.GameActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.fragment_start_game_menu.*
 
+/**
+ * Fragment that is being pushed when a user presses "Start Game" in the MainMenu
+ *
+ * Provides an interface for selecting the friends you wish to start a game with
+ */
 class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterListener,
     View.OnClickListener {
+
+    /**
+     * ViewModel for the MainMenu
+     */
     private lateinit var viewModel: MainMenuViewModel
 
+    /**
+     * List holding the selected players
+     */
     private var selectedUsers: List<User> = listOf()
 
+    /**
+     * Override of onCreate. Initial set of the ViewModel
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
         viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
     }
 
+    /**
+     * Override of onCreateView. Sets the according layout
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +60,12 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         return inflater.inflate(R.layout.fragment_start_game_menu, container, false)
     }
 
+    /**
+     * Override of onViewCreated
+     *
+     * Attaches an observer on the logged-in user's friendlist. Populates the selection-view on success.
+     * Attaches a click-listener on the startbutton
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +77,7 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
 
             if (loginResult.error != null) {
                 loading.visibility = View.GONE
-                showErrorLoading(loginResult.error)
+                showErrorLoading()
             }
             if (loginResult.success != null) {
                 loading.visibility = View.GONE
@@ -72,7 +94,10 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         viewModel.refreshUserFriends()
     }
 
-    private fun showErrorLoading(error: Int) {
+    /**
+     * Shows an error message on the screen in case something goes wrong
+     */
+    private fun showErrorLoading() {
 
         errorText.text = "Error while loading your friends..."
 
@@ -80,6 +105,12 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         start_game_recyclerview.visibility = View.GONE
     }
 
+    /**
+     * Takes a list of users and creates according FriendGroup objects that can be consumed
+     * by the recyclerview. Applies the adapter and layoutmanager to the recyclerview
+     *
+     * @param friendList: unsorted list of User objects. to be turned in FriendGroup objects.
+     */
     private fun generateLetteredList(friendList: List<User>) {
         val letterList: MutableList<Char> = ArrayList()
         val userList: MutableList<User> = ArrayList()
@@ -109,6 +140,10 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         }
     }
 
+    /**
+     * Override of onClick. Binds a function to start the game on the "Start Game" button
+     * @param v: the view that got clicked
+     */
     override fun onClick(v: View) {
         when (v.id) {
             R.id.start_game_button -> {
@@ -121,6 +156,10 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         }
     }
 
+    /**
+     * Override of onStart. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -128,6 +167,10 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Override of onResume. Sets the toolbar header text and limits backnavigation on home pressed
+     * to one layer
+     */
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).toolbar.findViewById<TextView>(R.id.mainmenu_toolbar_title)
@@ -135,6 +178,9 @@ class StartGameMenuFragment : Fragment(), FriendsListAdapter.FriendListAdapterLi
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Override of onSelect. Updates the user list in the viewmodel in case of a selection change
+     */
     override fun onSelect(data: User) {
         viewModel.updateUserToStartGameList(data)
     }
